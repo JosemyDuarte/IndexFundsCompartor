@@ -87,4 +87,20 @@ describe('calculateMonthlyGrowth', () => {
 		expect(result[4].totalDeposited).toBe(1300); // No deposit month 5
 		expect(result[5].totalDeposited).toBe(1600); // Deposit month 6
 	});
+
+	it('should add deposits annually when frequency is annual', () => {
+		const result = calculateMonthlyGrowth({
+			initialBalance: 1000,
+			depositAmount: 1000,
+			depositFrequency: 'annual',
+			annualReturn: 0,
+			annualFeeRate: 0,
+			totalMonths: 24
+		});
+
+		// Deposits at month 12 and 24
+		expect(result[11].totalDeposited).toBe(2000); // Month 12
+		expect(result[12].totalDeposited).toBe(2000); // Month 13 (no deposit)
+		expect(result[23].totalDeposited).toBe(3000); // Month 24
+	});
 });
