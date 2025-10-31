@@ -21,4 +21,27 @@ describe('simulationResults store', () => {
 		expect(results.indexaCapital.monthlySnapshots).toHaveLength(12);
 		expect(results.myInvestor.monthlySnapshots).toHaveLength(12);
 	});
+
+	it('should automatically recalculate when params change', () => {
+		simulationParams.set({
+			initialInvestment: 1000,
+			depositAmount: 0,
+			depositFrequency: 'monthly',
+			timePeriodYears: 1,
+			expectedReturn: 0,
+			myInvestorTER: 0.05
+		});
+
+		const results1 = get(simulationResults);
+		const balance1 = results1.indexaCapital.finalBalance;
+
+		// Change expected return
+		simulationParams.update(p => ({ ...p, expectedReturn: 10 }));
+
+		const results2 = get(simulationResults);
+		const balance2 = results2.indexaCapital.finalBalance;
+
+		// With 10% return, final balance should be higher
+		expect(balance2).toBeGreaterThan(balance1);
+	});
 });
