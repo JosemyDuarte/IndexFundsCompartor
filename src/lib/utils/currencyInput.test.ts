@@ -22,6 +22,12 @@ describe('formatCurrencyInput', () => {
 		expect(formatCurrencyInput(1000.56)).toBe('1.001');
 		expect(formatCurrencyInput(1000.44)).toBe('1.000');
 	});
+
+	it('handles special numeric values', () => {
+		expect(formatCurrencyInput(Infinity)).toBe('0');
+		expect(formatCurrencyInput(-Infinity)).toBe('0');
+		expect(formatCurrencyInput(NaN)).toBe('0');
+	});
 });
 
 describe('parseCurrencyInput', () => {
@@ -44,5 +50,10 @@ describe('parseCurrencyInput', () => {
 
 	it('handles negative numbers', () => {
 		expect(parseCurrencyInput('-1.000')).toBe(-1000);
+	});
+
+	it('normalizes negative zero', () => {
+		expect(parseCurrencyInput('-0')).toBe(0);
+		expect(Object.is(parseCurrencyInput('-0'), -0)).toBe(false);
 	});
 });
