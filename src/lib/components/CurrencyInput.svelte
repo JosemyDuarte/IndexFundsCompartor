@@ -16,9 +16,8 @@
 		displayValue = formatCurrencyInput($value);
 	}
 
-	function handleInput(event: Event) {
-		const target = event.target as HTMLInputElement;
-		const parsed = parseCurrencyInput(target.value);
+	function handleInput(event: { currentTarget: HTMLInputElement }) {
+		const parsed = parseCurrencyInput(event.currentTarget.value);
 		value.set(parsed);
 	}
 
