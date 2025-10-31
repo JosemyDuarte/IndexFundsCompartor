@@ -28,3 +28,9 @@ export function getIndexaCapitalFee(balance: number): number {
 	// Round to 3 decimal places to avoid floating point precision issues
 	return Math.round((managementFee + fixedCosts) * 1000) / 1000;
 }
+
+export function getMyInvestorFee(ter: number): number {
+	const managementFee = 0.3;
+	// Round to 2 decimal places to avoid floating point precision issues
+	return Math.round((managementFee + ter) * 100) / 100;
+}

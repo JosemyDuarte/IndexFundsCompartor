@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getIndexaCapitalFee } from './fees';
+import { getIndexaCapitalFee, getMyInvestorFee } from './fees';
 
 describe('getIndexaCapitalFee', () => {
 	it('should return 0.599% for balance under €10,000', () => {
@@ -52,5 +52,19 @@ describe('getIndexaCapitalFee', () => {
 	it('should return 0.274% for balance over €100M', () => {
 		expect(getIndexaCapitalFee(100000000)).toBe(0.274);
 		expect(getIndexaCapitalFee(500000000)).toBe(0.274);
+	});
+});
+
+describe('getMyInvestorFee', () => {
+	it('should return 0.35% for default TER (0.05%)', () => {
+		expect(getMyInvestorFee(0.05)).toBe(0.35);
+	});
+
+	it('should return 0.89% for maximum TER (0.59%)', () => {
+		expect(getMyInvestorFee(0.59)).toBe(0.89);
+	});
+
+	it('should return correct fee for custom TER', () => {
+		expect(getMyInvestorFee(0.25)).toBe(0.55);
 	});
 });
