@@ -1,0 +1,32 @@
+{
+	"name": "index-funds",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"test": "vitest run",
+		"test:watch": "vitest"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-static": "^3.0.1",
+		"@sveltejs/kit": "^2.0.0",
+		"@sveltejs/vite-plugin-svelte": "^3.0.0",
+		"@testing-library/jest-dom": "^6.9.1",
+		"@testing-library/svelte": "^5.2.8",
+		"autoprefixer": "^10.4.21",
+		"jsdom": "^27.1.0",
+		"postcss": "^8.5.6",
+		"svelte": "^4.2.7",
+		"tailwindcss": "^4.1.16",
+		"typescript": "^5.9.3",
+		"vite": "^5.0.3",
+		"vitest": "^4.0.5"
+	},
+	"type": "module",
+	"dependencies": {
+		"chart.js": "^4.5.1",
+		"svelte-chartjs": "^3.1.5"
+	}
+}
