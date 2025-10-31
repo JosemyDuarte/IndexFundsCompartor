@@ -1,0 +1,145 @@
+# IndexFunds Comparison Simulator
+
+A static web application that simulates and compares investment returns between MyInvestor and IndexaCapital, two Spanish index fund providers.
+
+## Features
+
+- 📊 Visual comparison chart showing portfolio growth over time
+- 💰 Detailed financial breakdown (fees, returns, final balance)
+- 🔗 Shareable URLs with simulation parameters
+- 📱 Mobile-first responsive design
+- ⚡ Static site - no backend required
+- 🧪 Comprehensive test coverage with TDD
+
+## Tech Stack
+
+- **Framework:** SvelteKit
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Charts:** Chart.js
+- **Testing:** Vitest + Testing Library
+- **Deployment:** Cloudflare Pages
+
+## Development
+
+### Prerequisites
+
+- Node.js 20+
+- npm
+
+### Setup
+
+```bash
+# Install dependencies
+npm install
+
+# Start dev server
+npm run dev
+
+# Run tests
+npm run test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Lint code
+npm run lint
+
+# Format code
+npm run format
+```
+
+### Building
+
+```bash
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## Project Structure
+
+```
+src/
+├── lib/
+│   ├── calculations/     # Pure calculation functions
+│   │   ├── fees.ts       # Fee tier logic
+│   │   ├── compounding.ts # Compound interest
+│   │   └── simulator.ts  # Main simulation
+│   ├── stores/           # Svelte stores
+│   │   ├── simulationParams.ts
+│   │   └── simulationResults.ts
+│   ├── components/       # UI components
+│   │   ├── SimulatorForm.svelte
+│   │   ├── ComparisonChart.svelte
+│   │   └── BreakdownTable.svelte
+│   └── utils/            # Helper utilities
+├── routes/               # SvelteKit routes
+└── app.css              # Global styles + Tailwind
+```
+
+## Architecture
+
+The app follows a **functional core, reactive shell** pattern:
+
+- **Pure Functions:** All business logic (fees, compounding, simulation)
+- **Svelte Stores:** Reactive state management and URL synchronization
+- **Components:** Thin UI layer that binds to stores
+
+## Fee Structures
+
+### IndexaCapital (Tiered)
+
+| Portfolio Value | Total Annual Fee |
+|----------------|------------------|
+| < €10k | 0.599% |
+| €10k - €100k | 0.579% |
+| €100k - €500k | 0.549% |
+| €500k - €1M | 0.494% |
+| €1M - €5M | 0.444% |
+| €5M - €10M | 0.394% |
+| €10M - €50M | 0.344% |
+| €50M - €100M | 0.294% |
+| > €100M | 0.274% |
+
+*Includes management fee + 0.194% fixed costs (custody + underlying)*
+
+### MyInvestor (Fixed)
+
+- Management: 0.30%
+- TER: 0.05% - 0.59% (user-configurable)
+- Total: 0.30% + TER
+
+## Testing
+
+Built with strict TDD approach:
+
+```bash
+# Run all tests
+npm test
+
+# Watch mode for development
+npm run test:watch
+```
+
+Test coverage includes:
+- ✅ All calculation functions (fees, compounding, simulation)
+- ✅ Store logic and reactivity
+- ✅ Component rendering and interactions
+
+## Deployment
+
+### Cloudflare Pages
+
+1. Push to Git repository
+2. Connect Cloudflare Pages to repo
+3. Build settings:
+   - Build command: `npm run build`
+   - Output directory: `build`
+4. Deploy automatically on push
+
+## License
+
+MIT
