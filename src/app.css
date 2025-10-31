@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+	background-color: #0C0E16;
+	background-image: linear-gradient(135deg, #0C0E16 0%, #05060A 100%);
+	color: white;
+	min-height: 100vh;
+}
