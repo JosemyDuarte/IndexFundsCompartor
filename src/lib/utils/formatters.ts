@@ -6,5 +6,9 @@ export function formatCurrency(value: number): string {
 }
 
 export function formatPercentage(value: number): string {
-	return '';
+	return new Intl.NumberFormat('es-ES', {
+		style: 'decimal',
+		minimumFractionDigits: 1,
+		maximumFractionDigits: 1
+	}).format(value) + '%';
 }

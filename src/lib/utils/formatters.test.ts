@@ -13,3 +13,11 @@ describe('formatCurrency', () => {
 		expect(formatCurrency(-123.45)).toMatch(/-123,45\s+€/);
 	});
 });
+
+describe('formatPercentage', () => {
+	it('should format numbers as percentages with one decimal', () => {
+		expect(formatPercentage(7.5)).toBe('7,5%');
+		expect(formatPercentage(0.599)).toBe('0,6%');
+		expect(formatPercentage(10)).toBe('10,0%');
+	});
+});
