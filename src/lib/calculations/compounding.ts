@@ -1,8 +1,11 @@
+export type DepositFrequency = 'monthly' | 'quarterly' | 'annual';
+
 export interface MonthlyGrowthParams {
 	initialBalance: number;
-	monthlyDeposit: number;
-	annualReturn: number; // percentage
-	annualFeeRate: number; // percentage
+	depositAmount: number;
+	depositFrequency: DepositFrequency;
+	annualReturn: number;
+	annualFeeRate: number;
 	totalMonths: number;
 }
 
@@ -15,7 +18,7 @@ export interface MonthlySnapshot {
 }
 
 export function calculateMonthlyGrowth(params: MonthlyGrowthParams): MonthlySnapshot[] {
-	const { initialBalance, monthlyDeposit, annualReturn, annualFeeRate, totalMonths } = params;
+	const { initialBalance, depositAmount, depositFrequency, annualReturn, annualFeeRate, totalMonths } = params;
 	const monthlyReturnRate = annualReturn / 100 / 12;
 	const monthlyFeeRate = annualFeeRate / 100 / 12;
 
@@ -26,9 +29,16 @@ export function calculateMonthlyGrowth(params: MonthlyGrowthParams): MonthlySnap
 	let totalReturns = 0;
 
 	for (let month = 1; month <= totalMonths; month++) {
-		// Add monthly deposit
-		balance += monthlyDeposit;
-		totalDeposited += monthlyDeposit;
+		// Determine if deposit happens this month
+		const shouldDeposit =
+			depositFrequency === 'monthly' ||
+			(depositFrequency === 'quarterly' && month % 3 === 0) ||
+			(depositFrequency === 'annual' && month % 12 === 0);
+
+		if (shouldDeposit) {
+			balance += depositAmount;
+			totalDeposited += depositAmount;
+		}
 
 		// Apply monthly return
 		const monthlyReturn = balance * monthlyReturnRate;

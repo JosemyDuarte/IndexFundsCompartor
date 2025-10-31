@@ -5,7 +5,8 @@ describe('calculateMonthlyGrowth', () => {
 	it('should apply monthly compound interest correctly', () => {
 		const result = calculateMonthlyGrowth({
 			initialBalance: 1000,
-			monthlyDeposit: 0,
+			depositAmount: 0,
+			depositFrequency: 'monthly',
 			annualReturn: 12, // 1% per month for easy math
 			annualFeeRate: 0,
 			totalMonths: 1
@@ -19,7 +20,8 @@ describe('calculateMonthlyGrowth', () => {
 	it('should compound over multiple months', () => {
 		const result = calculateMonthlyGrowth({
 			initialBalance: 1000,
-			monthlyDeposit: 0,
+			depositAmount: 0,
+			depositFrequency: 'monthly',
 			annualReturn: 12,
 			annualFeeRate: 0,
 			totalMonths: 3
@@ -34,7 +36,8 @@ describe('calculateMonthlyGrowth', () => {
 	it('should add monthly deposits before calculating growth', () => {
 		const result = calculateMonthlyGrowth({
 			initialBalance: 1000,
-			monthlyDeposit: 100,
+			depositAmount: 100,
+			depositFrequency: 'monthly',
 			annualReturn: 12,
 			annualFeeRate: 0,
 			totalMonths: 2
@@ -52,7 +55,8 @@ describe('calculateMonthlyGrowth', () => {
 	it('should deduct fees monthly', () => {
 		const result = calculateMonthlyGrowth({
 			initialBalance: 1000,
-			monthlyDeposit: 0,
+			depositAmount: 0,
+			depositFrequency: 'monthly',
 			annualReturn: 12,
 			annualFeeRate: 1.2, // 0.1% per month for easy math
 			totalMonths: 1
@@ -63,5 +67,24 @@ describe('calculateMonthlyGrowth', () => {
 		// Final: 1010 - 1.01 = 1008.99
 		expect(result[0].balance).toBeCloseTo(1008.99, 2);
 		expect(result[0].totalFeesPaid).toBeCloseTo(1.01, 2);
+	});
+
+	it('should add deposits quarterly when frequency is quarterly', () => {
+		const result = calculateMonthlyGrowth({
+			initialBalance: 1000,
+			depositAmount: 300,
+			depositFrequency: 'quarterly',
+			annualReturn: 0,
+			annualFeeRate: 0,
+			totalMonths: 6
+		});
+
+		// Deposits at month 3 and 6
+		expect(result[0].totalDeposited).toBe(1000); // No deposit month 1
+		expect(result[1].totalDeposited).toBe(1000); // No deposit month 2
+		expect(result[2].totalDeposited).toBe(1300); // Deposit month 3
+		expect(result[3].totalDeposited).toBe(1300); // No deposit month 4
+		expect(result[4].totalDeposited).toBe(1300); // No deposit month 5
+		expect(result[5].totalDeposited).toBe(1600); // Deposit month 6
 	});
 });
