@@ -26,6 +26,10 @@ export function calculateMonthlyGrowth(params: MonthlyGrowthParams): MonthlySnap
 	let totalReturns = 0;
 
 	for (let month = 1; month <= totalMonths; month++) {
+		// Add monthly deposit
+		balance += monthlyDeposit;
+		totalDeposited += monthlyDeposit;
+
 		// Apply monthly return
 		const monthlyReturn = balance * monthlyReturnRate;
 		balance += monthlyReturn;
