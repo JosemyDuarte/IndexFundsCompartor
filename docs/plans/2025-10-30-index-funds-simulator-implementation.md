@@ -13,6 +13,7 @@
 ## Task 1: Project Scaffolding
 
 **Files:**
+
 - Create: `package.json`
 - Create: `svelte.config.js`
 - Create: `vite.config.ts`
@@ -29,11 +30,13 @@ Expected: Project scaffolded with TypeScript
 **Step 2: Install core dependencies**
 
 Run:
+
 ```bash
 npm install -D @sveltejs/adapter-static tailwindcss postcss autoprefixer
 npm install -D vitest @testing-library/svelte @testing-library/jest-dom jsdom
 npm install chart.js svelte-chartjs
 ```
+
 Expected: All packages installed
 
 **Step 3: Configure adapter-static**
@@ -170,6 +173,7 @@ git commit -m "chore: initialize SvelteKit project with TypeScript and Tailwind
 ## Task 2: Fee Calculation Functions (TDD)
 
 **Files:**
+
 - Create: `src/lib/calculations/fees.ts`
 - Create: `src/lib/calculations/fees.test.ts`
 
@@ -221,11 +225,11 @@ git commit -m "test: add IndexaCapital fee tier 1 test"
 Modify: `src/lib/calculations/fees.test.ts` - add test:
 
 ```typescript
-	it('should return 0.579% for balance €10,000 to €100,000', () => {
-		expect(getIndexaCapitalFee(10000)).toBe(0.579);
-		expect(getIndexaCapitalFee(50000)).toBe(0.579);
-		expect(getIndexaCapitalFee(99999)).toBe(0.579);
-	});
+it('should return 0.579% for balance €10,000 to €100,000', () => {
+	expect(getIndexaCapitalFee(10000)).toBe(0.579);
+	expect(getIndexaCapitalFee(50000)).toBe(0.579);
+	expect(getIndexaCapitalFee(99999)).toBe(0.579);
+});
 ```
 
 **Step 7: Run test to verify it fails**
@@ -263,46 +267,46 @@ git commit -m "feat: add IndexaCapital fee tier 2"
 Modify: `src/lib/calculations/fees.test.ts` - add tests:
 
 ```typescript
-	it('should return 0.549% for balance €100,000 to €500,000', () => {
-		expect(getIndexaCapitalFee(100000)).toBe(0.549);
-		expect(getIndexaCapitalFee(250000)).toBe(0.549);
-		expect(getIndexaCapitalFee(499999)).toBe(0.549);
-	});
+it('should return 0.549% for balance €100,000 to €500,000', () => {
+	expect(getIndexaCapitalFee(100000)).toBe(0.549);
+	expect(getIndexaCapitalFee(250000)).toBe(0.549);
+	expect(getIndexaCapitalFee(499999)).toBe(0.549);
+});
 
-	it('should return 0.494% for balance €500,000 to €1M', () => {
-		expect(getIndexaCapitalFee(500000)).toBe(0.494);
-		expect(getIndexaCapitalFee(750000)).toBe(0.494);
-		expect(getIndexaCapitalFee(999999)).toBe(0.494);
-	});
+it('should return 0.494% for balance €500,000 to €1M', () => {
+	expect(getIndexaCapitalFee(500000)).toBe(0.494);
+	expect(getIndexaCapitalFee(750000)).toBe(0.494);
+	expect(getIndexaCapitalFee(999999)).toBe(0.494);
+});
 
-	it('should return 0.444% for balance €1M to €5M', () => {
-		expect(getIndexaCapitalFee(1000000)).toBe(0.444);
-		expect(getIndexaCapitalFee(3000000)).toBe(0.444);
-		expect(getIndexaCapitalFee(4999999)).toBe(0.444);
-	});
+it('should return 0.444% for balance €1M to €5M', () => {
+	expect(getIndexaCapitalFee(1000000)).toBe(0.444);
+	expect(getIndexaCapitalFee(3000000)).toBe(0.444);
+	expect(getIndexaCapitalFee(4999999)).toBe(0.444);
+});
 
-	it('should return 0.394% for balance €5M to €10M', () => {
-		expect(getIndexaCapitalFee(5000000)).toBe(0.394);
-		expect(getIndexaCapitalFee(7500000)).toBe(0.394);
-		expect(getIndexaCapitalFee(9999999)).toBe(0.394);
-	});
+it('should return 0.394% for balance €5M to €10M', () => {
+	expect(getIndexaCapitalFee(5000000)).toBe(0.394);
+	expect(getIndexaCapitalFee(7500000)).toBe(0.394);
+	expect(getIndexaCapitalFee(9999999)).toBe(0.394);
+});
 
-	it('should return 0.344% for balance €10M to €50M', () => {
-		expect(getIndexaCapitalFee(10000000)).toBe(0.344);
-		expect(getIndexaCapitalFee(25000000)).toBe(0.344);
-		expect(getIndexaCapitalFee(49999999)).toBe(0.344);
-	});
+it('should return 0.344% for balance €10M to €50M', () => {
+	expect(getIndexaCapitalFee(10000000)).toBe(0.344);
+	expect(getIndexaCapitalFee(25000000)).toBe(0.344);
+	expect(getIndexaCapitalFee(49999999)).toBe(0.344);
+});
 
-	it('should return 0.294% for balance €50M to €100M', () => {
-		expect(getIndexaCapitalFee(50000000)).toBe(0.294);
-		expect(getIndexaCapitalFee(75000000)).toBe(0.294);
-		expect(getIndexaCapitalFee(99999999)).toBe(0.294);
-	});
+it('should return 0.294% for balance €50M to €100M', () => {
+	expect(getIndexaCapitalFee(50000000)).toBe(0.294);
+	expect(getIndexaCapitalFee(75000000)).toBe(0.294);
+	expect(getIndexaCapitalFee(99999999)).toBe(0.294);
+});
 
-	it('should return 0.274% for balance over €100M', () => {
-		expect(getIndexaCapitalFee(100000000)).toBe(0.274);
-		expect(getIndexaCapitalFee(500000000)).toBe(0.274);
-	});
+it('should return 0.274% for balance over €100M', () => {
+	expect(getIndexaCapitalFee(100000000)).toBe(0.274);
+	expect(getIndexaCapitalFee(500000000)).toBe(0.274);
+});
 ```
 
 **Step 12: Run test to verify they fail**
@@ -413,6 +417,7 @@ git commit -m "feat: implement MyInvestor fee calculation"
 ## Task 3: Monthly Compounding Logic (TDD)
 
 **Files:**
+
 - Create: `src/lib/calculations/compounding.ts`
 - Create: `src/lib/calculations/compounding.test.ts`
 
@@ -503,20 +508,20 @@ git commit -m "test: add monthly compound interest test"
 Modify: `src/lib/calculations/compounding.test.ts` - add:
 
 ```typescript
-	it('should compound over multiple months', () => {
-		const result = calculateMonthlyGrowth({
-			initialBalance: 1000,
-			monthlyDeposit: 0,
-			annualReturn: 12,
-			annualFeeRate: 0,
-			totalMonths: 3
-		});
-
-		expect(result).toHaveLength(3);
-		expect(result[0].balance).toBeCloseTo(1010, 2);
-		expect(result[1].balance).toBeCloseTo(1020.1, 2); // 1010 * 1.01
-		expect(result[2].balance).toBeCloseTo(1030.301, 2); // 1020.1 * 1.01
+it('should compound over multiple months', () => {
+	const result = calculateMonthlyGrowth({
+		initialBalance: 1000,
+		monthlyDeposit: 0,
+		annualReturn: 12,
+		annualFeeRate: 0,
+		totalMonths: 3
 	});
+
+	expect(result).toHaveLength(3);
+	expect(result[0].balance).toBeCloseTo(1010, 2);
+	expect(result[1].balance).toBeCloseTo(1020.1, 2); // 1010 * 1.01
+	expect(result[2].balance).toBeCloseTo(1030.301, 2); // 1020.1 * 1.01
+});
 ```
 
 **Step 7: Run test to verify it fails**
@@ -581,23 +586,23 @@ git commit -m "feat: implement multi-month compounding loop"
 Modify: `src/lib/calculations/compounding.test.ts` - add:
 
 ```typescript
-	it('should add monthly deposits before calculating growth', () => {
-		const result = calculateMonthlyGrowth({
-			initialBalance: 1000,
-			monthlyDeposit: 100,
-			annualReturn: 12,
-			annualFeeRate: 0,
-			totalMonths: 2
-		});
-
-		// Month 1: 1000 + 100 = 1100, then * 1.01 = 1111
-		expect(result[0].balance).toBeCloseTo(1111, 2);
-		expect(result[0].totalDeposited).toBe(1100);
-
-		// Month 2: 1111 + 100 = 1211, then * 1.01 = 1223.11
-		expect(result[1].balance).toBeCloseTo(1223.11, 2);
-		expect(result[1].totalDeposited).toBe(1200);
+it('should add monthly deposits before calculating growth', () => {
+	const result = calculateMonthlyGrowth({
+		initialBalance: 1000,
+		monthlyDeposit: 100,
+		annualReturn: 12,
+		annualFeeRate: 0,
+		totalMonths: 2
 	});
+
+	// Month 1: 1000 + 100 = 1100, then * 1.01 = 1111
+	expect(result[0].balance).toBeCloseTo(1111, 2);
+	expect(result[0].totalDeposited).toBe(1100);
+
+	// Month 2: 1111 + 100 = 1211, then * 1.01 = 1223.11
+	expect(result[1].balance).toBeCloseTo(1223.11, 2);
+	expect(result[1].totalDeposited).toBe(1200);
+});
 ```
 
 **Step 12: Run test to verify it fails**
@@ -610,29 +615,29 @@ Expected: FAIL - deposit not added
 Modify: `src/lib/calculations/compounding.ts` - modify loop:
 
 ```typescript
-	for (let month = 1; month <= totalMonths; month++) {
-		// Add monthly deposit
-		balance += monthlyDeposit;
-		totalDeposited += monthlyDeposit;
+for (let month = 1; month <= totalMonths; month++) {
+	// Add monthly deposit
+	balance += monthlyDeposit;
+	totalDeposited += monthlyDeposit;
 
-		// Apply monthly return
-		const monthlyReturn = balance * monthlyReturnRate;
-		balance += monthlyReturn;
-		totalReturns += monthlyReturn;
+	// Apply monthly return
+	const monthlyReturn = balance * monthlyReturnRate;
+	balance += monthlyReturn;
+	totalReturns += monthlyReturn;
 
-		// Apply monthly fee
-		const monthlyFee = balance * monthlyFeeRate;
-		balance -= monthlyFee;
-		totalFeesPaid += monthlyFee;
+	// Apply monthly fee
+	const monthlyFee = balance * monthlyFeeRate;
+	balance -= monthlyFee;
+	totalFeesPaid += monthlyFee;
 
-		snapshots.push({
-			month,
-			balance,
-			totalDeposited,
-			totalFeesPaid,
-			totalReturns
-		});
-	}
+	snapshots.push({
+		month,
+		balance,
+		totalDeposited,
+		totalFeesPaid,
+		totalReturns
+	});
+}
 ```
 
 **Step 14: Run test to verify it passes**
@@ -652,21 +657,21 @@ git commit -m "feat: add monthly deposit support"
 Modify: `src/lib/calculations/compounding.test.ts` - add:
 
 ```typescript
-	it('should deduct fees monthly', () => {
-		const result = calculateMonthlyGrowth({
-			initialBalance: 1000,
-			monthlyDeposit: 0,
-			annualReturn: 12,
-			annualFeeRate: 1.2, // 0.1% per month for easy math
-			totalMonths: 1
-		});
-
-		// Growth: 1000 * 1.01 = 1010
-		// Fee: 1010 * 0.001 = 1.01
-		// Final: 1010 - 1.01 = 1008.99
-		expect(result[0].balance).toBeCloseTo(1008.99, 2);
-		expect(result[0].totalFeesPaid).toBeCloseTo(1.01, 2);
+it('should deduct fees monthly', () => {
+	const result = calculateMonthlyGrowth({
+		initialBalance: 1000,
+		monthlyDeposit: 0,
+		annualReturn: 12,
+		annualFeeRate: 1.2, // 0.1% per month for easy math
+		totalMonths: 1
 	});
+
+	// Growth: 1000 * 1.01 = 1010
+	// Fee: 1010 * 0.001 = 1.01
+	// Final: 1010 - 1.01 = 1008.99
+	expect(result[0].balance).toBeCloseTo(1008.99, 2);
+	expect(result[0].totalFeesPaid).toBeCloseTo(1.01, 2);
+});
 ```
 
 **Step 17: Run test to verify it passes**
@@ -686,6 +691,7 @@ git commit -m "test: verify fee deduction works correctly"
 ## Task 4: Deposit Frequency Logic (TDD)
 
 **Files:**
+
 - Modify: `src/lib/calculations/compounding.ts`
 - Modify: `src/lib/calculations/compounding.test.ts`
 
@@ -711,24 +717,24 @@ export interface MonthlyGrowthParams {
 Modify: `src/lib/calculations/compounding.test.ts` - add:
 
 ```typescript
-	it('should add deposits quarterly when frequency is quarterly', () => {
-		const result = calculateMonthlyGrowth({
-			initialBalance: 1000,
-			depositAmount: 300,
-			depositFrequency: 'quarterly',
-			annualReturn: 0,
-			annualFeeRate: 0,
-			totalMonths: 6
-		});
-
-		// Deposits at month 3 and 6
-		expect(result[0].totalDeposited).toBe(1000); // No deposit month 1
-		expect(result[1].totalDeposited).toBe(1000); // No deposit month 2
-		expect(result[2].totalDeposited).toBe(1300); // Deposit month 3
-		expect(result[3].totalDeposited).toBe(1300); // No deposit month 4
-		expect(result[4].totalDeposited).toBe(1300); // No deposit month 5
-		expect(result[5].totalDeposited).toBe(1600); // Deposit month 6
+it('should add deposits quarterly when frequency is quarterly', () => {
+	const result = calculateMonthlyGrowth({
+		initialBalance: 1000,
+		depositAmount: 300,
+		depositFrequency: 'quarterly',
+		annualReturn: 0,
+		annualFeeRate: 0,
+		totalMonths: 6
 	});
+
+	// Deposits at month 3 and 6
+	expect(result[0].totalDeposited).toBe(1000); // No deposit month 1
+	expect(result[1].totalDeposited).toBe(1000); // No deposit month 2
+	expect(result[2].totalDeposited).toBe(1300); // Deposit month 3
+	expect(result[3].totalDeposited).toBe(1300); // No deposit month 4
+	expect(result[4].totalDeposited).toBe(1300); // No deposit month 5
+	expect(result[5].totalDeposited).toBe(1600); // Deposit month 6
+});
 ```
 
 **Step 3: Run test to verify it fails**
@@ -742,7 +748,14 @@ Modify: `src/lib/calculations/compounding.ts` - update loop:
 
 ```typescript
 export function calculateMonthlyGrowth(params: MonthlyGrowthParams): MonthlySnapshot[] {
-	const { initialBalance, depositAmount, depositFrequency, annualReturn, annualFeeRate, totalMonths } = params;
+	const {
+		initialBalance,
+		depositAmount,
+		depositFrequency,
+		annualReturn,
+		annualFeeRate,
+		totalMonths
+	} = params;
 	const monthlyReturnRate = annualReturn / 100 / 12;
 	const monthlyFeeRate = annualFeeRate / 100 / 12;
 
@@ -804,21 +817,21 @@ git commit -m "feat: implement quarterly deposit frequency"
 Modify: `src/lib/calculations/compounding.test.ts` - add:
 
 ```typescript
-	it('should add deposits annually when frequency is annual', () => {
-		const result = calculateMonthlyGrowth({
-			initialBalance: 1000,
-			depositAmount: 1000,
-			depositFrequency: 'annual',
-			annualReturn: 0,
-			annualFeeRate: 0,
-			totalMonths: 24
-		});
-
-		// Deposits at month 12 and 24
-		expect(result[11].totalDeposited).toBe(2000); // Month 12
-		expect(result[12].totalDeposited).toBe(2000); // Month 13 (no deposit)
-		expect(result[23].totalDeposited).toBe(3000); // Month 24
+it('should add deposits annually when frequency is annual', () => {
+	const result = calculateMonthlyGrowth({
+		initialBalance: 1000,
+		depositAmount: 1000,
+		depositFrequency: 'annual',
+		annualReturn: 0,
+		annualFeeRate: 0,
+		totalMonths: 24
 	});
+
+	// Deposits at month 12 and 24
+	expect(result[11].totalDeposited).toBe(2000); // Month 12
+	expect(result[12].totalDeposited).toBe(2000); // Month 13 (no deposit)
+	expect(result[23].totalDeposited).toBe(3000); // Month 24
+});
 ```
 
 **Step 8: Run test to verify it passes**
@@ -857,6 +870,7 @@ git commit -m "refactor: update tests to use new deposit frequency interface"
 ## Task 5: Main Simulator Function (TDD)
 
 **Files:**
+
 - Create: `src/lib/calculations/simulator.ts`
 - Create: `src/lib/calculations/simulator.test.ts`
 
@@ -938,11 +952,7 @@ export function calculateProviderComparison(params: SimulationParams): Simulatio
 	const totalMonths = params.timePeriodYears * 12;
 
 	// Simulate IndexaCapital with dynamic tiered fees
-	const indexaSnapshots = simulateWithDynamicFees(
-		params,
-		totalMonths,
-		getIndexaCapitalFee
-	);
+	const indexaSnapshots = simulateWithDynamicFees(params, totalMonths, getIndexaCapitalFee);
 
 	// Simulate MyInvestor with fixed fees
 	const myInvestorFeeRate = getMyInvestorFee(params.myInvestorTER);
@@ -1040,41 +1050,41 @@ git commit -m "feat: implement main simulator with dynamic fees"
 Modify: `src/lib/calculations/simulator.test.ts` - add:
 
 ```typescript
-	it('should show IndexaCapital with lower fees for balances in lower tiers', () => {
-		const params = {
-			initialInvestment: 5000,
-			depositAmount: 0,
-			depositFrequency: 'monthly' as const,
-			timePeriodYears: 1,
-			expectedReturn: 7,
-			myInvestorTER: 0.59 // Maximum TER
-		};
+it('should show IndexaCapital with lower fees for balances in lower tiers', () => {
+	const params = {
+		initialInvestment: 5000,
+		depositAmount: 0,
+		depositFrequency: 'monthly' as const,
+		timePeriodYears: 1,
+		expectedReturn: 7,
+		myInvestorTER: 0.59 // Maximum TER
+	};
 
-		const result = calculateProviderComparison(params);
+	const result = calculateProviderComparison(params);
 
-		// IndexaCapital: 0.599% total (tier 1)
-		// MyInvestor: 0.89% total (0.30 + 0.59)
-		// MyInvestor should have higher fees
-		expect(result.myInvestor.totalFeesPaid).toBeGreaterThan(result.indexaCapital.totalFeesPaid);
-	});
+	// IndexaCapital: 0.599% total (tier 1)
+	// MyInvestor: 0.89% total (0.30 + 0.59)
+	// MyInvestor should have higher fees
+	expect(result.myInvestor.totalFeesPaid).toBeGreaterThan(result.indexaCapital.totalFeesPaid);
+});
 
-	it('should show MyInvestor with lower fees for large balances', () => {
-		const params = {
-			initialInvestment: 2000000, // €2M
-			depositAmount: 0,
-			depositFrequency: 'monthly' as const,
-			timePeriodYears: 1,
-			expectedReturn: 7,
-			myInvestorTER: 0.05
-		};
+it('should show MyInvestor with lower fees for large balances', () => {
+	const params = {
+		initialInvestment: 2000000, // €2M
+		depositAmount: 0,
+		depositFrequency: 'monthly' as const,
+		timePeriodYears: 1,
+		expectedReturn: 7,
+		myInvestorTER: 0.05
+	};
 
-		const result = calculateProviderComparison(params);
+	const result = calculateProviderComparison(params);
 
-		// IndexaCapital: 0.444% (€1M-€5M tier)
-		// MyInvestor: 0.35% (0.30 + 0.05)
-		// IndexaCapital should have higher fees
-		expect(result.indexaCapital.totalFeesPaid).toBeGreaterThan(result.myInvestor.totalFeesPaid);
-	});
+	// IndexaCapital: 0.444% (€1M-€5M tier)
+	// MyInvestor: 0.35% (0.30 + 0.05)
+	// IndexaCapital should have higher fees
+	expect(result.indexaCapital.totalFeesPaid).toBeGreaterThan(result.myInvestor.totalFeesPaid);
+});
 ```
 
 **Step 8: Run test to verify it passes**
@@ -1094,6 +1104,7 @@ git commit -m "test: verify fee comparison logic between providers"
 ## Task 6: Simulation Parameters Store
 
 **Files:**
+
 - Create: `src/lib/stores/simulationParams.ts`
 - Create: `src/lib/stores/simulationParams.test.ts`
 
@@ -1162,21 +1173,21 @@ git commit -m "feat: create simulation parameters store"
 Modify: `src/lib/stores/simulationParams.test.ts` - add:
 
 ```typescript
-	it('should allow updating parameters', () => {
-		simulationParams.set({
-			initialInvestment: 5000,
-			depositAmount: 200,
-			depositFrequency: 'quarterly',
-			timePeriodYears: 10,
-			expectedReturn: 8,
-			myInvestorTER: 0.25
-		});
-
-		const params = get(simulationParams);
-		expect(params.initialInvestment).toBe(5000);
-		expect(params.depositAmount).toBe(200);
-		expect(params.depositFrequency).toBe('quarterly');
+it('should allow updating parameters', () => {
+	simulationParams.set({
+		initialInvestment: 5000,
+		depositAmount: 200,
+		depositFrequency: 'quarterly',
+		timePeriodYears: 10,
+		expectedReturn: 8,
+		myInvestorTER: 0.25
 	});
+
+	const params = get(simulationParams);
+	expect(params.initialInvestment).toBe(5000);
+	expect(params.depositAmount).toBe(200);
+	expect(params.depositFrequency).toBe('quarterly');
+});
 ```
 
 **Step 7: Run test to verify it passes**
@@ -1196,6 +1207,7 @@ git commit -m "test: verify store update functionality"
 ## Task 7: Simulation Results Derived Store
 
 **Files:**
+
 - Create: `src/lib/stores/simulationResults.ts`
 - Create: `src/lib/stores/simulationResults.test.ts`
 
@@ -1266,28 +1278,28 @@ git commit -m "feat: create derived simulation results store"
 Modify: `src/lib/stores/simulationResults.test.ts` - add:
 
 ```typescript
-	it('should automatically recalculate when params change', () => {
-		simulationParams.set({
-			initialInvestment: 1000,
-			depositAmount: 0,
-			depositFrequency: 'monthly',
-			timePeriodYears: 1,
-			expectedReturn: 0,
-			myInvestorTER: 0.05
-		});
-
-		const results1 = get(simulationResults);
-		const balance1 = results1.indexaCapital.finalBalance;
-
-		// Change expected return
-		simulationParams.update(p => ({ ...p, expectedReturn: 10 }));
-
-		const results2 = get(simulationResults);
-		const balance2 = results2.indexaCapital.finalBalance;
-
-		// With 10% return, final balance should be higher
-		expect(balance2).toBeGreaterThan(balance1);
+it('should automatically recalculate when params change', () => {
+	simulationParams.set({
+		initialInvestment: 1000,
+		depositAmount: 0,
+		depositFrequency: 'monthly',
+		timePeriodYears: 1,
+		expectedReturn: 0,
+		myInvestorTER: 0.05
 	});
+
+	const results1 = get(simulationResults);
+	const balance1 = results1.indexaCapital.finalBalance;
+
+	// Change expected return
+	simulationParams.update((p) => ({ ...p, expectedReturn: 10 }));
+
+	const results2 = get(simulationResults);
+	const balance2 = results2.indexaCapital.finalBalance;
+
+	// With 10% return, final balance should be higher
+	expect(balance2).toBeGreaterThan(balance1);
+});
 ```
 
 **Step 7: Run test to verify it passes**
@@ -1307,6 +1319,7 @@ git commit -m "test: verify derived store reactivity"
 ## Task 8: URL Synchronization Utilities
 
 **Files:**
+
 - Create: `src/lib/utils/urlSync.ts`
 - Create: `src/lib/utils/urlSync.test.ts`
 
@@ -1493,6 +1506,7 @@ git commit -m "feat: implement URL to params decoding with validation"
 ## Task 9: Currency Formatter Utility
 
 **Files:**
+
 - Create: `src/lib/utils/formatters.ts`
 - Create: `src/lib/utils/formatters.test.ts`
 
@@ -1576,11 +1590,13 @@ Modify: `src/lib/utils/formatters.ts`
 
 ```typescript
 export function formatPercentage(value: number): string {
-	return new Intl.NumberFormat('es-ES', {
-		style: 'decimal',
-		minimumFractionDigits: 1,
-		maximumFractionDigits: 1
-	}).format(value) + '%';
+	return (
+		new Intl.NumberFormat('es-ES', {
+			style: 'decimal',
+			minimumFractionDigits: 1,
+			maximumFractionDigits: 1
+		}).format(value) + '%'
+	);
 }
 ```
 
@@ -1601,6 +1617,7 @@ git commit -m "feat: implement percentage formatter"
 ## Task 10: Simulator Form Component
 
 **Files:**
+
 - Create: `src/lib/components/SimulatorForm.svelte`
 - Create: `src/lib/components/SimulatorForm.test.ts`
 
@@ -1643,9 +1660,7 @@ Create: `src/lib/components/SimulatorForm.svelte`
 
 <form class="space-y-4">
 	<div>
-		<label for="initial" class="block text-sm font-medium">
-			Initial Investment (€)
-		</label>
+		<label for="initial" class="block text-sm font-medium"> Initial Investment (€) </label>
 		<input
 			id="initial"
 			type="number"
@@ -1657,9 +1672,7 @@ Create: `src/lib/components/SimulatorForm.svelte`
 	</div>
 
 	<div>
-		<label for="deposit" class="block text-sm font-medium">
-			Deposit Amount (€)
-		</label>
+		<label for="deposit" class="block text-sm font-medium"> Deposit Amount (€) </label>
 		<input
 			id="deposit"
 			type="number"
@@ -1671,9 +1684,7 @@ Create: `src/lib/components/SimulatorForm.svelte`
 	</div>
 
 	<div>
-		<label for="frequency" class="block text-sm font-medium">
-			Deposit Frequency
-		</label>
+		<label for="frequency" class="block text-sm font-medium"> Deposit Frequency </label>
 		<select
 			id="frequency"
 			bind:value={$simulationParams.depositFrequency}
@@ -1686,9 +1697,7 @@ Create: `src/lib/components/SimulatorForm.svelte`
 	</div>
 
 	<div>
-		<label for="years" class="block text-sm font-medium">
-			Time Period (years)
-		</label>
+		<label for="years" class="block text-sm font-medium"> Time Period (years) </label>
 		<input
 			id="years"
 			type="number"
@@ -1700,9 +1709,7 @@ Create: `src/lib/components/SimulatorForm.svelte`
 	</div>
 
 	<div>
-		<label for="return" class="block text-sm font-medium">
-			Expected Return (% per year)
-		</label>
+		<label for="return" class="block text-sm font-medium"> Expected Return (% per year) </label>
 		<input
 			id="return"
 			type="number"
@@ -1713,9 +1720,7 @@ Create: `src/lib/components/SimulatorForm.svelte`
 	</div>
 
 	<div>
-		<label for="ter" class="block text-sm font-medium">
-			MyInvestor TER (%)
-		</label>
+		<label for="ter" class="block text-sm font-medium"> MyInvestor TER (%) </label>
 		<input
 			id="ter"
 			type="number"
@@ -1750,16 +1755,16 @@ import { fireEvent } from '@testing-library/svelte';
 import { get } from 'svelte/store';
 import { simulationParams } from '$lib/stores/simulationParams';
 
-	it('should update store when inputs change', async () => {
-		render(SimulatorForm);
+it('should update store when inputs change', async () => {
+	render(SimulatorForm);
 
-		const initialInput = screen.getByLabelText(/initial investment/i) as HTMLInputElement;
+	const initialInput = screen.getByLabelText(/initial investment/i) as HTMLInputElement;
 
-		await fireEvent.input(initialInput, { target: { value: '5000' } });
+	await fireEvent.input(initialInput, { target: { value: '5000' } });
 
-		const params = get(simulationParams);
-		expect(params.initialInvestment).toBe(5000);
-	});
+	const params = get(simulationParams);
+	expect(params.initialInvestment).toBe(5000);
+});
 ```
 
 **Step 7: Run test to verify it passes**
@@ -1779,6 +1784,7 @@ git commit -m "test: verify form inputs bind to store"
 ## Task 11: Breakdown Table Component
 
 **Files:**
+
 - Create: `src/lib/components/BreakdownTable.svelte`
 - Create: `src/lib/components/BreakdownTable.test.ts`
 
@@ -1903,15 +1909,15 @@ git commit -m "feat: create breakdown table component"
 Modify: `src/lib/components/BreakdownTable.test.ts` - add:
 
 ```typescript
-	it('should highlight the winner with higher final balance', () => {
-		render(BreakdownTable, { indexaCapital: mockIndexa, myInvestor: mockMyInvestor });
+it('should highlight the winner with higher final balance', () => {
+	render(BreakdownTable, { indexaCapital: mockIndexa, myInvestor: mockMyInvestor });
 
-		// IndexaCapital has higher balance (10400 > 10350)
-		const rows = screen.getAllByRole('row');
-		const finalBalanceRow = rows[rows.length - 1];
+	// IndexaCapital has higher balance (10400 > 10350)
+	const rows = screen.getAllByRole('row');
+	const finalBalanceRow = rows[rows.length - 1];
 
-		expect(finalBalanceRow.innerHTML).toContain('text-green-600');
-	});
+	expect(finalBalanceRow.innerHTML).toContain('text-green-600');
+});
 ```
 
 **Step 7: Run test to verify it passes**
@@ -1931,6 +1937,7 @@ git commit -m "test: verify winner highlighting in breakdown table"
 ## Task 12: Comparison Chart Component
 
 **Files:**
+
 - Create: `src/lib/components/ComparisonChart.svelte`
 - Create: `src/lib/components/ComparisonChart.test.ts`
 
@@ -2119,6 +2126,7 @@ git commit -m "feat: create comparison chart component with Chart.js"
 ## Task 13: Main Page Layout
 
 **Files:**
+
 - Create: `src/routes/+layout.svelte`
 - Create: `src/routes/+page.svelte`
 
@@ -2233,6 +2241,7 @@ git commit -m "feat: create main page layout with all components"
 ## Task 14: Code Quality Tools Setup
 
 **Files:**
+
 - Create: `.eslintrc.cjs`
 - Create: `.prettierrc`
 - Create: `.prettierignore`
@@ -2240,11 +2249,13 @@ git commit -m "feat: create main page layout with all components"
 **Step 1: Install linting dependencies**
 
 Run:
+
 ```bash
 npm install -D eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser
 npm install -D eslint-plugin-svelte svelte-eslint-parser
 npm install -D prettier prettier-plugin-svelte
 ```
+
 Expected: All packages installed
 
 **Step 2: Configure ESLint**
@@ -2340,6 +2351,7 @@ git commit -m "chore: configure ESLint and Prettier"
 ## Task 15: Cloudflare Pages Configuration
 
 **Files:**
+
 - Create: `.node-version`
 - Modify: `svelte.config.js` (verify adapter-static settings)
 
@@ -2377,13 +2389,14 @@ git commit -m "chore: configure for Cloudflare Pages deployment"
 ## Task 16: README and Documentation
 
 **Files:**
+
 - Create: `README.md`
 
 **Step 1: Create README**
 
 Create: `README.md`
 
-```markdown
+````markdown
 # IndexFunds Comparison Simulator
 
 A static web application that simulates and compares investment returns between MyInvestor and IndexaCapital, two Spanish index fund providers.
@@ -2434,6 +2447,7 @@ npm run lint
 # Format code
 npm run format
 ```
+````
 
 ### Building
 
@@ -2479,18 +2493,18 @@ The app follows a **functional core, reactive shell** pattern:
 ### IndexaCapital (Tiered)
 
 | Portfolio Value | Total Annual Fee |
-|----------------|------------------|
-| < €10k | 0.599% |
-| €10k - €100k | 0.579% |
-| €100k - €500k | 0.549% |
-| €500k - €1M | 0.494% |
-| €1M - €5M | 0.444% |
-| €5M - €10M | 0.394% |
-| €10M - €50M | 0.344% |
-| €50M - €100M | 0.294% |
-| > €100M | 0.274% |
+| --------------- | ---------------- |
+| < €10k          | 0.599%           |
+| €10k - €100k    | 0.579%           |
+| €100k - €500k   | 0.549%           |
+| €500k - €1M     | 0.494%           |
+| €1M - €5M       | 0.444%           |
+| €5M - €10M      | 0.394%           |
+| €10M - €50M     | 0.344%           |
+| €50M - €100M    | 0.294%           |
+| > €100M         | 0.274%           |
 
-*Includes management fee + 0.194% fixed costs (custody + underlying)*
+_Includes management fee + 0.194% fixed costs (custody + underlying)_
 
 ### MyInvestor (Fixed)
 
@@ -2511,6 +2525,7 @@ npm run test:watch
 ```
 
 Test coverage includes:
+
 - ✅ All calculation functions (fees, compounding, simulation)
 - ✅ Store logic and reactivity
 - ✅ Component rendering and interactions
@@ -2529,14 +2544,15 @@ Test coverage includes:
 ## License
 
 MIT
-```
+
+````
 
 **Step 2: Commit**
 
 ```bash
 git add README.md
 git commit -m "docs: add comprehensive README"
-```
+````
 
 ---
 
@@ -2568,14 +2584,14 @@ Expected: Site works correctly, all features functional
 2. Change simulation parameters
 3. Copy URL
 4. Open in new tab/incognito
-Expected: Parameters load correctly from URL
+   Expected: Parameters load correctly from URL
 
 **Step 6: Test mobile responsive**
 
 1. Open preview
 2. Open browser dev tools
 3. Test different mobile viewports
-Expected: Layout adapts correctly, no overflow
+   Expected: Layout adapts correctly, no overflow
 
 **Step 7: Final commit**
 
@@ -2591,6 +2607,7 @@ git commit -m "chore: final verification and cleanup"
 ### Cloudflare Pages Setup
 
 1. **Push to GitHub**
+
    ```bash
    git remote add origin <your-repo-url>
    git push -u origin main
@@ -2638,22 +2655,26 @@ git commit -m "chore: final verification and cleanup"
 ## Notes for Implementation
 
 **TDD Discipline:**
+
 - Write test first, watch it fail
 - Write minimal code to pass
 - Refactor if needed
 - Commit frequently
 
 **DRY Principle:**
+
 - Reuse calculation functions
 - Don't duplicate fee logic
 - Single source of truth for types
 
 **YAGNI:**
+
 - No features beyond requirements
 - No premature optimization
 - Keep it simple
 
 **Testing Focus:**
+
 - Test logic thoroughly
 - Test components in isolation
 - No heavy browser/E2E tests

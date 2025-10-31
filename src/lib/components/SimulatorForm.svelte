@@ -4,9 +4,7 @@
 
 <form class="space-y-4">
 	<div>
-		<label for="initial" class="block text-sm font-medium">
-			Initial Investment (€)
-		</label>
+		<label for="initial" class="block text-sm font-medium"> Initial Investment (€) </label>
 		<input
 			id="initial"
 			type="number"
@@ -18,9 +16,7 @@
 	</div>
 
 	<div>
-		<label for="deposit" class="block text-sm font-medium">
-			Deposit Amount (€)
-		</label>
+		<label for="deposit" class="block text-sm font-medium"> Deposit Amount (€) </label>
 		<input
 			id="deposit"
 			type="number"
@@ -32,9 +28,7 @@
 	</div>
 
 	<div>
-		<label for="frequency" class="block text-sm font-medium">
-			Deposit Frequency
-		</label>
+		<label for="frequency" class="block text-sm font-medium"> Deposit Frequency </label>
 		<select
 			id="frequency"
 			bind:value={$simulationParams.depositFrequency}
@@ -47,9 +41,7 @@
 	</div>
 
 	<div>
-		<label for="years" class="block text-sm font-medium">
-			Time Period (years)
-		</label>
+		<label for="years" class="block text-sm font-medium"> Time Period (years) </label>
 		<input
 			id="years"
 			type="number"
@@ -61,9 +53,7 @@
 	</div>
 
 	<div>
-		<label for="return" class="block text-sm font-medium">
-			Expected Return (% per year)
-		</label>
+		<label for="return" class="block text-sm font-medium"> Expected Return (% per year) </label>
 		<input
 			id="return"
 			type="number"
@@ -74,9 +64,7 @@
 	</div>
 
 	<div>
-		<label for="ter" class="block text-sm font-medium">
-			MyInvestor TER (%)
-		</label>
+		<label for="ter" class="block text-sm font-medium"> MyInvestor TER (%) </label>
 		<input
 			id="ter"
 			type="number"

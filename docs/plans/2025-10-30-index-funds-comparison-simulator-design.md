@@ -10,6 +10,7 @@ A static web application that simulates and compares investment returns between 
 ## Requirements Summary
 
 ### Functional Requirements
+
 - Compare investment growth for MyInvestor vs IndexaCapital
 - Factor in provider-specific fee structures (tiered vs fixed)
 - Calculate compound interest monthly
@@ -19,6 +20,7 @@ A static web application that simulates and compares investment returns between 
 - Allow user-configurable expected returns and MyInvestor TER
 
 ### Non-Functional Requirements
+
 - Static web application (no backend)
 - Deployable to Cloudflare Pages
 - Mobile-first responsive design
@@ -33,21 +35,25 @@ A static web application that simulates and compares investment returns between 
 The application follows a **reactive stores with functional core** architecture:
 
 **Core Layer (Pure Functions):**
+
 - All business logic as pure, testable functions
 - No framework dependencies
 - Maximum testability for TDD
 
 **State Layer (Svelte Stores):**
+
 - Reactive state management
 - URL synchronization
 - Derived computations
 
 **UI Layer (Svelte Components):**
+
 - Thin presentation layer
 - Binds to stores
 - Delegates logic to core
 
 ### Data Flow
+
 ```
 User Input → Store Update → URL Update + Derived Calculation → UI Re-render
 ```
@@ -55,39 +61,44 @@ User Input → Store Update → URL Update + Derived Calculation → UI Re-rende
 ## Fee Structures
 
 ### IndexaCapital (Tiered Fees)
+
 Management fees based on portfolio value + fixed costs:
 
-| Portfolio Value | Management Fee | Total Annual Fee* |
-|----------------|----------------|-------------------|
-| < €10,000 | 0.405% | 0.599% |
-| €10k - €100k | 0.385% | 0.579% |
-| €100k - €500k | 0.355% | 0.549% |
-| €500k - €1M | 0.300% | 0.494% |
-| €1M - €5M | 0.250% | 0.444% |
-| €5M - €10M | 0.200% | 0.394% |
-| €10M - €50M | 0.150% | 0.344% |
-| €50M - €100M | 0.100% | 0.294% |
-| > €100M | 0.080% | 0.274% |
+| Portfolio Value | Management Fee | Total Annual Fee\* |
+| --------------- | -------------- | ------------------ |
+| < €10,000       | 0.405%         | 0.599%             |
+| €10k - €100k    | 0.385%         | 0.579%             |
+| €100k - €500k   | 0.355%         | 0.549%             |
+| €500k - €1M     | 0.300%         | 0.494%             |
+| €1M - €5M       | 0.250%         | 0.444%             |
+| €5M - €10M      | 0.200%         | 0.394%             |
+| €10M - €50M     | 0.150%         | 0.344%             |
+| €50M - €100M    | 0.100%         | 0.294%             |
+| > €100M         | 0.080%         | 0.274%             |
 
-*Total includes: Management fee + 0.096% custody + 0.098% underlying costs
+\*Total includes: Management fee + 0.096% custody + 0.098% underlying costs
 
 **Fee Application:**
+
 - Current tier only (based on month's portfolio value)
 - Recalculated monthly as portfolio grows/shrinks
 - Applied as monthly deduction (annual rate / 12)
 
 ### MyInvestor (Fixed Fees)
+
 - Management: 0.30% (fixed)
 - TER: User-configurable, 0.05% default, 0.59% maximum
 - Total: 0.30% + user-specified TER
 
 **Fee Application:**
+
 - Fixed percentage regardless of portfolio size
 - Applied as monthly deduction (annual rate / 12)
 
 ## Calculation Engine
 
 ### Monthly Simulation Algorithm
+
 ```
 For each month (1 to totalMonths):
   1. Add periodic deposit (if applicable based on frequency)
@@ -105,25 +116,30 @@ For each month (1 to totalMonths):
 ### Core Functions
 
 **`calculateProviderComparison(params: SimulationParams)`**
+
 - Orchestrates full simulation for both providers
 - Returns monthly snapshots + final totals
 - Pure function, no side effects
 
 **`calculateMonthlyGrowth(params, feeFunction)`**
+
 - Month-by-month simulation loop
 - Accepts fee calculation function (dependency injection)
 - Returns array of monthly snapshots
 
 **`getIndexaCapitalFee(currentBalance: number): number`**
+
 - Looks up tier based on portfolio value
 - Returns effective annual fee rate
 - Handles all 9 tiers + fixed costs
 
 **`getMyInvestorFee(userTER: number): number`**
+
 - Returns fixed annual fee (0.30% + userTER)
 - Simple calculation, no tier logic
 
 **Deposit Frequency Logic:**
+
 - Monthly: deposit every month
 - Quarterly: deposit every 3 months (months 3, 6, 9, 12...)
 - Annual: deposit at month 12, 24, 36...
@@ -131,18 +147,20 @@ For each month (1 to totalMonths):
 ## Data Model
 
 ### SimulationParams Interface
+
 ```typescript
 interface SimulationParams {
-  initialInvestment: number;      // Initial deposit (€)
-  depositAmount: number;           // Recurring deposit amount (€)
-  depositFrequency: 'monthly' | 'quarterly' | 'annual';
-  timePeriodYears: number;        // Simulation duration
-  expectedReturn: number;          // Annual return rate (%)
-  myInvestorTER: number;          // MyInvestor TER (0.05-0.59%)
+	initialInvestment: number; // Initial deposit (€)
+	depositAmount: number; // Recurring deposit amount (€)
+	depositFrequency: 'monthly' | 'quarterly' | 'annual';
+	timePeriodYears: number; // Simulation duration
+	expectedReturn: number; // Annual return rate (%)
+	myInvestorTER: number; // MyInvestor TER (0.05-0.59%)
 }
 ```
 
 **Defaults:**
+
 - initialInvestment: 1000
 - depositAmount: 100
 - depositFrequency: 'monthly'
@@ -151,33 +169,36 @@ interface SimulationParams {
 - myInvestorTER: 0.05
 
 ### SimulationResults Interface
+
 ```typescript
 interface ProviderResult {
-  totalInvested: number;
-  totalFeesPaid: number;
-  totalReturns: number;
-  finalBalance: number;
-  monthlySnapshots: MonthlySnapshot[];
+	totalInvested: number;
+	totalFeesPaid: number;
+	totalReturns: number;
+	finalBalance: number;
+	monthlySnapshots: MonthlySnapshot[];
 }
 
 interface MonthlySnapshot {
-  month: number;
-  balance: number;
-  totalDeposited: number;
-  totalFeesPaid: number;
-  totalReturns: number;
+	month: number;
+	balance: number;
+	totalDeposited: number;
+	totalFeesPaid: number;
+	totalReturns: number;
 }
 
 interface SimulationResults {
-  indexaCapital: ProviderResult;
-  myInvestor: ProviderResult;
+	indexaCapital: ProviderResult;
+	myInvestor: ProviderResult;
 }
 ```
 
 ## Component Structure
 
 ### Routes
+
 **`src/routes/+page.svelte`** - Main simulator page
+
 - Loads URL params on mount, initializes stores
 - Two-column layout (mobile: stacked)
 - Orchestrates Form + Chart + Breakdown
@@ -186,6 +207,7 @@ interface SimulationResults {
 ### Components
 
 **`src/lib/components/SimulatorForm.svelte`**
+
 - Input form for all simulation parameters
 - Two-way binding to `$simulationParams` store
 - Fields:
@@ -199,6 +221,7 @@ interface SimulationResults {
 - Mobile-first: stacked inputs, touch-friendly
 
 **`src/lib/components/ComparisonChart.svelte`**
+
 - Props: `monthlyDataIndexa`, `monthlyDataMyInvestor`
 - Modular Chart.js wrapper (swappable)
 - Line chart: X=time, Y=portfolio value (€)
@@ -207,6 +230,7 @@ interface SimulationResults {
 - Legend, tooltips, axis labels
 
 **`src/lib/components/BreakdownTable.svelte`**
+
 - Props: `resultsIndexa`, `resultsMyInvestor`
 - Side-by-side comparison (mobile: stacked)
 - Rows:
@@ -220,22 +244,24 @@ interface SimulationResults {
 ## Store Implementation
 
 ### `src/lib/stores/simulationParams.ts`
+
 ```typescript
 import { writable } from 'svelte/store';
 
 const defaults: SimulationParams = {
-  initialInvestment: 1000,
-  depositAmount: 100,
-  depositFrequency: 'monthly',
-  timePeriodYears: 20,
-  expectedReturn: 7,
-  myInvestorTER: 0.05
+	initialInvestment: 1000,
+	depositAmount: 100,
+	depositFrequency: 'monthly',
+	timePeriodYears: 20,
+	expectedReturn: 7,
+	myInvestorTER: 0.05
 };
 
 export const simulationParams = writable<SimulationParams>(defaults);
 ```
 
 **URL Synchronization:**
+
 - On mount: parse search params → update store
 - On change: serialize store → update URL (no page reload)
 - URL format: `?initial=1000&deposit=100&freq=monthly&years=20&return=7&ter=0.05`
@@ -243,18 +269,19 @@ export const simulationParams = writable<SimulationParams>(defaults);
 - Enables shareable scenario links
 
 ### `src/lib/stores/simulationResults.ts`
+
 ```typescript
 import { derived } from 'svelte/store';
 import { simulationParams } from './simulationParams';
 import { calculateProviderComparison } from '$lib/calculations/simulator';
 
-export const simulationResults = derived(
-  simulationParams,
-  ($params) => calculateProviderComparison($params)
+export const simulationResults = derived(simulationParams, ($params) =>
+	calculateProviderComparison($params)
 );
 ```
 
 **Behavior:**
+
 - Auto-recalculates when `simulationParams` changes
 - Pure derivation (no side effects)
 - Components subscribe for reactive updates
@@ -262,6 +289,7 @@ export const simulationResults = derived(
 ## Testing Strategy
 
 ### Tooling
+
 - **Vitest** - unit testing framework
 - **@testing-library/svelte** - component testing without browser
 - Focus on logic and isolated component units
@@ -269,6 +297,7 @@ export const simulationResults = derived(
 ### Test Coverage
 
 **Calculation Functions (Unit Tests):**
+
 - ✓ Fee tier lookups (all 9 IndexaCapital tiers)
 - ✓ Tier boundary crossing (e.g., portfolio grows from 99k → 101k)
 - ✓ Monthly compounding math accuracy
@@ -280,12 +309,14 @@ export const simulationResults = derived(
   - Negative returns (market downturn)
 
 **Store Logic (Unit Tests):**
+
 - ✓ Store initialization with defaults
 - ✓ Parameter updates trigger recalculation
 - ✓ Derived store computations correct
 - ✓ URL encoding/decoding roundtrip
 
 **Component Tests (Isolation):**
+
 - ✓ Form inputs bind to stores correctly
 - ✓ Form validation displays errors
 - ✓ Chart receives correct props and renders
@@ -294,6 +325,7 @@ export const simulationResults = derived(
 - ✓ No full browser/E2E tests (per requirement)
 
 **TDD Workflow:**
+
 1. Write failing test
 2. Implement minimum code to pass
 3. Refactor for clarity
@@ -349,22 +381,26 @@ export const simulationResults = derived(
 ## Technology Stack
 
 ### Core
+
 - **SvelteKit** - framework
 - **adapter-static** - static site generation for Cloudflare Pages
 - **TypeScript** - type safety
 - **Vite** - build tool
 
 ### UI
+
 - **Tailwind CSS** - utility-first styling
 - **Chart.js** - charting library (modular wrapper)
 - **svelte-chartjs** - Svelte wrapper for Chart.js
 
 ### Testing
+
 - **Vitest** - test runner
 - **@testing-library/svelte** - component testing
 - **@testing-library/jest-dom** - DOM matchers
 
 ### Code Quality
+
 - **ESLint** - linting (TypeScript + Svelte)
 - **Prettier** - code formatting
 - **eslint-plugin-svelte** - Svelte-specific linting
@@ -372,6 +408,7 @@ export const simulationResults = derived(
 ## Build & Deployment
 
 ### Development
+
 ```bash
 npm run dev          # Start dev server
 npm run test         # Run tests
@@ -381,12 +418,14 @@ npm run format       # Format with Prettier
 ```
 
 ### Production Build
+
 ```bash
 npm run build        # Generate static site → build/
 npm run preview      # Preview production build locally
 ```
 
 ### Deployment (Cloudflare Pages)
+
 1. Push to Git repository
 2. Connect Cloudflare Pages to repo
 3. Build settings:
@@ -395,6 +434,7 @@ npm run preview      # Preview production build locally
 4. Auto-deploy on push to main branch
 
 **Configuration:**
+
 - `svelte.config.js` uses `adapter-static`
 - All routes prerendered (static)
 - No server-side rendering
@@ -403,6 +443,7 @@ npm run preview      # Preview production build locally
 ## Error Handling & Edge Cases
 
 ### Input Validation (Minimal)
+
 - Positive numbers for all monetary/percentage inputs
 - TER within 0.05-0.59% range
 - Time period > 0 years
@@ -410,6 +451,7 @@ npm run preview      # Preview production build locally
 - No form submission blocking
 
 ### Edge Cases
+
 - **Zero deposits:** Works with initial investment only
 - **Very large balances:** IndexaCapital tiers handle >€100M
 - **Tier changes:** Recalculate fee every month based on current balance
@@ -419,6 +461,7 @@ npm run preview      # Preview production build locally
 - **Large time periods:** Chart.js auto-scales
 
 ### No Backend = Simplified Error Handling
+
 - No network errors to handle
 - No loading states needed
 - All computation client-side and synchronous
@@ -436,17 +479,20 @@ npm run preview      # Preview production build locally
 ## Performance Considerations
 
 ### Client-Side Computation
+
 - Monthly calculations: linear O(n) complexity
 - Max realistic: 50 years × 12 months = 600 iterations
 - Negligible compute time (<10ms)
 - No performance optimization needed initially
 
 ### Chart Rendering
+
 - Chart.js handles thousands of data points efficiently
 - Responsive resize via CSS
 - Mobile: same data density (Chart.js optimizes internally)
 
 ### Bundle Size
+
 - Keep dependencies minimal
 - Chart.js is largest dependency (~200KB)
 - Modular architecture allows future optimization
@@ -455,6 +501,7 @@ npm run preview      # Preview production build locally
 ## Future Enhancements (Out of Scope)
 
 Potential future additions (not included in initial implementation):
+
 - Inflation adjustment option
 - Multiple scenarios side-by-side
 - Historical backtesting with real market data
@@ -467,6 +514,7 @@ Potential future additions (not included in initial implementation):
 ## Open Questions & Decisions
 
 ### Resolved
+
 - ✓ Architecture: Reactive stores with functional core
 - ✓ Charting: Chart.js (modular)
 - ✓ Fee calculation: Current tier only (not blended)
@@ -482,6 +530,7 @@ Potential future additions (not included in initial implementation):
 ## Success Criteria
 
 The simulator is successful when:
+
 1. ✓ Accurately calculates IndexaCapital tiered fees (validated in tests)
 2. ✓ Accurately calculates MyInvestor fixed fees (validated in tests)
 3. ✓ Correctly applies monthly compound interest

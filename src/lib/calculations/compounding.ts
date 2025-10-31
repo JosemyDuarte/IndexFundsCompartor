@@ -18,7 +18,14 @@ export interface MonthlySnapshot {
 }
 
 export function calculateMonthlyGrowth(params: MonthlyGrowthParams): MonthlySnapshot[] {
-	const { initialBalance, depositAmount, depositFrequency, annualReturn, annualFeeRate, totalMonths } = params;
+	const {
+		initialBalance,
+		depositAmount,
+		depositFrequency,
+		annualReturn,
+		annualFeeRate,
+		totalMonths
+	} = params;
 	const monthlyReturnRate = annualReturn / 100 / 12;
 	const monthlyFeeRate = annualFeeRate / 100 / 12;
 

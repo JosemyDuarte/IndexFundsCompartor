@@ -36,7 +36,7 @@ describe('simulationResults store', () => {
 		const balance1 = results1.indexaCapital.finalBalance;
 
 		// Change expected return
-		simulationParams.update(p => ({ ...p, expectedReturn: 10 }));
+		simulationParams.update((p) => ({ ...p, expectedReturn: 10 }));
 
 		const results2 = get(simulationResults);
 		const balance2 = results2.indexaCapital.finalBalance;

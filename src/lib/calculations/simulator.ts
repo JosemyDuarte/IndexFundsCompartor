@@ -28,11 +28,7 @@ export function calculateProviderComparison(params: SimulationParams): Simulatio
 	const totalMonths = params.timePeriodYears * 12;
 
 	// Simulate IndexaCapital with dynamic tiered fees
-	const indexaSnapshots = simulateWithDynamicFees(
-		params,
-		totalMonths,
-		getIndexaCapitalFee
-	);
+	const indexaSnapshots = simulateWithDynamicFees(params, totalMonths, getIndexaCapitalFee);
 
 	// Simulate MyInvestor with fixed fees
 	const myInvestorFeeRate = getMyInvestorFee(params.myInvestorTER);
