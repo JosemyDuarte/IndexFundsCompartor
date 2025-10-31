@@ -35,4 +35,14 @@ describe('BreakdownTable', () => {
 		expect(screen.getByText(/total returns/i)).toBeInTheDocument();
 		expect(screen.getByText(/final balance/i)).toBeInTheDocument();
 	});
+
+	it('should highlight the winner with higher final balance', () => {
+		render(BreakdownTable, { indexaCapital: mockIndexa, myInvestor: mockMyInvestor });
+
+		// IndexaCapital has higher balance (10400 > 10350)
+		const rows = screen.getAllByRole('row');
+		const finalBalanceRow = rows[rows.length - 1];
+
+		expect(finalBalanceRow.innerHTML).toContain('text-green-600');
+	});
 });
