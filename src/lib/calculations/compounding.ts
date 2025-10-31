@@ -15,19 +15,35 @@ export interface MonthlySnapshot {
 }
 
 export function calculateMonthlyGrowth(params: MonthlyGrowthParams): MonthlySnapshot[] {
-	const { initialBalance, annualReturn, totalMonths } = params;
+	const { initialBalance, monthlyDeposit, annualReturn, annualFeeRate, totalMonths } = params;
 	const monthlyReturnRate = annualReturn / 100 / 12;
+	const monthlyFeeRate = annualFeeRate / 100 / 12;
 
-	const balance = initialBalance * (1 + monthlyReturnRate);
-	const totalReturns = balance - initialBalance;
+	const snapshots: MonthlySnapshot[] = [];
+	let balance = initialBalance;
+	let totalDeposited = initialBalance;
+	let totalFeesPaid = 0;
+	let totalReturns = 0;
 
-	return [
-		{
-			month: 1,
+	for (let month = 1; month <= totalMonths; month++) {
+		// Apply monthly return
+		const monthlyReturn = balance * monthlyReturnRate;
+		balance += monthlyReturn;
+		totalReturns += monthlyReturn;
+
+		// Apply monthly fee
+		const monthlyFee = balance * monthlyFeeRate;
+		balance -= monthlyFee;
+		totalFeesPaid += monthlyFee;
+
+		snapshots.push({
+			month,
 			balance,
-			totalDeposited: initialBalance,
-			totalFeesPaid: 0,
+			totalDeposited,
+			totalFeesPaid,
 			totalReturns
-		}
-	];
+		});
+	}
+
+	return snapshots;
 }
