@@ -48,4 +48,20 @@ describe('calculateMonthlyGrowth', () => {
 		expect(result[1].balance).toBeCloseTo(1223.11, 2);
 		expect(result[1].totalDeposited).toBe(1200);
 	});
+
+	it('should deduct fees monthly', () => {
+		const result = calculateMonthlyGrowth({
+			initialBalance: 1000,
+			monthlyDeposit: 0,
+			annualReturn: 12,
+			annualFeeRate: 1.2, // 0.1% per month for easy math
+			totalMonths: 1
+		});
+
+		// Growth: 1000 * 1.01 = 1010
+		// Fee: 1010 * 0.001 = 1.01
+		// Final: 1010 - 1.01 = 1008.99
+		expect(result[0].balance).toBeCloseTo(1008.99, 2);
+		expect(result[0].totalFeesPaid).toBeCloseTo(1.01, 2);
+	});
 });
