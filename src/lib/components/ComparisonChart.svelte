@@ -36,28 +36,30 @@
 					{
 						label: 'IndexaCapital',
 						data: indexaSnapshots.map((s) => s.balance),
-						borderColor: '#8B3DFF', // Revolut purple
-						backgroundColor: 'rgba(139, 61, 255, 0.1)',
-						borderWidth: 3,
+						borderColor: '#8B3DFF',
+						backgroundColor: 'rgba(139, 61, 255, 0.15)',
+						borderWidth: 4,
 						tension: 0.4,
+						fill: true,
 						pointRadius: 0,
-						pointHoverRadius: 6,
+						pointHoverRadius: 8,
 						pointHoverBackgroundColor: '#8B3DFF',
 						pointHoverBorderColor: '#fff',
-						pointHoverBorderWidth: 2
+						pointHoverBorderWidth: 3
 					},
 					{
 						label: 'MyInvestor',
 						data: myInvestorSnapshots.map((s) => s.balance),
-						borderColor: '#0075FF', // Revolut blue
-						backgroundColor: 'rgba(0, 117, 255, 0.1)',
-						borderWidth: 3,
+						borderColor: '#0075FF',
+						backgroundColor: 'rgba(0, 117, 255, 0.15)',
+						borderWidth: 4,
 						tension: 0.4,
+						fill: true,
 						pointRadius: 0,
-						pointHoverRadius: 6,
+						pointHoverRadius: 8,
 						pointHoverBackgroundColor: '#0075FF',
 						pointHoverBorderColor: '#fff',
-						pointHoverBorderWidth: 2
+						pointHoverBorderWidth: 3
 					}
 				]
 			},
