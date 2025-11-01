@@ -116,8 +116,8 @@
 							text: 'Month',
 							color: '#9CA3AF',
 							font: {
-								size: 12,
-								weight: '500'
+								size: 14,
+								weight: '600'
 							}
 						},
 						grid: {
@@ -127,8 +127,9 @@
 						ticks: {
 							color: '#9CA3AF',
 							font: {
-								size: 11
-							}
+								size: 12
+							},
+							maxTicksLimit: 12
 						}
 					},
 					y: {
@@ -137,24 +138,25 @@
 							text: 'Portfolio Value',
 							color: '#9CA3AF',
 							font: {
-								size: 12,
-								weight: '500'
+								size: 14,
+								weight: '600'
 							}
 						},
 						grid: {
-							color: 'rgba(255, 255, 255, 0.05)',
+							color: 'rgba(255, 255, 255, 0.08)',
 							drawBorder: false
 						},
 						ticks: {
 							color: '#9CA3AF',
 							font: {
-								size: 11
+								size: 12
 							},
 							callback: function (value) {
 								return new Intl.NumberFormat('es-ES', {
 									style: 'currency',
 									currency: 'EUR',
-									notation: 'compact'
+									notation: 'compact',
+									maximumFractionDigits: 0
 								}).format(value as number);
 							}
 						}
