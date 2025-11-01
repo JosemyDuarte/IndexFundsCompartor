@@ -27,47 +27,82 @@
 </script>
 
 <svelte:head>
-	<title>IndexFunds Comparison Simulator</title>
+	<title>IndexFunds Comparison - MyInvestor vs IndexaCapital</title>
+	<meta name="description" content="Compare investment returns between MyInvestor and IndexaCapital with real-time calculations" />
 </svelte:head>
 
-<div class="container mx-auto px-4 py-8">
-	<header class="mb-8">
-		<h1 class="text-3xl font-bold text-gray-900">IndexFunds Comparison Simulator</h1>
-		<p class="mt-2 text-gray-600">
-			Compare investment returns between MyInvestor and IndexaCapital
-		</p>
+<div class="min-h-screen">
+	<!-- Header -->
+	<header class="border-b border-white/10 bg-revolut-card/50 backdrop-blur-sm sticky top-0 z-10">
+		<div class="container mx-auto px-4 py-6">
+			<div class="flex items-center gap-3">
+				<div class="w-10 h-10 bg-gradient-blue rounded-xl flex items-center justify-center shadow-revolut-glow-blue">
+					<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+					</svg>
+				</div>
+				<div>
+					<h1 class="text-2xl font-bold text-white">IndexFunds Comparison</h1>
+					<p class="text-sm text-gray-400">MyInvestor vs IndexaCapital</p>
+				</div>
+			</div>
+		</div>
 	</header>
 
-	<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
-		<!-- Form Section -->
-		<div class="lg:col-span-1">
-			<div class="rounded-lg bg-white p-6 shadow">
-				<h2 class="mb-4 text-xl font-semibold">Simulation Parameters</h2>
-				<SimulatorForm />
-			</div>
-		</div>
-
-		<!-- Results Section -->
-		<div class="lg:col-span-2">
-			<div class="space-y-6">
-				<!-- Chart -->
-				<div class="rounded-lg bg-white p-6 shadow">
-					<h2 class="mb-4 text-xl font-semibold">Portfolio Growth Over Time</h2>
-					<ComparisonChart
-						indexaSnapshots={$simulationResults.indexaCapital.monthlySnapshots}
-						myInvestorSnapshots={$simulationResults.myInvestor.monthlySnapshots}
-					/>
+	<!-- Main Content -->
+	<div class="container mx-auto px-4 py-8">
+		<div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
+			<!-- Sidebar - Form -->
+			<aside class="lg:col-span-4">
+				<div class="sticky top-24">
+					<div class="p-6 bg-revolut-card border border-white/10 rounded-2xl shadow-revolut-card">
+						<div class="mb-6">
+							<h2 class="text-lg font-semibold text-white mb-1">Simulation Parameters</h2>
+							<p class="text-sm text-gray-400">Adjust values to compare returns</p>
+						</div>
+						<SimulatorForm />
+					</div>
 				</div>
+			</aside>
 
-				<!-- Breakdown -->
-				<div class="rounded-lg bg-white p-6 shadow">
-					<h2 class="mb-4 text-xl font-semibold">Financial Breakdown</h2>
-					<BreakdownTable
-						indexaCapital={$simulationResults.indexaCapital}
-						myInvestor={$simulationResults.myInvestor}
-					/>
+			<!-- Main Content - Results -->
+			<main class="lg:col-span-8">
+				<div class="space-y-6">
+					<!-- Chart Card -->
+					<div class="p-6 bg-revolut-card border border-white/10 rounded-2xl shadow-revolut-card">
+						<div class="mb-6">
+							<h2 class="text-lg font-semibold text-white mb-1">Portfolio Growth Over Time</h2>
+							<p class="text-sm text-gray-400">Compare projected returns over investment period</p>
+						</div>
+						<ComparisonChart
+							indexaSnapshots={$simulationResults.indexaCapital.monthlySnapshots}
+							myInvestorSnapshots={$simulationResults.myInvestor.monthlySnapshots}
+						/>
+					</div>
+
+					<!-- Breakdown Card -->
+					<div class="p-6 bg-revolut-card border border-white/10 rounded-2xl shadow-revolut-card">
+						<div class="mb-6">
+							<h2 class="text-lg font-semibold text-white mb-1">Financial Breakdown</h2>
+							<p class="text-sm text-gray-400">Detailed comparison of costs and returns</p>
+						</div>
+						<BreakdownTable
+							indexaCapital={$simulationResults.indexaCapital}
+							myInvestor={$simulationResults.myInvestor}
+						/>
+					</div>
 				</div>
-			</div>
+			</main>
 		</div>
 	</div>
+
+	<!-- Footer -->
+	<footer class="mt-16 border-t border-white/10 bg-revolut-card/30 backdrop-blur-sm">
+		<div class="container mx-auto px-4 py-8">
+			<div class="text-center text-sm text-gray-400">
+				<p>Built with SvelteKit, TypeScript, and Tailwind CSS</p>
+				<p class="mt-2">Investment calculations are for comparison purposes only</p>
+			</div>
+		</div>
+	</footer>
 </div>
