@@ -107,7 +107,24 @@
 									}).format(context.parsed.y);
 								}
 								return label;
+							},
+							footer: function(tooltipItems) {
+								if (tooltipItems.length > 0) {
+									const indexa = tooltipItems.find(item => item.datasetIndex === 0);
+									const myInvestor = tooltipItems.find(item => item.datasetIndex === 1);
+									if (indexa && myInvestor) {
+										const diff = Math.abs(indexa.parsed.y - myInvestor.parsed.y);
+										const winner = indexa.parsed.y > myInvestor.parsed.y ? 'IndexaCapital' : 'MyInvestor';
+										return `Difference: €${diff.toFixed(2)} (${winner} ahead)`;
+									}
+								}
+								return '';
 							}
+						},
+						footerColor: '#9CA3AF',
+						footerFont: {
+							size: 11,
+							weight: 'normal'
 						}
 					}
 				},
