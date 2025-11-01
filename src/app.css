@@ -2,9 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-	background-color: #0C0E16;
-	background-image: linear-gradient(135deg, #0C0E16 0%, #05060A 100%);
-	color: white;
-	min-height: 100vh;
+@layer base {
+	body {
+		background-color: #0C0E16;
+		background-image: linear-gradient(135deg, #0C0E16 0%, #05060A 100%);
+		color: white;
+		min-height: 100vh;
+	}
+}
+
+@layer utilities {
+	.animate-fade-in {
+		animation: fadeIn 0.5s ease-in-out;
+	}
+
+	.animate-slide-up {
+		animation: slideUp 0.5s ease-out;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	@keyframes slideUp {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
 }

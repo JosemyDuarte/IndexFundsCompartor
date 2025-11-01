@@ -69,7 +69,7 @@
 			<main class="lg:col-span-8">
 				<div class="space-y-6">
 					<!-- Chart Card -->
-					<div class="p-6 bg-revolut-card border border-white/10 rounded-2xl shadow-revolut-card">
+					<div class="p-6 bg-revolut-card border border-white/10 rounded-2xl shadow-revolut-card animate-slide-up">
 						<div class="mb-6">
 							<h2 class="text-lg font-semibold text-white mb-1">Portfolio Growth Over Time</h2>
 							<p class="text-sm text-gray-400">Compare projected returns over investment period</p>
@@ -81,7 +81,7 @@
 					</div>
 
 					<!-- Breakdown Card -->
-					<div class="p-6 bg-revolut-card border border-white/10 rounded-2xl shadow-revolut-card">
+					<div class="p-6 bg-revolut-card border border-white/10 rounded-2xl shadow-revolut-card animate-slide-up" style="animation-delay: 0.1s;">
 						<div class="mb-6">
 							<h2 class="text-lg font-semibold text-white mb-1">Financial Breakdown</h2>
 							<p class="text-sm text-gray-400">Detailed comparison of costs and returns</p>
