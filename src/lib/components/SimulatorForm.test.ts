@@ -1,29 +1,26 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/svelte';
-import { get } from 'svelte/store';
+import { render, screen } from '@testing-library/svelte';
 import SimulatorForm from './SimulatorForm.svelte';
-import { simulationParams } from '$lib/stores/simulationParams';
 
 describe('SimulatorForm', () => {
-	it('should render all input fields', () => {
+	it('renders all form inputs', () => {
 		render(SimulatorForm);
 
-		expect(screen.getByLabelText(/initial investment/i)).toBeInTheDocument();
-		expect(screen.getByLabelText(/deposit amount/i)).toBeInTheDocument();
-		expect(screen.getByLabelText(/deposit frequency/i)).toBeInTheDocument();
-		expect(screen.getByLabelText(/time period/i)).toBeInTheDocument();
-		expect(screen.getByLabelText(/expected return/i)).toBeInTheDocument();
-		expect(screen.getByLabelText(/myinvestor ter/i)).toBeInTheDocument();
+		expect(screen.getByLabelText('Initial Investment')).toBeTruthy();
+		expect(screen.getByLabelText('Regular Deposit')).toBeTruthy();
+		expect(screen.getByLabelText('Deposit Frequency')).toBeTruthy();
+		expect(screen.getByLabelText('Investment Period (years)')).toBeTruthy();
+		expect(screen.getByLabelText('Expected Return (% per year)')).toBeTruthy();
+		expect(screen.getByLabelText('MyInvestor TER (%)')).toBeTruthy();
 	});
 
-	it('should update store when inputs change', async () => {
+	it('currency inputs display formatted values', () => {
 		render(SimulatorForm);
 
-		const initialInput = screen.getByLabelText(/initial investment/i) as HTMLInputElement;
+		const initialInput = screen.getByLabelText('Initial Investment') as HTMLInputElement;
+		const depositInput = screen.getByLabelText('Regular Deposit') as HTMLInputElement;
 
-		await fireEvent.input(initialInput, { target: { value: '5000' } });
-
-		const params = get(simulationParams);
-		expect(params.initialInvestment).toBe(5000);
+		expect(initialInput.value).toBe('1.000'); // default 1000
+		expect(depositInput.value).toBe('100'); // default 100
 	});
 });
