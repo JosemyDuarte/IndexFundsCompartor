@@ -36,29 +36,60 @@
 					{
 						label: 'IndexaCapital',
 						data: indexaSnapshots.map((s) => s.balance),
-						borderColor: 'rgb(59, 130, 246)',
-						backgroundColor: 'rgba(59, 130, 246, 0.1)',
-						tension: 0.4
+						borderColor: '#8B3DFF', // Revolut purple
+						backgroundColor: 'rgba(139, 61, 255, 0.1)',
+						borderWidth: 3,
+						tension: 0.4,
+						pointRadius: 0,
+						pointHoverRadius: 6,
+						pointHoverBackgroundColor: '#8B3DFF',
+						pointHoverBorderColor: '#fff',
+						pointHoverBorderWidth: 2
 					},
 					{
 						label: 'MyInvestor',
 						data: myInvestorSnapshots.map((s) => s.balance),
-						borderColor: 'rgb(239, 68, 68)',
-						backgroundColor: 'rgba(239, 68, 68, 0.1)',
-						tension: 0.4
+						borderColor: '#0075FF', // Revolut blue
+						backgroundColor: 'rgba(0, 117, 255, 0.1)',
+						borderWidth: 3,
+						tension: 0.4,
+						pointRadius: 0,
+						pointHoverRadius: 6,
+						pointHoverBackgroundColor: '#0075FF',
+						pointHoverBorderColor: '#fff',
+						pointHoverBorderWidth: 2
 					}
 				]
 			},
 			options: {
 				responsive: true,
 				maintainAspectRatio: false,
+				interaction: {
+					mode: 'index',
+					intersect: false
+				},
 				plugins: {
 					legend: {
-						position: 'top'
+						position: 'top',
+						labels: {
+							color: '#E5E7EB',
+							font: {
+								size: 13,
+								weight: '500'
+							},
+							padding: 15,
+							usePointStyle: true,
+							pointStyle: 'circle'
+						}
 					},
 					tooltip: {
-						mode: 'index',
-						intersect: false,
+						backgroundColor: 'rgba(26, 29, 41, 0.95)',
+						titleColor: '#E5E7EB',
+						bodyColor: '#E5E7EB',
+						borderColor: 'rgba(255, 255, 255, 0.1)',
+						borderWidth: 1,
+						padding: 12,
+						displayColors: true,
 						callbacks: {
 							label: function (context) {
 								let label = context.dataset.label || '';
@@ -80,15 +111,43 @@
 					x: {
 						title: {
 							display: true,
-							text: 'Month'
+							text: 'Month',
+							color: '#9CA3AF',
+							font: {
+								size: 12,
+								weight: '500'
+							}
+						},
+						grid: {
+							color: 'rgba(255, 255, 255, 0.05)',
+							drawBorder: false
+						},
+						ticks: {
+							color: '#9CA3AF',
+							font: {
+								size: 11
+							}
 						}
 					},
 					y: {
 						title: {
 							display: true,
-							text: 'Portfolio Value (€)'
+							text: 'Portfolio Value',
+							color: '#9CA3AF',
+							font: {
+								size: 12,
+								weight: '500'
+							}
+						},
+						grid: {
+							color: 'rgba(255, 255, 255, 0.05)',
+							drawBorder: false
 						},
 						ticks: {
+							color: '#9CA3AF',
+							font: {
+								size: 11
+							},
 							callback: function (value) {
 								return new Intl.NumberFormat('es-ES', {
 									style: 'currency',
@@ -109,7 +168,7 @@
 		chart.data.labels = indexaSnapshots.map((s) => s.month);
 		chart.data.datasets[0].data = indexaSnapshots.map((s) => s.balance);
 		chart.data.datasets[1].data = myInvestorSnapshots.map((s) => s.balance);
-		chart.update();
+		chart.update('none'); // Update without animation for smooth reactivity
 	}
 </script>
 
