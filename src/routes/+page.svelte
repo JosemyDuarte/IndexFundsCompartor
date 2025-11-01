@@ -62,9 +62,9 @@
 
 	<!-- Main Content -->
 	<div class="container mx-auto px-4 py-8">
-		<div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
+		<div class="grid grid-cols-1 gap-6 lg:grid-cols-12 xl:grid-cols-3">
 			<!-- Sidebar - Form -->
-			<aside class="lg:col-span-4">
+			<aside class="lg:col-span-4 xl:col-span-1">
 				<div class="sticky top-24">
 					<div class="p-6 bg-revolut-card border border-white/10 rounded-2xl shadow-revolut-card">
 						<div class="mb-6">
@@ -77,7 +77,7 @@
 			</aside>
 
 			<!-- Main Content - Results -->
-			<main class="lg:col-span-8">
+			<main class="lg:col-span-8 xl:col-span-2">
 				<div class="space-y-6">
 					<!-- Summary Metrics Card -->
 					<div
