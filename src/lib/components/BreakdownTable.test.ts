@@ -1,48 +1,45 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
 import BreakdownTable from './BreakdownTable.svelte';
-import type { ProviderResult } from '$lib/calculations/simulator';
 
 describe('BreakdownTable', () => {
-	const mockIndexa: ProviderResult = {
-		totalInvested: 10000,
-		totalFeesPaid: 100,
-		totalReturns: 500,
-		finalBalance: 10400,
+	const indexaCapital = {
+		totalInvested: 25000,
+		totalFeesPaid: 500,
+		totalReturns: 5000,
+		finalBalance: 29500,
 		monthlySnapshots: []
 	};
 
-	const mockMyInvestor: ProviderResult = {
-		totalInvested: 10000,
-		totalFeesPaid: 150,
-		totalReturns: 500,
-		finalBalance: 10350,
+	const myInvestor = {
+		totalInvested: 25000,
+		totalFeesPaid: 400,
+		totalReturns: 5000,
+		finalBalance: 29600,
 		monthlySnapshots: []
 	};
 
-	it('should display both providers side by side', () => {
-		render(BreakdownTable, { indexaCapital: mockIndexa, myInvestor: mockMyInvestor });
+	it('renders both providers', () => {
+		render(BreakdownTable, { props: { indexaCapital, myInvestor } });
 
-		expect(screen.getByText('IndexaCapital')).toBeInTheDocument();
-		expect(screen.getByText('MyInvestor')).toBeInTheDocument();
+		expect(screen.getByText('IndexaCapital')).toBeTruthy();
+		expect(screen.getByText('MyInvestor')).toBeTruthy();
 	});
 
-	it('should display all financial metrics', () => {
-		render(BreakdownTable, { indexaCapital: mockIndexa, myInvestor: mockMyInvestor });
+	it('highlights the winner', () => {
+		render(BreakdownTable, { props: { indexaCapital, myInvestor } });
 
-		expect(screen.getByText(/total invested/i)).toBeInTheDocument();
-		expect(screen.getByText(/total fees paid/i)).toBeInTheDocument();
-		expect(screen.getByText(/total returns/i)).toBeInTheDocument();
-		expect(screen.getByText(/final balance/i)).toBeInTheDocument();
+		const winnerBadge = screen.getByText(/MyInvestor wins by/);
+		expect(winnerBadge).toBeTruthy();
 	});
 
-	it('should highlight the winner with higher final balance', () => {
-		render(BreakdownTable, { indexaCapital: mockIndexa, myInvestor: mockMyInvestor });
+	it('displays all financial metrics', () => {
+		render(BreakdownTable, { props: { indexaCapital, myInvestor } });
 
-		// IndexaCapital has higher balance (10400 > 10350)
-		const rows = screen.getAllByRole('row');
-		const finalBalanceRow = rows[rows.length - 1];
-
-		expect(finalBalanceRow.innerHTML).toContain('text-green-600');
+		// Check that all metrics are shown
+		expect(screen.getAllByText('Total Invested').length).toBe(2);
+		expect(screen.getAllByText('Total Returns').length).toBe(2);
+		expect(screen.getAllByText('Total Fees').length).toBe(2);
+		expect(screen.getAllByText('Final Balance').length).toBe(2);
 	});
 });
