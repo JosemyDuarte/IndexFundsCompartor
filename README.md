@@ -11,6 +11,15 @@ A static web application that simulates and compares investment returns between 
 - ⚡ Static site - no backend required
 - 🧪 Comprehensive test coverage with TDD
 
+## UI Features
+
+- **Modern Financial Dashboard**: Revolut-inspired design with dark theme
+- **Prominent Chart Display**: Large, interactive chart (500-700px height) for easy comparison
+- **Summary Metrics**: Quick-glance cards showing winner, final balance, and total returns
+- **Responsive Layout**: Optimized for mobile, tablet, and desktop viewing
+- **Smooth Animations**: Staggered card reveals for polished UX
+- **Enhanced Tooltips**: Hover over chart to see detailed comparisons and differences
+
 ## Tech Stack
 
 - **Framework:** SvelteKit
@@ -93,18 +102,18 @@ The app follows a **functional core, reactive shell** pattern:
 ### IndexaCapital (Tiered)
 
 | Portfolio Value | Total Annual Fee |
-|----------------|------------------|
-| < €10k | 0.599% |
-| €10k - €100k | 0.579% |
-| €100k - €500k | 0.549% |
-| €500k - €1M | 0.494% |
-| €1M - €5M | 0.444% |
-| €5M - €10M | 0.394% |
-| €10M - €50M | 0.344% |
-| €50M - €100M | 0.294% |
-| > €100M | 0.274% |
+| --------------- | ---------------- |
+| < €10k          | 0.599%           |
+| €10k - €100k    | 0.579%           |
+| €100k - €500k   | 0.549%           |
+| €500k - €1M     | 0.494%           |
+| €1M - €5M       | 0.444%           |
+| €5M - €10M      | 0.394%           |
+| €10M - €50M     | 0.344%           |
+| €50M - €100M    | 0.294%           |
+| > €100M         | 0.274%           |
 
-*Includes management fee + 0.194% fixed costs (custody + underlying)*
+_Includes management fee + 0.194% fixed costs (custody + underlying)_
 
 ### MyInvestor (Fixed)
 
@@ -125,6 +134,7 @@ npm run test:watch
 ```
 
 Test coverage includes:
+
 - ✅ All calculation functions (fees, compounding, simulation)
 - ✅ Store logic and reactivity
 - ✅ Component rendering and interactions
