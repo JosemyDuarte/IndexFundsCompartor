@@ -11,7 +11,7 @@
 	$: totalInvested = indexaCapital.totalInvested;
 	$: bestFinalBalance = Math.max(indexaCapital.finalBalance, myInvestor.finalBalance);
 	$: totalReturns = winner === 'IndexaCapital' ? indexaCapital.totalReturns : myInvestor.totalReturns;
-	$: returnPercentage = ((totalReturns / totalInvested) * 100).toFixed(2);
+	$: returnPercentage = totalInvested > 0 ? ((totalReturns / totalInvested) * 100).toFixed(2) : '0.00';
 </script>
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -45,7 +45,7 @@
 			<svg class="w-5 h-5 text-revolut-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
 			</svg>
-			<span class="text-sm font-medium text-gray-400">Total Returns</span>
+			<span class="text-sm font-medium text-gray-400">Winner's Returns</span>
 		</div>
 		<div class="text-2xl font-bold text-revolut-green mb-1">{formatCurrency(totalReturns)}</div>
 		<div class="text-sm text-gray-400">+{returnPercentage}% gain</div>
