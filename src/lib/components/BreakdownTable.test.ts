@@ -27,10 +27,20 @@ describe('BreakdownTable', () => {
 	});
 
 	it('highlights the winner', () => {
-		render(BreakdownTable, { props: { indexaCapital, myInvestor } });
+		const { container } = render(BreakdownTable, { props: { indexaCapital, myInvestor } });
 
-		const winnerBadge = screen.getByText(/MyInvestor wins by/);
+		// MyInvestor should win (29600 > 29500)
+		const winnerBadge = screen.getByText('Winner');
 		expect(winnerBadge).toBeTruthy();
+
+		// Find the MyInvestor card (second card in the grid)
+		const cards = container.querySelectorAll('.p-6.bg-white\\/5');
+		const myInvestorCard = cards[1];
+
+		// Check that the winning card has the correct ring styling
+		expect(myInvestorCard.classList.contains('ring-2')).toBe(true);
+		expect(myInvestorCard.classList.contains('ring-revolut-blue')).toBe(true);
+		expect(myInvestorCard.classList.contains('shadow-revolut-glow-blue')).toBe(true);
 	});
 
 	it('displays all financial metrics', () => {
