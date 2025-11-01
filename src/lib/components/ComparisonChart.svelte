@@ -8,10 +8,12 @@
 
 	let canvas: HTMLCanvasElement;
 	let chart: Chart | null = null;
+	let loading = true;
 
 	onMount(() => {
 		Chart.register(...registerables);
 		createChart();
+		loading = false;
 
 		return () => {
 			if (chart) {
@@ -177,5 +179,10 @@
 </script>
 
 <div class="relative h-[500px] md:h-[600px] lg:h-[700px] w-full">
-	<canvas bind:this={canvas}></canvas>
+	{#if loading}
+		<div class="absolute inset-0 flex items-center justify-center bg-white/5 rounded-xl animate-pulse">
+			<div class="text-gray-400">Loading chart...</div>
+		</div>
+	{/if}
+	<canvas bind:this={canvas} class:opacity-0={loading}></canvas>
 </div>
