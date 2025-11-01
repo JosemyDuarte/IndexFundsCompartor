@@ -172,6 +172,6 @@
 	}
 </script>
 
-<div class="relative h-96 w-full">
+<div class="relative h-[500px] md:h-[600px] lg:h-[700px] w-full">
 	<canvas bind:this={canvas}></canvas>
 </div>
