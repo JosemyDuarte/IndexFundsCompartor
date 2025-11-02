@@ -20,6 +20,16 @@ describe('simulationResults store', () => {
 		expect(results.myInvestor.finalBalance).toBeGreaterThan(10000);
 		expect(results.indexaCapital.monthlySnapshots).toHaveLength(12);
 		expect(results.myInvestor.monthlySnapshots).toHaveLength(12);
+
+		// Verify new properties exist
+		expect(results.indexaCapital.averageFeeRate).toBeDefined();
+		expect(results.indexaCapital.currentFeeRate).toBeDefined();
+		expect(results.myInvestor.averageFeeRate).toBeDefined();
+		expect(results.myInvestor.currentFeeRate).toBeDefined();
+
+		// Verify averageFeeRate is a reasonable value
+		expect(results.indexaCapital.averageFeeRate).toBeGreaterThan(0);
+		expect(results.myInvestor.averageFeeRate).toBeGreaterThan(0);
 	});
 
 	it('should automatically recalculate when params change', () => {

@@ -127,4 +127,40 @@ describe('calculateProviderComparison', () => {
 		// MyInvestor should also have averageFeeRate (same as feeRate since it's constant)
 		expect(results.myInvestor.averageFeeRate).toBe(0.35);
 	});
+
+	it('calculates weighted average fee correctly when crossing brackets', () => {
+		const params = {
+			initialInvestment: 9000,
+			depositAmount: 500,
+			depositFrequency: 'monthly' as const,
+			timePeriodYears: 1,
+			expectedReturn: 10,
+			myInvestorTER: 0.05
+		};
+
+		const results = calculateProviderComparison(params);
+
+		// Should start at 0.599% (0.405% mgmt + 0.194% fixed) for balance < 10k
+		// Should end at 0.579% (0.385% mgmt + 0.194% fixed) for balance >= 10k
+		// Average should be between these values
+		expect(results.indexaCapital.averageFeeRate).toBeGreaterThan(0.579);
+		expect(results.indexaCapital.averageFeeRate).toBeLessThan(0.599);
+		expect(results.indexaCapital.currentFeeRate).toBe(0.579);
+	});
+
+	it('calculates average fee correctly with single month', () => {
+		const params = {
+			initialInvestment: 10000,
+			depositAmount: 0,
+			depositFrequency: 'monthly' as const,
+			timePeriodYears: 1/12,
+			expectedReturn: 0,
+			myInvestorTER: 0.05
+		};
+
+		const results = calculateProviderComparison(params);
+
+		// With one month, average should equal current
+		expect(results.indexaCapital.averageFeeRate).toBe(results.indexaCapital.currentFeeRate);
+	});
 });
