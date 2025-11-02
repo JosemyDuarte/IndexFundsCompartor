@@ -15,7 +15,7 @@
 		<!-- IndexaCapital Card -->
 		<div
 			class="p-4 bg-neu-base rounded-xl
-			{winner === 'indexa' ? 'shadow-neu-inset' : 'shadow-neu-raised-sm'}
+			{winner === 'indexa' ? 'shadow-neu-raised' : 'shadow-neu-raised-sm'}
 			transition-all duration-300"
 		>
 			<div class="flex items-center justify-between mb-3">
@@ -60,7 +60,7 @@
 		<!-- MyInvestor Card -->
 		<div
 			class="p-4 bg-neu-base rounded-xl
-			{winner === 'myinvestor' ? 'shadow-neu-inset' : 'shadow-neu-raised-sm'}
+			{winner === 'myinvestor' ? 'shadow-neu-raised' : 'shadow-neu-raised-sm'}
 			transition-all duration-300"
 		>
 			<div class="flex items-center justify-between mb-3">

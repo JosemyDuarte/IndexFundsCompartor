@@ -34,13 +34,11 @@ describe('BreakdownTable', () => {
 		expect(winnerBadge).toBeTruthy();
 
 		// Find the MyInvestor card (second card in the grid)
-		const cards = container.querySelectorAll('.p-6.bg-white\\/5');
+		const cards = container.querySelectorAll('.p-4.bg-neu-base');
 		const myInvestorCard = cards[1];
 
-		// Check that the winning card has the correct ring styling
-		expect(myInvestorCard.classList.contains('ring-2')).toBe(true);
-		expect(myInvestorCard.classList.contains('ring-revolut-blue')).toBe(true);
-		expect(myInvestorCard.classList.contains('shadow-revolut-glow-blue')).toBe(true);
+		// Check that the winning card has the correct neumorphic raised shadow styling
+		expect(myInvestorCard.classList.contains('shadow-neu-raised')).toBe(true);
 	});
 
 	it('displays all financial metrics', () => {

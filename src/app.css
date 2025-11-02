@@ -3,16 +3,11 @@
 @theme {
 	/* Neumorphism color palette */
 	--color-neu-base: #e0e5ec;
-	--color-neu-light: #ffffff;
 	--color-neu-dark: #a3b1c6;
-	--color-neu-darker: #8899aa;
 	--color-neu-blue: #6b9bd1;
-	--color-neu-blue-dark: #5680b0;
 	--color-neu-purple: #9d7fc7;
 	--color-neu-green: #6ab89f;
 	--color-neu-red: #e88b99;
-	--color-neu-orange: #f0a56d;
-	--color-neu-yellow: #f5d76e;
 	--color-neu-text: #4a5568;
 	--color-neu-text-light: #718096;
 	--color-neu-text-dark: #2d3748;
