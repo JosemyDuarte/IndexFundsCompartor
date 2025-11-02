@@ -15,6 +15,7 @@ export interface MonthlySnapshot {
 	totalDeposited: number;
 	totalFeesPaid: number;
 	totalReturns: number;
+	feeRate: number; // Annual fee rate as percentage
 }
 
 export function calculateMonthlyGrowth(params: MonthlyGrowthParams): MonthlySnapshot[] {
@@ -62,7 +63,8 @@ export function calculateMonthlyGrowth(params: MonthlyGrowthParams): MonthlySnap
 			balance,
 			totalDeposited,
 			totalFeesPaid,
-			totalReturns
+			totalReturns,
+			feeRate: annualFeeRate
 		});
 	}
 

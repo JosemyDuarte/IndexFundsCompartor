@@ -90,7 +90,8 @@ function simulateWithDynamicFees(
 			balance,
 			totalDeposited,
 			totalFeesPaid,
-			totalReturns
+			totalReturns,
+			feeRate: annualFeeRate
 		});
 	}
 

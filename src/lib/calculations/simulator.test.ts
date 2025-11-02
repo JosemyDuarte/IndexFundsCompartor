@@ -57,4 +57,26 @@ describe('calculateProviderComparison', () => {
 		// IndexaCapital should have higher fees
 		expect(result.indexaCapital.totalFeesPaid).toBeGreaterThan(result.myInvestor.totalFeesPaid);
 	});
+
+	it('tracks current fee rate in monthly snapshots', () => {
+		const params = {
+			initialInvestment: 1000,
+			depositAmount: 100,
+			depositFrequency: 'monthly' as const,
+			timePeriodYears: 1,
+			expectedReturn: 7,
+			myInvestorTER: 0.05
+		};
+
+		const results = calculateProviderComparison(params);
+
+		// Every snapshot should have a feeRate
+		expect(results.indexaCapital.monthlySnapshots[0].feeRate).toBeDefined();
+		expect(results.myInvestor.monthlySnapshots[0].feeRate).toBeDefined();
+
+		// MyInvestor should have constant fee rate
+		const myInvestorFees = results.myInvestor.monthlySnapshots.map(s => s.feeRate);
+		expect(new Set(myInvestorFees).size).toBe(1);
+		expect(myInvestorFees[0]).toBe(0.35); // 0.3 management + 0.05 TER
+	});
 });
