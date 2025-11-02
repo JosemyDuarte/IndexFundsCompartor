@@ -54,4 +54,38 @@ describe('BreakdownTable', () => {
 		expect(screen.getAllByText('Total Fees').length).toBe(2);
 		expect(screen.getAllByText('Final Balance').length).toBe(2);
 	});
+
+	it('displays fee information for both providers', () => {
+		const indexaWithFees = {
+			...indexaCapital,
+			averageFeeRate: 0.405,
+			currentFeeRate: 0.385
+		};
+
+		const myInvestorWithFees = {
+			...myInvestor,
+			averageFeeRate: 0.35,
+			currentFeeRate: 0.35
+		};
+
+		render(BreakdownTable, {
+			props: {
+				indexaCapital: indexaWithFees,
+				myInvestor: myInvestorWithFees
+			}
+		});
+
+		// Check IndexaCapital shows average fee
+		expect(screen.getByText('Average Fee Rate')).toBeTruthy();
+		expect(screen.getByText('0.405%')).toBeTruthy();
+
+		// Check IndexaCapital shows current fee
+		expect(screen.getByText('Current Fee Rate')).toBeTruthy();
+		expect(screen.getByText('0.385%')).toBeTruthy();
+
+		// Check MyInvestor shows fee rate (exact match to avoid matching IndexaCapital's labels)
+		const feeRateLabels = screen.getAllByText(/^Fee Rate$/);
+		expect(feeRateLabels.length).toBe(1); // Only MyInvestor should have this exact label
+		expect(screen.getByText('0.35%')).toBeTruthy();
+	});
 });

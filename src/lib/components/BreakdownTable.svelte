@@ -5,7 +5,8 @@
 	export let indexaCapital: ProviderResult;
 	export let myInvestor: ProviderResult;
 
-	$: winner = indexaCapital.finalBalance > myInvestor.finalBalance ? 'indexa' : 'myinvestor';
+	$: winner =
+		myInvestor.finalBalance > indexaCapital.finalBalance ? 'myinvestor' : 'indexa';
 	$: difference = Math.abs(indexaCapital.finalBalance - myInvestor.finalBalance);
 </script>
 
@@ -44,6 +45,18 @@
 					<span class="text-xs text-neu-text-light">Total Fees</span>
 					<span class="text-xs font-medium text-neu-red"
 						>{formatCurrency(indexaCapital.totalFeesPaid)}</span
+					>
+				</div>
+				<div class="flex justify-between items-center">
+					<span class="text-xs text-neu-text-light">Average Fee Rate</span>
+					<span class="text-xs font-medium text-neu-text"
+						>{indexaCapital.averageFeeRate.toFixed(3)}%</span
+					>
+				</div>
+				<div class="flex justify-between items-center">
+					<span class="text-xs text-neu-text-light">Current Fee Rate</span>
+					<span class="text-xs font-medium text-neu-text"
+						>{indexaCapital.currentFeeRate.toFixed(3)}%</span
 					>
 				</div>
 				<div class="pt-2 border-t border-neu-dark/20">
@@ -89,6 +102,12 @@
 					<span class="text-xs text-neu-text-light">Total Fees</span>
 					<span class="text-xs font-medium text-neu-red"
 						>{formatCurrency(myInvestor.totalFeesPaid)}</span
+					>
+				</div>
+				<div class="flex justify-between items-center">
+					<span class="text-xs text-neu-text-light">Fee Rate</span>
+					<span class="text-xs font-medium text-neu-text"
+						>{myInvestor.currentFeeRate.toFixed(2)}%</span
 					>
 				</div>
 				<div class="pt-2 border-t border-neu-dark/20">
