@@ -14,40 +14,40 @@
 	$: returnPercentage = totalInvested > 0 ? ((totalReturns / totalInvested) * 100).toFixed(2) : '0.00';
 </script>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
 	<!-- Winner Card -->
-	<div class="p-4 bg-gradient-blue rounded-xl shadow-revolut-glow-blue">
-		<div class="flex items-center gap-2 mb-2">
-			<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+	<div class="p-3.5 bg-gradient-blue rounded-xl shadow-neu-raised-sm">
+		<div class="flex items-center gap-1.5 mb-1.5">
+			<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
 			</svg>
-			<span class="text-sm font-medium text-white/80">Winner</span>
+			<span class="text-xs font-medium text-white/90">Winner</span>
 		</div>
-		<div class="text-2xl font-bold text-white mb-1">{winner}</div>
-		<div class="text-sm text-white/80">Ahead by {formatCurrency(difference)}</div>
+		<div class="text-xl font-bold text-white mb-0.5">{winner}</div>
+		<div class="text-xs text-white/80">Ahead by {formatCurrency(difference)}</div>
 	</div>
 
 	<!-- Final Balance Card -->
-	<div class="p-4 bg-white/5 border border-white/10 rounded-xl">
-		<div class="flex items-center gap-2 mb-2">
-			<svg class="w-5 h-5 text-revolut-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+	<div class="p-3.5 bg-neu-base rounded-xl shadow-neu-raised-sm">
+		<div class="flex items-center gap-1.5 mb-1.5">
+			<svg class="w-4 h-4 text-neu-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
 			</svg>
-			<span class="text-sm font-medium text-gray-400">Best Final Balance</span>
+			<span class="text-xs font-medium text-neu-text-light">Best Final Balance</span>
 		</div>
-		<div class="text-2xl font-bold text-white mb-1">{formatCurrency(bestFinalBalance)}</div>
-		<div class="text-sm text-gray-400">Total portfolio value</div>
+		<div class="text-xl font-bold text-neu-text-dark mb-0.5">{formatCurrency(bestFinalBalance)}</div>
+		<div class="text-xs text-neu-text-light">Total portfolio value</div>
 	</div>
 
 	<!-- Returns Card -->
-	<div class="p-4 bg-white/5 border border-white/10 rounded-xl">
-		<div class="flex items-center gap-2 mb-2">
-			<svg class="w-5 h-5 text-revolut-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+	<div class="p-3.5 bg-neu-base rounded-xl shadow-neu-raised-sm">
+		<div class="flex items-center gap-1.5 mb-1.5">
+			<svg class="w-4 h-4 text-neu-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
 			</svg>
-			<span class="text-sm font-medium text-gray-400">Winner's Returns</span>
+			<span class="text-xs font-medium text-neu-text-light">Winner's Returns</span>
 		</div>
-		<div class="text-2xl font-bold text-revolut-green mb-1">{formatCurrency(totalReturns)}</div>
-		<div class="text-sm text-gray-400">+{returnPercentage}% gain</div>
+		<div class="text-xl font-bold text-neu-green mb-0.5">{formatCurrency(totalReturns)}</div>
+		<div class="text-xs text-neu-text-light">+{returnPercentage}% gain</div>
 	</div>
 </div>

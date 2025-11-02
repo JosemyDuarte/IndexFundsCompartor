@@ -35,11 +35,11 @@
 </script>
 
 <div>
-	<label for={id} class="block text-sm font-medium text-gray-200 mb-2">
+	<label for={id} class="block text-xs font-medium text-neu-text-dark mb-1.5">
 		{label}
 	</label>
 	<div class="relative">
-		<span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">€</span>
+		<span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-neu-text-light">€</span>
 		<input
 			{id}
 			type="text"
@@ -48,9 +48,9 @@
 			on:input={handleInput}
 			on:focus={handleFocus}
 			on:blur={handleBlur}
-			class="w-full pl-8 pr-3 py-3 bg-white/5 border border-white/10 rounded-xl
-				text-white placeholder-gray-500
-				focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+			class="w-full pl-8 pr-3 py-2.5 bg-neu-base shadow-neu-inset rounded-lg text-sm
+				text-neu-text placeholder-neu-text-light
+				focus:outline-none focus:shadow-neu-inset-sm
 				transition-all duration-200"
 			{min}
 			{step}

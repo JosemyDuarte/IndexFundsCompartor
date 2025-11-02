@@ -9,47 +9,47 @@
 	$: difference = Math.abs(indexaCapital.finalBalance - myInvestor.finalBalance);
 </script>
 
-<div class="space-y-4">
+<div class="space-y-3">
 	<!-- Comparison Cards -->
-	<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
 		<!-- IndexaCapital Card -->
 		<div
-			class="p-6 bg-white/5 border border-white/10 rounded-xl
-			{winner === 'indexa' ? 'ring-2 ring-revolut-purple shadow-revolut-glow-purple' : ''}
+			class="p-4 bg-neu-base rounded-xl
+			{winner === 'indexa' ? 'shadow-neu-inset' : 'shadow-neu-raised-sm'}
 			transition-all duration-300"
 		>
-			<div class="flex items-center justify-between mb-4">
-				<h3 class="text-lg font-semibold text-white">IndexaCapital</h3>
+			<div class="flex items-center justify-between mb-3">
+				<h3 class="text-sm font-semibold text-neu-text-dark">IndexaCapital</h3>
 				{#if winner === 'indexa'}
-					<span class="px-3 py-1 bg-revolut-purple text-white text-xs font-medium rounded-full">
+					<span class="px-2 py-0.5 bg-neu-purple text-white text-xs font-medium rounded-full shadow-neu-raised-sm">
 						Winner
 					</span>
 				{/if}
 			</div>
 
-			<div class="space-y-3">
+			<div class="space-y-2">
 				<div class="flex justify-between items-center">
-					<span class="text-sm text-gray-400">Total Invested</span>
-					<span class="text-sm font-medium text-white"
+					<span class="text-xs text-neu-text-light">Total Invested</span>
+					<span class="text-xs font-medium text-neu-text-dark"
 						>{formatCurrency(indexaCapital.totalInvested)}</span
 					>
 				</div>
 				<div class="flex justify-between items-center">
-					<span class="text-sm text-gray-400">Total Returns</span>
-					<span class="text-sm font-medium text-revolut-green"
+					<span class="text-xs text-neu-text-light">Total Returns</span>
+					<span class="text-xs font-medium text-neu-green"
 						>{formatCurrency(indexaCapital.totalReturns)}</span
 					>
 				</div>
 				<div class="flex justify-between items-center">
-					<span class="text-sm text-gray-400">Total Fees</span>
-					<span class="text-sm font-medium text-revolut-red"
+					<span class="text-xs text-neu-text-light">Total Fees</span>
+					<span class="text-xs font-medium text-neu-red"
 						>{formatCurrency(indexaCapital.totalFeesPaid)}</span
 					>
 				</div>
-				<div class="pt-3 border-t border-white/10">
+				<div class="pt-2 border-t border-neu-dark/20">
 					<div class="flex justify-between items-center">
-						<span class="text-base font-semibold text-white">Final Balance</span>
-						<span class="text-lg font-bold text-white"
+						<span class="text-xs font-semibold text-neu-text-dark">Final Balance</span>
+						<span class="text-sm font-bold text-neu-text-dark"
 							>{formatCurrency(indexaCapital.finalBalance)}</span
 						>
 					</div>
@@ -59,42 +59,42 @@
 
 		<!-- MyInvestor Card -->
 		<div
-			class="p-6 bg-white/5 border border-white/10 rounded-xl
-			{winner === 'myinvestor' ? 'ring-2 ring-revolut-blue shadow-revolut-glow-blue' : ''}
+			class="p-4 bg-neu-base rounded-xl
+			{winner === 'myinvestor' ? 'shadow-neu-inset' : 'shadow-neu-raised-sm'}
 			transition-all duration-300"
 		>
-			<div class="flex items-center justify-between mb-4">
-				<h3 class="text-lg font-semibold text-white">MyInvestor</h3>
+			<div class="flex items-center justify-between mb-3">
+				<h3 class="text-sm font-semibold text-neu-text-dark">MyInvestor</h3>
 				{#if winner === 'myinvestor'}
-					<span class="px-3 py-1 bg-revolut-blue text-white text-xs font-medium rounded-full">
+					<span class="px-2 py-0.5 bg-neu-blue text-white text-xs font-medium rounded-full shadow-neu-raised-sm">
 						Winner
 					</span>
 				{/if}
 			</div>
 
-			<div class="space-y-3">
+			<div class="space-y-2">
 				<div class="flex justify-between items-center">
-					<span class="text-sm text-gray-400">Total Invested</span>
-					<span class="text-sm font-medium text-white"
+					<span class="text-xs text-neu-text-light">Total Invested</span>
+					<span class="text-xs font-medium text-neu-text-dark"
 						>{formatCurrency(myInvestor.totalInvested)}</span
 					>
 				</div>
 				<div class="flex justify-between items-center">
-					<span class="text-sm text-gray-400">Total Returns</span>
-					<span class="text-sm font-medium text-revolut-green"
+					<span class="text-xs text-neu-text-light">Total Returns</span>
+					<span class="text-xs font-medium text-neu-green"
 						>{formatCurrency(myInvestor.totalReturns)}</span
 					>
 				</div>
 				<div class="flex justify-between items-center">
-					<span class="text-sm text-gray-400">Total Fees</span>
-					<span class="text-sm font-medium text-revolut-red"
+					<span class="text-xs text-neu-text-light">Total Fees</span>
+					<span class="text-xs font-medium text-neu-red"
 						>{formatCurrency(myInvestor.totalFeesPaid)}</span
 					>
 				</div>
-				<div class="pt-3 border-t border-white/10">
+				<div class="pt-2 border-t border-neu-dark/20">
 					<div class="flex justify-between items-center">
-						<span class="text-base font-semibold text-white">Final Balance</span>
-						<span class="text-lg font-bold text-white"
+						<span class="text-xs font-semibold text-neu-text-dark">Final Balance</span>
+						<span class="text-sm font-bold text-neu-text-dark"
 							>{formatCurrency(myInvestor.finalBalance)}</span
 						>
 					</div>

@@ -37,13 +37,13 @@
 
 <div class="min-h-screen">
 	<!-- Header -->
-	<header class="border-b border-white/10 bg-revolut-card/50 backdrop-blur-sm sticky top-0 z-10">
-		<div class="container mx-auto px-4 py-6">
+	<header class="bg-neu-base sticky top-0 z-10 shadow-neu-raised-sm">
+		<div class="container mx-auto px-4 py-4">
 			<div class="flex items-center gap-3">
 				<div
-					class="w-10 h-10 bg-gradient-blue rounded-xl flex items-center justify-center shadow-revolut-glow-blue"
+					class="w-8 h-8 bg-gradient-blue rounded-lg flex items-center justify-center shadow-neu-raised-sm"
 				>
-					<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path
 							stroke-linecap="round"
 							stroke-linejoin="round"
@@ -53,23 +53,23 @@
 					</svg>
 				</div>
 				<div>
-					<h1 class="text-2xl font-bold text-white">IndexFunds Comparison</h1>
-					<p class="text-sm text-gray-400">MyInvestor vs IndexaCapital</p>
+					<h1 class="text-xl font-bold text-neu-text-dark">IndexFunds Comparison</h1>
+					<p class="text-xs text-neu-text-light">MyInvestor vs IndexaCapital</p>
 				</div>
 			</div>
 		</div>
 	</header>
 
 	<!-- Main Content -->
-	<div class="container mx-auto px-4 py-8">
-		<div class="grid grid-cols-1 gap-6 lg:grid-cols-12 xl:grid-cols-3">
+	<div class="container mx-auto px-4 py-6 max-w-7xl">
+		<div class="grid grid-cols-1 gap-5 lg:grid-cols-12">
 			<!-- Sidebar - Form -->
-			<aside class="lg:col-span-4 xl:col-span-1">
-				<div class="sticky top-24">
-					<div class="p-6 bg-revolut-card border border-white/10 rounded-2xl shadow-revolut-card">
-						<div class="mb-6">
-							<h2 class="text-lg font-semibold text-white mb-1">Simulation Parameters</h2>
-							<p class="text-sm text-gray-400">Adjust values to compare returns</p>
+			<aside class="lg:col-span-4">
+				<div class="sticky top-20">
+					<div class="p-5 bg-neu-base rounded-2xl shadow-neu-raised">
+						<div class="mb-5">
+							<h2 class="text-base font-semibold text-neu-text-dark mb-1">Simulation Parameters</h2>
+							<p class="text-xs text-neu-text-light">Adjust values to compare returns</p>
 						</div>
 						<SimulatorForm />
 					</div>
@@ -77,11 +77,11 @@
 			</aside>
 
 			<!-- Main Content - Results -->
-			<main class="lg:col-span-8 xl:col-span-2">
-				<div class="space-y-6">
+			<main class="lg:col-span-8">
+				<div class="space-y-5">
 					<!-- Summary Metrics Card -->
 					<div
-						class="p-6 bg-revolut-card border border-white/10 rounded-2xl shadow-revolut-card animate-slide-up"
+						class="p-5 bg-neu-base rounded-2xl shadow-neu-raised animate-slide-up"
 					>
 						<SummaryMetrics
 							indexaCapital={$simulationResults.indexaCapital}
@@ -91,12 +91,12 @@
 
 					<!-- Chart Card -->
 					<div
-						class="p-6 bg-revolut-card border border-white/10 rounded-2xl shadow-revolut-card animate-slide-up"
+						class="p-5 bg-neu-base rounded-2xl shadow-neu-raised animate-slide-up"
 						style="animation-delay: 0.1s;"
 					>
-						<div class="mb-6">
-							<h2 class="text-lg font-semibold text-white mb-1">Portfolio Growth Over Time</h2>
-							<p class="text-sm text-gray-400">Compare projected returns over investment period</p>
+						<div class="mb-4">
+							<h2 class="text-base font-semibold text-neu-text-dark mb-1">Portfolio Growth Over Time</h2>
+							<p class="text-xs text-neu-text-light">Compare projected returns over investment period</p>
 						</div>
 						<ComparisonChart
 							indexaSnapshots={$simulationResults.indexaCapital.monthlySnapshots}
@@ -106,12 +106,12 @@
 
 					<!-- Breakdown Card -->
 					<div
-						class="p-6 bg-revolut-card border border-white/10 rounded-2xl shadow-revolut-card animate-slide-up"
+						class="p-5 bg-neu-base rounded-2xl shadow-neu-raised animate-slide-up"
 						style="animation-delay: 0.2s;"
 					>
-						<div class="mb-6">
-							<h2 class="text-lg font-semibold text-white mb-1">Financial Breakdown</h2>
-							<p class="text-sm text-gray-400">Detailed comparison of costs and returns</p>
+						<div class="mb-4">
+							<h2 class="text-base font-semibold text-neu-text-dark mb-1">Financial Breakdown</h2>
+							<p class="text-xs text-neu-text-light">Detailed comparison of costs and returns</p>
 						</div>
 						<BreakdownTable
 							indexaCapital={$simulationResults.indexaCapital}
@@ -124,11 +124,11 @@
 	</div>
 
 	<!-- Footer -->
-	<footer class="mt-16 border-t border-white/10 bg-revolut-card/30 backdrop-blur-sm">
-		<div class="container mx-auto px-4 py-8">
-			<div class="text-center text-sm text-gray-400">
+	<footer class="mt-12 bg-neu-base shadow-neu-raised-sm">
+		<div class="container mx-auto px-4 py-6">
+			<div class="text-center text-xs text-neu-text-light">
 				<p>Built with SvelteKit, TypeScript, and Tailwind CSS</p>
-				<p class="mt-2">Investment calculations are for comparison purposes only</p>
+				<p class="mt-1">Investment calculations are for comparison purposes only</p>
 			</div>
 		</div>
 	</footer>

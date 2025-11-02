@@ -28,5 +28,5 @@ export function parseCurrencyInput(value: string): number {
 	const cleaned = value.replace(/\./g, '');
 	const parsed = parseInt(cleaned, 10);
 
-	return isNaN(parsed) ? 0 : (Object.is(parsed, -0) ? 0 : parsed);
+	return isNaN(parsed) ? 0 : Object.is(parsed, -0) ? 0 : parsed;
 }

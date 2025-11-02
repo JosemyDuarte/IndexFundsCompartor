@@ -38,30 +38,30 @@
 					{
 						label: 'IndexaCapital',
 						data: indexaSnapshots.map((s) => s.balance),
-						borderColor: '#8B3DFF',
-						backgroundColor: 'rgba(139, 61, 255, 0.15)',
-						borderWidth: 4,
+						borderColor: '#9d7fc7',
+						backgroundColor: 'rgba(157, 127, 199, 0.2)',
+						borderWidth: 3,
 						tension: 0.4,
 						fill: true,
 						pointRadius: 0,
-						pointHoverRadius: 8,
-						pointHoverBackgroundColor: '#8B3DFF',
+						pointHoverRadius: 6,
+						pointHoverBackgroundColor: '#9d7fc7',
 						pointHoverBorderColor: '#fff',
-						pointHoverBorderWidth: 3
+						pointHoverBorderWidth: 2
 					},
 					{
 						label: 'MyInvestor',
 						data: myInvestorSnapshots.map((s) => s.balance),
-						borderColor: '#0075FF',
-						backgroundColor: 'rgba(0, 117, 255, 0.15)',
-						borderWidth: 4,
+						borderColor: '#6b9bd1',
+						backgroundColor: 'rgba(107, 155, 209, 0.2)',
+						borderWidth: 3,
 						tension: 0.4,
 						fill: true,
 						pointRadius: 0,
-						pointHoverRadius: 8,
-						pointHoverBackgroundColor: '#0075FF',
+						pointHoverRadius: 6,
+						pointHoverBackgroundColor: '#6b9bd1',
 						pointHoverBorderColor: '#fff',
-						pointHoverBorderWidth: 3
+						pointHoverBorderWidth: 2
 					}
 				]
 			},
@@ -76,23 +76,23 @@
 					legend: {
 						position: 'top',
 						labels: {
-							color: '#E5E7EB',
+							color: '#4a5568',
 							font: {
-								size: 13,
+								size: 12,
 								weight: '500'
 							},
-							padding: 15,
+							padding: 12,
 							usePointStyle: true,
 							pointStyle: 'circle'
 						}
 					},
 					tooltip: {
-						backgroundColor: 'rgba(26, 29, 41, 0.95)',
-						titleColor: '#E5E7EB',
-						bodyColor: '#E5E7EB',
-						borderColor: 'rgba(255, 255, 255, 0.1)',
+						backgroundColor: 'rgba(224, 229, 236, 0.98)',
+						titleColor: '#2d3748',
+						bodyColor: '#4a5568',
+						borderColor: '#a3b1c6',
 						borderWidth: 1,
-						padding: 12,
+						padding: 10,
 						displayColors: true,
 						callbacks: {
 							label: function (context) {
@@ -121,9 +121,9 @@
 								return '';
 							}
 						},
-						footerColor: '#9CA3AF',
+						footerColor: '#718096',
 						footerFont: {
-							size: 11,
+							size: 10,
 							weight: 'normal'
 						}
 					}
@@ -133,42 +133,42 @@
 						title: {
 							display: true,
 							text: 'Month',
-							color: '#9CA3AF',
+							color: '#718096',
 							font: {
-								size: 14,
-								weight: '600'
+								size: 12,
+								weight: '500'
 							}
 						},
 						grid: {
-							color: 'rgba(255, 255, 255, 0.05)',
+							color: 'rgba(163, 177, 198, 0.15)',
 							drawBorder: false
 						},
 						ticks: {
-							color: '#9CA3AF',
+							color: '#718096',
 							font: {
-								size: 12
+								size: 11
 							},
-							maxTicksLimit: 12
+							maxTicksLimit: 10
 						}
 					},
 					y: {
 						title: {
 							display: true,
 							text: 'Portfolio Value',
-							color: '#9CA3AF',
+							color: '#718096',
 							font: {
-								size: 14,
-								weight: '600'
+								size: 12,
+								weight: '500'
 							}
 						},
 						grid: {
-							color: 'rgba(255, 255, 255, 0.08)',
+							color: 'rgba(163, 177, 198, 0.2)',
 							drawBorder: false
 						},
 						ticks: {
-							color: '#9CA3AF',
+							color: '#718096',
 							font: {
-								size: 12
+								size: 11
 							},
 							callback: function (value) {
 								return new Intl.NumberFormat('es-ES', {
@@ -195,10 +195,10 @@
 	}
 </script>
 
-<div class="relative h-[500px] md:h-[600px] lg:h-[700px] w-full">
+<div class="relative h-[280px] md:h-[320px] lg:h-[360px] w-full">
 	{#if loading}
-		<div class="absolute inset-0 flex items-center justify-center bg-white/5 rounded-xl animate-pulse">
-			<div class="text-gray-400">Loading chart...</div>
+		<div class="absolute inset-0 flex items-center justify-center bg-neu-base/50 rounded-xl animate-pulse">
+			<div class="text-neu-text-light">Loading chart...</div>
 		</div>
 	{/if}
 	<canvas bind:this={canvas} class:opacity-0={loading}></canvas>

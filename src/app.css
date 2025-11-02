@@ -1,17 +1,58 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+	/* Neumorphism color palette */
+	--color-neu-base: #e0e5ec;
+	--color-neu-light: #ffffff;
+	--color-neu-dark: #a3b1c6;
+	--color-neu-darker: #8899aa;
+	--color-neu-blue: #6b9bd1;
+	--color-neu-blue-dark: #5680b0;
+	--color-neu-purple: #9d7fc7;
+	--color-neu-green: #6ab89f;
+	--color-neu-red: #e88b99;
+	--color-neu-orange: #f0a56d;
+	--color-neu-yellow: #f5d76e;
+	--color-neu-text: #4a5568;
+	--color-neu-text-light: #718096;
+	--color-neu-text-dark: #2d3748;
+
+	/* Neumorphism box shadows */
+	--shadow-neu-raised: 8px 8px 16px #a3b1c6, -8px -8px 16px #ffffff;
+	--shadow-neu-raised-sm: 4px 4px 8px #a3b1c6, -4px -4px 8px #ffffff;
+	--shadow-neu-raised-lg: 12px 12px 24px #a3b1c6, -12px -12px 24px #ffffff;
+	--shadow-neu-inset: inset 4px 4px 8px #a3b1c6, inset -4px -4px 8px #ffffff;
+	--shadow-neu-inset-sm: inset 2px 2px 4px #a3b1c6, inset -2px -2px 4px #ffffff;
+	--shadow-neu-flat: 4px 4px 8px #a3b1c6;
+	--shadow-neu-hover: 6px 6px 12px #a3b1c6, -6px -6px 12px #ffffff;
+}
 
 @layer base {
 	body {
-		background-color: #0C0E16;
-		background-image: linear-gradient(135deg, #0C0E16 0%, #05060A 100%);
-		color: white;
+		background-color: #e0e5ec;
+		background-image: linear-gradient(135deg, #e0e5ec 0%, #d1d9e6 100%);
+		color: #4a5568;
 		min-height: 100vh;
 	}
 }
 
 @layer utilities {
+	.bg-gradient-blue {
+		background-image: linear-gradient(135deg, #6b9bd1 0%, #5680b0 100%);
+	}
+
+	.bg-gradient-purple {
+		background-image: linear-gradient(135deg, #9d7fc7 0%, #8265b0 100%);
+	}
+
+	.bg-gradient-neu {
+		background-image: linear-gradient(135deg, #e0e5ec 0%, #d1d9e6 100%);
+	}
+
+	.bg-gradient-neu-light {
+		background-image: linear-gradient(135deg, #ffffff 0%, #e0e5ec 100%);
+	}
+
 	.animate-fade-in {
 		animation: fadeIn 0.5s ease-in-out;
 	}
