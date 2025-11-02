@@ -5,9 +5,9 @@ import type { MonthlySnapshot } from '$lib/calculations/compounding';
 
 describe('ComparisonChart', () => {
 	const mockSnapshots: MonthlySnapshot[] = [
-		{ month: 1, balance: 1000, totalDeposited: 1000, totalFeesPaid: 0, totalReturns: 0 },
-		{ month: 2, balance: 1050, totalDeposited: 1000, totalFeesPaid: 5, totalReturns: 55 },
-		{ month: 3, balance: 1100, totalDeposited: 1000, totalFeesPaid: 10, totalReturns: 110 }
+		{ month: 1, balance: 1000, totalDeposited: 1000, totalFeesPaid: 0, totalReturns: 0, feeRate: 0.35 },
+		{ month: 2, balance: 1050, totalDeposited: 1000, totalFeesPaid: 5, totalReturns: 55, feeRate: 0.35 },
+		{ month: 3, balance: 1100, totalDeposited: 1000, totalFeesPaid: 10, totalReturns: 110, feeRate: 0.35 }
 	];
 
 	it('should render canvas element', () => {
