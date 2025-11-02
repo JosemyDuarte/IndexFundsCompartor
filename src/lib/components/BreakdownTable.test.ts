@@ -8,7 +8,9 @@ describe('BreakdownTable', () => {
 		totalFeesPaid: 500,
 		totalReturns: 5000,
 		finalBalance: 29500,
-		monthlySnapshots: []
+		monthlySnapshots: [],
+		averageFeeRate: 0.35,
+		currentFeeRate: 0.35
 	};
 
 	const myInvestor = {
@@ -16,7 +18,9 @@ describe('BreakdownTable', () => {
 		totalFeesPaid: 400,
 		totalReturns: 5000,
 		finalBalance: 29600,
-		monthlySnapshots: []
+		monthlySnapshots: [],
+		averageFeeRate: 0.35,
+		currentFeeRate: 0.35
 	};
 
 	it('renders both providers', () => {

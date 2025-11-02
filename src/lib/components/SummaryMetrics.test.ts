@@ -10,7 +10,9 @@ describe('SummaryMetrics', () => {
 			totalReturns: 2000,
 			totalFeesPaid: 100,
 			finalBalance: 11900,
-			monthlySnapshots: []
+			monthlySnapshots: [],
+			averageFeeRate: 0.35,
+			currentFeeRate: 0.35
 		};
 
 		const myInvestor = {
@@ -18,7 +20,9 @@ describe('SummaryMetrics', () => {
 			totalReturns: 1800,
 			totalFeesPaid: 150,
 			finalBalance: 11650,
-			monthlySnapshots: []
+			monthlySnapshots: [],
+			averageFeeRate: 0.35,
+			currentFeeRate: 0.35
 		};
 
 		render(SummaryMetrics, {
@@ -35,7 +39,9 @@ describe('SummaryMetrics', () => {
 			totalReturns: 2000,
 			totalFeesPaid: 100,
 			finalBalance: 11900,
-			monthlySnapshots: []
+			monthlySnapshots: [],
+			averageFeeRate: 0.35,
+			currentFeeRate: 0.35
 		};
 
 		const myInvestor = {
@@ -43,7 +49,9 @@ describe('SummaryMetrics', () => {
 			totalReturns: 1800,
 			totalFeesPaid: 150,
 			finalBalance: 11650,
-			monthlySnapshots: []
+			monthlySnapshots: [],
+			averageFeeRate: 0.35,
+			currentFeeRate: 0.35
 		};
 
 		render(SummaryMetrics, {
@@ -61,7 +69,9 @@ describe('SummaryMetrics', () => {
 			totalReturns: 2000,
 			totalFeesPaid: 100,
 			finalBalance: 11900,
-			monthlySnapshots: []
+			monthlySnapshots: [],
+			averageFeeRate: 0.35,
+			currentFeeRate: 0.35
 		};
 
 		const myInvestor = {
@@ -69,7 +79,9 @@ describe('SummaryMetrics', () => {
 			totalReturns: 1800,
 			totalFeesPaid: 150,
 			finalBalance: 11650,
-			monthlySnapshots: []
+			monthlySnapshots: [],
+			averageFeeRate: 0.35,
+			currentFeeRate: 0.35
 		};
 
 		render(SummaryMetrics, {
@@ -87,7 +99,9 @@ describe('SummaryMetrics', () => {
 			totalReturns: 1800,
 			totalFeesPaid: 150,
 			finalBalance: 11650,
-			monthlySnapshots: []
+			monthlySnapshots: [],
+			averageFeeRate: 0.35,
+			currentFeeRate: 0.35
 		};
 
 		const myInvestor = {
@@ -95,7 +109,9 @@ describe('SummaryMetrics', () => {
 			totalReturns: 2000,
 			totalFeesPaid: 100,
 			finalBalance: 11900,
-			monthlySnapshots: []
+			monthlySnapshots: [],
+			averageFeeRate: 0.35,
+			currentFeeRate: 0.35
 		};
 
 		render(SummaryMetrics, {
@@ -114,7 +130,9 @@ describe('SummaryMetrics', () => {
 			totalReturns: 2000,
 			totalFeesPaid: 100,
 			finalBalance: 12000,
-			monthlySnapshots: []
+			monthlySnapshots: [],
+			averageFeeRate: 0.35,
+			currentFeeRate: 0.35
 		};
 
 		const myInvestor = {
@@ -122,7 +140,9 @@ describe('SummaryMetrics', () => {
 			totalReturns: 2000,
 			totalFeesPaid: 100,
 			finalBalance: 12000,
-			monthlySnapshots: []
+			monthlySnapshots: [],
+			averageFeeRate: 0.35,
+			currentFeeRate: 0.35
 		};
 
 		render(SummaryMetrics, {
@@ -142,7 +162,9 @@ describe('SummaryMetrics', () => {
 			totalReturns: 0,
 			totalFeesPaid: 0,
 			finalBalance: 0,
-			monthlySnapshots: []
+			monthlySnapshots: [],
+			averageFeeRate: 0.35,
+			currentFeeRate: 0.35
 		};
 
 		const myInvestor = {
@@ -150,7 +172,9 @@ describe('SummaryMetrics', () => {
 			totalReturns: 0,
 			totalFeesPaid: 0,
 			finalBalance: 0,
-			monthlySnapshots: []
+			monthlySnapshots: [],
+			averageFeeRate: 0.35,
+			currentFeeRate: 0.35
 		};
 
 		render(SummaryMetrics, {
@@ -169,7 +193,9 @@ describe('SummaryMetrics', () => {
 			totalReturns: 1500,
 			totalFeesPaid: 50,
 			finalBalance: 6450,
-			monthlySnapshots: []
+			monthlySnapshots: [],
+			averageFeeRate: 0.35,
+			currentFeeRate: 0.35
 		};
 
 		const myInvestor = {
@@ -177,7 +203,9 @@ describe('SummaryMetrics', () => {
 			totalReturns: 1200,
 			totalFeesPaid: 80,
 			finalBalance: 6120,
-			monthlySnapshots: []
+			monthlySnapshots: [],
+			averageFeeRate: 0.35,
+			currentFeeRate: 0.35
 		};
 
 		render(SummaryMetrics, {

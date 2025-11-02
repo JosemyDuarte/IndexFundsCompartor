@@ -107,4 +107,24 @@ describe('calculateProviderComparison', () => {
 			}
 		});
 	});
+
+	it('calculates average fee for IndexaCapital', () => {
+		const params = {
+			initialInvestment: 5000,
+			depositAmount: 200,
+			depositFrequency: 'monthly' as const,
+			timePeriodYears: 3,
+			expectedReturn: 8,
+			myInvestorTER: 0.05
+		};
+
+		const results = calculateProviderComparison(params);
+
+		// IndexaCapital should have averageFeeRate
+		expect(results.indexaCapital.averageFeeRate).toBeDefined();
+		expect(results.indexaCapital.averageFeeRate).toBeGreaterThan(0);
+
+		// MyInvestor should also have averageFeeRate (same as feeRate since it's constant)
+		expect(results.myInvestor.averageFeeRate).toBe(0.35);
+	});
 });
