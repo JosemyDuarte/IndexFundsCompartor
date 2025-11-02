@@ -16,6 +16,7 @@ export interface MonthlySnapshot {
 	totalFeesPaid: number;
 	totalReturns: number;
 	feeRate: number; // Annual fee rate as percentage
+	bracketChanged?: boolean; // True when fee bracket changes
 }
 
 export function calculateMonthlyGrowth(params: MonthlyGrowthParams): MonthlySnapshot[] {

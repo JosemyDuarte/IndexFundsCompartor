@@ -58,6 +58,7 @@ function simulateWithDynamicFees(
 	let totalDeposited = params.initialInvestment;
 	let totalFeesPaid = 0;
 	let totalReturns = 0;
+	let previousFeeRate: number | null = null;
 
 	const monthlyReturnRate = params.expectedReturn / 100 / 12;
 
@@ -85,13 +86,18 @@ function simulateWithDynamicFees(
 		balance -= monthlyFee;
 		totalFeesPaid += monthlyFee;
 
+		// Detect bracket change
+		const bracketChanged = previousFeeRate !== null && annualFeeRate !== previousFeeRate;
+		previousFeeRate = annualFeeRate;
+
 		snapshots.push({
 			month,
 			balance,
 			totalDeposited,
 			totalFeesPaid,
 			totalReturns,
-			feeRate: annualFeeRate
+			feeRate: annualFeeRate,
+			bracketChanged: bracketChanged || undefined
 		});
 	}
 

@@ -79,4 +79,32 @@ describe('calculateProviderComparison', () => {
 		expect(new Set(myInvestorFees).size).toBe(1);
 		expect(myInvestorFees[0]).toBe(0.35); // 0.3 management + 0.05 TER
 	});
+
+	it('detects IndexaCapital fee bracket changes', () => {
+		const params = {
+			initialInvestment: 9000,
+			depositAmount: 500,
+			depositFrequency: 'monthly' as const,
+			timePeriodYears: 2,
+			expectedReturn: 10,
+			myInvestorTER: 0.05
+		};
+
+		const results = calculateProviderComparison(params);
+		const indexaSnapshots = results.indexaCapital.monthlySnapshots;
+
+		// Find snapshots where bracket changed
+		const bracketChanges = indexaSnapshots.filter(s => s.bracketChanged);
+
+		// Should have at least one bracket change (9000 -> 10000 threshold)
+		expect(bracketChanges.length).toBeGreaterThan(0);
+
+		// Bracket changes should only happen when balance crosses threshold
+		bracketChanges.forEach(snapshot => {
+			const prevSnapshot = indexaSnapshots[snapshot.month - 2];
+			if (prevSnapshot) {
+				expect(snapshot.feeRate).not.toBe(prevSnapshot.feeRate);
+			}
+		});
+	});
 });
