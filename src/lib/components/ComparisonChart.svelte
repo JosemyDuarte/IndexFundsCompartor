@@ -9,11 +9,14 @@
 	let canvas: HTMLCanvasElement;
 	let chart: Chart | null = null;
 	let loading = true;
+	let bracketChangeMonths: number[] = [];
 
 	// Find months where IndexaCapital bracket changed
-	$: bracketChangeMonths = indexaSnapshots
-		.filter(s => s.bracketChanged)
-		.map(s => s.month);
+	$: {
+		bracketChangeMonths = indexaSnapshots
+			.filter(s => s.bracketChanged)
+			.map(s => s.month);
+	}
 
 	onMount(() => {
 		Chart.register(...registerables);
@@ -84,6 +87,19 @@
 							padding: 10,
 							displayColors: true,
 							callbacks: {
+								title: function(tooltipItems) {
+									if (tooltipItems.length === 0) return '';
+									const monthIndex = tooltipItems[0].dataIndex;
+									const snapshot = indexaSnapshots[monthIndex];
+									const month = snapshot.month;
+									const years = Math.floor(month / 12);
+									const remainingMonths = month % 12;
+
+									if (remainingMonths === 0) {
+										return `Year ${years}`;
+									}
+									return `Year ${years}, Month ${remainingMonths}`;
+								},
 								label: function (context) {
 									const label = context.dataset.label || '';
 									const value = new Intl.NumberFormat('es-ES', {
@@ -130,7 +146,7 @@
 						x: {
 							title: {
 								display: true,
-								text: 'Month',
+								text: 'Years',
 								color: '#718096',
 								font: {
 									size: 12,
@@ -142,13 +158,13 @@
 									// Highlight bracket change months
 									const month = context.index + 1;
 									if (bracketChangeMonths.includes(month)) {
-										return 'rgba(157, 127, 199, 0.4)'; // Purple for bracket changes
+										return 'rgba(157, 127, 199, 1.0)'; // Fully opaque purple
 									}
 									return 'rgba(163, 177, 198, 0.15)';
 								},
 								lineWidth: function(context) {
 									const month = context.index + 1;
-									return bracketChangeMonths.includes(month) ? 2 : 1;
+									return bracketChangeMonths.includes(month) ? 4 : 1; // Even thicker
 								},
 								drawBorder: false
 							},
@@ -157,7 +173,18 @@
 								font: {
 									size: 11
 								},
-								maxTicksLimit: 10
+								maxTicksLimit: 10,
+								callback: function(value, index, ticks) {
+									// value is the month number
+									const month = value;
+									const year = month / 12;
+
+									// Only show labels at year boundaries
+									if (month % 12 === 0) {
+										return Math.floor(year).toString();
+									}
+									return '';
+								}
 							}
 						},
 						y: {
