@@ -35,7 +35,7 @@
 	/>
 </svelte:head>
 
-<div class="min-h-screen">
+<div class="min-h-screen flex flex-col">
 	<!-- Header -->
 	<header class="bg-neu-base sticky top-0 z-10 shadow-neu-raised-sm">
 		<div class="container mx-auto px-4 py-4">
@@ -133,7 +133,7 @@
 	</div>
 
 	<!-- Footer -->
-	<footer class="mt-12 bg-neu-base shadow-neu-raised-sm">
+	<footer class="mt-auto bg-neu-base shadow-neu-raised-sm border-t border-neu-dark/10">
 		<div class="container mx-auto px-4 py-6">
 			<div class="text-center text-xs text-neu-text-light">
 				<p>Built with SvelteKit, TypeScript, and Tailwind CSS</p>
