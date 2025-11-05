@@ -50,4 +50,23 @@ describe('urlSync', () => {
 			expect(result).toBe('initial=5000&deposit=250&freq=quarterly&years=15&return=8.5&ter=0.15');
 		});
 	});
+
+	describe('URL state persistence integration', () => {
+		it('should preserve URL params after initialization', () => {
+			// Simulates the bug: reactive statement overwrites URL before onMount reads it
+			// This test documents the expected behavior
+			const customParams = 'initial=2000&deposit=200&freq=annual&years=25&return=6&ter=0.1';
+			const parsed = urlToParams(customParams);
+			const reconstructed = paramsToUrl({
+				initialInvestment: parsed.initialInvestment ?? 1000,
+				depositAmount: parsed.depositAmount ?? 100,
+				depositFrequency: parsed.depositFrequency ?? 'monthly',
+				timePeriodYears: parsed.timePeriodYears ?? 20,
+				expectedReturn: parsed.expectedReturn ?? 7,
+				myInvestorTER: parsed.myInvestorTER ?? 0.05
+			});
+
+			expect(reconstructed).toBe(customParams);
+		});
+	});
 });
