@@ -30,7 +30,9 @@ The IndexFunds comparison tool now displays detailed fee information and visuali
 - Each MonthlySnapshot tracks current feeRate
 - bracketChanged flag indicates transitions
 
-## IndexaCapital Fee Brackets
+## IndexaCapital Fee Structure
+
+### Management Fees (by balance)
 
 Balance Range | Management Fee
 ---|---
@@ -44,7 +46,29 @@ Balance Range | Management Fee
 €50M - €99.99M | 0.10%
 ≥ €100M | 0.08%
 
-*Plus fixed costs: 0.194% (custody 0.096% + underlying 0.098%)*
+### Custody Fees (by balance)
+
+Balance Range | Custody Fee
+---|---
+< €10,000 | 0.109%
+€10,000 - €99,999 | 0.103%
+€100,000 - €499,999 | 0.097%
+€500,000 - €999,999 | 0.091%
+≥ €1,000,000 | 0.048%
+
+### Fixed Fee
+
+- **Underlying fee:** 0.098%
+
+### Total Fee Calculation
+
+**Total Fee = Management Fee + Custody Fee + Underlying Fee**
+
+Examples:
+- €5,000 balance: 0.405% + 0.109% + 0.098% = **0.612%**
+- €50,000 balance: 0.385% + 0.103% + 0.098% = **0.586%**
+- €250,000 balance: 0.355% + 0.097% + 0.098% = **0.550%**
+- €2,000,000 balance: 0.25% + 0.048% + 0.098% = **0.396%**
 
 ## Implementation Details
 

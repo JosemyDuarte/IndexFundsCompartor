@@ -101,19 +101,19 @@ The app follows a **functional core, reactive shell** pattern:
 
 ### IndexaCapital (Tiered)
 
-| Portfolio Value | Total Annual Fee |
-| --------------- | ---------------- |
-| < €10k          | 0.599%           |
-| €10k - €100k    | 0.579%           |
-| €100k - €500k   | 0.549%           |
-| €500k - €1M     | 0.494%           |
-| €1M - €5M       | 0.444%           |
-| €5M - €10M      | 0.394%           |
-| €10M - €50M     | 0.344%           |
-| €50M - €100M    | 0.294%           |
-| > €100M         | 0.274%           |
+| Portfolio Value | Management Fee | Custody Fee | Total Annual Fee |
+| --------------- | -------------- | ----------- | ---------------- |
+| < €10k          | 0.405%         | 0.109%      | 0.612%           |
+| €10k - €100k    | 0.385%         | 0.103%      | 0.586%           |
+| €100k - €500k   | 0.355%         | 0.097%      | 0.550%           |
+| €500k - €1M     | 0.30%          | 0.091%      | 0.491%           |
+| €1M - €5M       | 0.25%          | 0.048%      | 0.396%           |
+| €5M - €10M      | 0.20%          | 0.048%      | 0.346%           |
+| €10M - €50M     | 0.15%          | 0.048%      | 0.296%           |
+| €50M - €100M    | 0.10%          | 0.048%      | 0.246%           |
+| > €100M         | 0.08%          | 0.048%      | 0.226%           |
 
-_Includes management fee + 0.194% fixed costs (custody + underlying)_
+_Plus fixed underlying fee of 0.098% for all balances_
 
 ### MyInvestor (Fixed)
 
