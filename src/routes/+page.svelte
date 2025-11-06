@@ -1,26 +1,30 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	import { simulationParams } from '$lib/stores/simulationParams';
+	import { createSimulationParamsStore } from '$lib/stores/simulationParams';
 	import { simulationResults } from '$lib/stores/simulationResults';
-	import { paramsToUrl, urlToParams } from '$lib/utils/urlSync';
+	import { paramsToUrl } from '$lib/utils/urlSync';
 	import SimulatorForm from '$lib/components/SimulatorForm.svelte';
 	import ComparisonChart from '$lib/components/ComparisonChart.svelte';
 	import BreakdownTable from '$lib/components/BreakdownTable.svelte';
 	import SummaryMetrics from '$lib/components/SummaryMetrics.svelte';
+	import type { PageData } from './$types';
 
-	// Load params from URL on mount
+	export let data: PageData;
+
+	// Initialize store with URL params from load function
+	const simulationParams = createSimulationParamsStore(data.urlParams);
+
+	// Flag to prevent URL sync until after initial load
+	let isInitialLoad = true;
+
 	onMount(() => {
-		if (browser) {
-			const urlParams = urlToParams(window.location.search.substring(1));
-			if (Object.keys(urlParams).length > 0) {
-				simulationParams.update((current) => ({ ...current, ...urlParams }));
-			}
-		}
+		// Allow URL syncing after component mounts
+		isInitialLoad = false;
 	});
 
-	// Sync params to URL on change
-	$: if (browser && $simulationParams) {
+	// Sync params to URL on change (but not during initial load)
+	$: if (browser && !isInitialLoad && $simulationParams) {
 		const url = paramsToUrl($simulationParams);
 		const newUrl = `${window.location.pathname}?${url}`;
 		window.history.replaceState({}, '', newUrl);
