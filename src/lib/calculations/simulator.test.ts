@@ -140,12 +140,12 @@ describe('calculateProviderComparison', () => {
 
 		const results = calculateProviderComparison(params);
 
-		// Should start at 0.599% (0.405% mgmt + 0.194% fixed) for balance < 10k
-		// Should end at 0.579% (0.385% mgmt + 0.194% fixed) for balance >= 10k
+		// Should start at 0.612% (0.405% mgmt + 0.109% custody + 0.098% underlying) for balance < 10k
+		// Should end at 0.586% (0.385% mgmt + 0.103% custody + 0.098% underlying) for balance >= 10k
 		// Average should be between these values
-		expect(results.indexaCapital.averageFeeRate).toBeGreaterThan(0.579);
-		expect(results.indexaCapital.averageFeeRate).toBeLessThan(0.599);
-		expect(results.indexaCapital.currentFeeRate).toBe(0.579);
+		expect(results.indexaCapital.averageFeeRate).toBeGreaterThan(0.586);
+		expect(results.indexaCapital.averageFeeRate).toBeLessThan(0.612);
+		expect(results.indexaCapital.currentFeeRate).toBe(0.586);
 	});
 
 	it('calculates average fee correctly with single month', () => {
