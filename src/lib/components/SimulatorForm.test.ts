@@ -1,10 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
-import SimulatorForm from './SimulatorForm.svelte';
+import { createSimulationParamsStore } from '$lib/stores/simulationParams';
+import SimulatorFormTestWrapper from './SimulatorFormTestWrapper.svelte';
 
 describe('SimulatorForm', () => {
 	it('renders all form inputs', () => {
-		render(SimulatorForm);
+		const store = createSimulationParamsStore();
+		render(SimulatorFormTestWrapper, { props: { simulationParams: store } });
 
 		expect(screen.getByLabelText('Initial Investment')).toBeTruthy();
 		expect(screen.getByLabelText('Regular Deposit')).toBeTruthy();
@@ -15,7 +17,8 @@ describe('SimulatorForm', () => {
 	});
 
 	it('currency inputs display formatted values', () => {
-		render(SimulatorForm);
+		const store = createSimulationParamsStore();
+		render(SimulatorFormTestWrapper, { props: { simulationParams: store } });
 
 		const initialInput = screen.getByLabelText('Initial Investment') as HTMLInputElement;
 		const depositInput = screen.getByLabelText('Regular Deposit') as HTMLInputElement;

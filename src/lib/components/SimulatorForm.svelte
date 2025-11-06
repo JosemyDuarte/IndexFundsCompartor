@@ -1,7 +1,11 @@
 <script lang="ts">
-	import { simulationParams } from '$lib/stores/simulationParams';
-	import { writable } from 'svelte/store';
+	import { getContext } from 'svelte';
+	import { writable, type Writable } from 'svelte/store';
+	import type { SimulationParams } from '$lib/calculations/simulator';
 	import CurrencyInput from './CurrencyInput.svelte';
+
+	// Get the simulationParams store from context
+	const simulationParams = getContext<Writable<SimulationParams>>('simulationParams');
 
 	// Create derived writable stores for currency inputs
 	const initialInvestment = writable($simulationParams.initialInvestment);

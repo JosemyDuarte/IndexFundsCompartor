@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, setContext } from 'svelte';
+	import { derived } from 'svelte/store';
 	import { browser } from '$app/environment';
 	import { createSimulationParamsStore } from '$lib/stores/simulationParams';
-	import { simulationResults } from '$lib/stores/simulationResults';
+	import { calculateProviderComparison } from '$lib/calculations/simulator';
 	import { paramsToUrl } from '$lib/utils/urlSync';
 	import SimulatorForm from '$lib/components/SimulatorForm.svelte';
 	import ComparisonChart from '$lib/components/ComparisonChart.svelte';
@@ -14,6 +15,14 @@
 
 	// Initialize store with URL params from load function
 	const simulationParams = createSimulationParamsStore(data.urlParams);
+
+	// Provide store to child components via context
+	setContext('simulationParams', simulationParams);
+
+	// Create derived store for simulation results using the page-level store
+	const simulationResults = derived(simulationParams, ($params) => {
+		return calculateProviderComparison($params);
+	});
 
 	// Flag to prevent URL sync until after initial load
 	let isInitialLoad = true;
