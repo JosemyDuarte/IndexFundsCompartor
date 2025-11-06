@@ -6,7 +6,7 @@ A static web application that simulates and compares investment returns between 
 
 - 📊 Visual comparison chart showing portfolio growth over time
 - 💰 Detailed financial breakdown (fees, returns, final balance)
-- 🔗 Shareable URLs with simulation parameters
+- 🔗 **Shareable URLs with persistent state** - URL params are preserved across refreshes
 - 📱 Mobile-first responsive design
 - ⚡ Static site - no backend required
 - 🧪 Comprehensive test coverage with TDD
