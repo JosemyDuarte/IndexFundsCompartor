@@ -36,6 +36,48 @@
 		return breakpoints;
 	}
 
+	// Helper function to create annotation configuration for a breakpoint
+	interface BreakpointAnnotation {
+		type: string;
+		xValue: number;
+		yValue: number;
+		backgroundColor: string;
+		borderColor: string;
+		borderWidth: number;
+		radius: number;
+		drawTime: string;
+		enter?: (ctx: any) => void;
+		leave?: (ctx: any) => void;
+	}
+
+	function createBreakpointAnnotation(
+		month: number,
+		balance: number,
+		includeHoverHandlers: boolean = false
+	): BreakpointAnnotation {
+		const annotation: BreakpointAnnotation = {
+			type: 'point',
+			xValue: month - 1, // Chart.js uses 0-based index
+			yValue: balance,
+			backgroundColor: 'rgba(251, 191, 36, 0.9)', // Yellow with opacity
+			borderColor: 'rgba(217, 119, 6, 1)', // Darker yellow border
+			borderWidth: 2,
+			radius: 6,
+			drawTime: 'afterDatasetsDraw'
+		};
+
+		if (includeHoverHandlers) {
+			annotation.enter = (ctx) => {
+				ctx.chart.canvas.style.cursor = 'pointer';
+			};
+			annotation.leave = (ctx) => {
+				ctx.chart.canvas.style.cursor = 'default';
+			};
+		}
+
+		return annotation;
+	}
+
 	// Reactive breakpoint calculation
 	$: breakpointData = getBreakpointMonths(indexaSnapshots);
 
@@ -45,21 +87,11 @@
 		chart.data.datasets[0].data = indexaSnapshots.map((s) => s.balance);
 		chart.data.datasets[1].data = myInvestorSnapshots.map((s) => s.balance);
 
-		// Update annotations for breakpoints
-		const newBreakpoints = getBreakpointMonths(indexaSnapshots);
+		// Update annotations for breakpoints using helper function
 		const annotations: Record<string, any> = {};
 
-		newBreakpoints.forEach((bp, index) => {
-			annotations[`breakpoint-${index}`] = {
-				type: 'point',
-				xValue: bp.month - 1,
-				yValue: bp.balance,
-				backgroundColor: 'rgba(251, 191, 36, 0.9)',
-				borderColor: 'rgba(217, 119, 6, 1)',
-				borderWidth: 2,
-				radius: 6,
-				drawTime: 'afterDatasetsDraw'
-			};
+		breakpointData.forEach((bp, index) => {
+			annotations[`breakpoint-${index}`] = createBreakpointAnnotation(bp.month, bp.balance);
 		});
 
 		if (chart.options.plugins?.annotation) {
@@ -194,22 +226,7 @@
 						},
 						annotation: {
 							annotations: breakpointData.reduce((acc, bp, index) => {
-								acc[`breakpoint-${index}`] = {
-									type: 'point',
-									xValue: bp.month - 1, // Chart.js uses 0-based index
-									yValue: bp.balance,
-									backgroundColor: 'rgba(251, 191, 36, 0.9)', // Yellow with opacity
-									borderColor: 'rgba(217, 119, 6, 1)', // Darker yellow border
-									borderWidth: 2,
-									radius: 6,
-									drawTime: 'afterDatasetsDraw',
-									enter(ctx) {
-										ctx.chart.canvas.style.cursor = 'pointer';
-									},
-									leave(ctx) {
-										ctx.chart.canvas.style.cursor = 'default';
-									}
-								};
+								acc[`breakpoint-${index}`] = createBreakpointAnnotation(bp.month, bp.balance, true);
 								return acc;
 							}, {} as Record<string, any>)
 						}
