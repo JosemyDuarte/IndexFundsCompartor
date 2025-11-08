@@ -7,17 +7,18 @@
 	// Get the simulationParams store from context
 	const simulationParams = getContext<Writable<SimulationParams>>('simulationParams');
 
-	// Create derived writable stores for currency inputs
+	// Create local writable stores for currency inputs
 	const initialInvestment = writable($simulationParams.initialInvestment);
 	const depositAmount = writable($simulationParams.depositAmount);
 
-	// Sync back to main store
-	$: simulationParams.update((p) => ({ ...p, initialInvestment: $initialInvestment }));
-	$: simulationParams.update((p) => ({ ...p, depositAmount: $depositAmount }));
+	// Sync to main store on change (one direction only)
+	initialInvestment.subscribe((value) => {
+		simulationParams.update((p) => ({ ...p, initialInvestment: value }));
+	});
 
-	// Update local stores when main store changes externally
-	$: initialInvestment.set($simulationParams.initialInvestment);
-	$: depositAmount.set($simulationParams.depositAmount);
+	depositAmount.subscribe((value) => {
+		simulationParams.update((p) => ({ ...p, depositAmount: value }));
+	});
 </script>
 
 <form class="space-y-4">
