@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import type { MonthlySnapshot } from '$lib/calculations/compounding';
 	import { Chart, registerables } from 'chart.js';
+	import annotationPlugin from 'chartjs-plugin-annotation';
 
 	export let indexaSnapshots: MonthlySnapshot[];
 	export let myInvestorSnapshots: MonthlySnapshot[];
@@ -18,16 +19,58 @@
 			.map(s => s.month);
 	}
 
+	// Calculate X positions (months) where fee brackets change
+	function getBreakpointMonths(snapshots: MonthlySnapshot[]): Array<{month: number, balance: number, feeRate: number}> {
+		const breakpoints: Array<{month: number, balance: number, feeRate: number}> = [];
+
+		for (let i = 0; i < snapshots.length; i++) {
+			if (snapshots[i].bracketChanged) {
+				breakpoints.push({
+					month: snapshots[i].month,
+					balance: snapshots[i].balance,
+					feeRate: snapshots[i].feeRate
+				});
+			}
+		}
+
+		return breakpoints;
+	}
+
+	// Reactive breakpoint calculation
+	$: breakpointData = getBreakpointMonths(indexaSnapshots);
+
 	// Update chart when data changes
 	$: if (chart && indexaSnapshots && myInvestorSnapshots) {
 		chart.data.labels = indexaSnapshots.map((s) => s.month);
 		chart.data.datasets[0].data = indexaSnapshots.map((s) => s.balance);
 		chart.data.datasets[1].data = myInvestorSnapshots.map((s) => s.balance);
+
+		// Update annotations for breakpoints
+		const newBreakpoints = getBreakpointMonths(indexaSnapshots);
+		const annotations: Record<string, any> = {};
+
+		newBreakpoints.forEach((bp, index) => {
+			annotations[`breakpoint-${index}`] = {
+				type: 'point',
+				xValue: bp.month - 1,
+				yValue: bp.balance,
+				backgroundColor: 'rgba(251, 191, 36, 0.9)',
+				borderColor: 'rgba(217, 119, 6, 1)',
+				borderWidth: 2,
+				radius: 6,
+				drawTime: 'afterDatasetsDraw'
+			};
+		});
+
+		if (chart.options.plugins?.annotation) {
+			chart.options.plugins.annotation.annotations = annotations;
+		}
+
 		chart.update('none'); // 'none' prevents animation for instant updates
 	}
 
 	onMount(() => {
-		Chart.register(...registerables);
+		Chart.register(...registerables, annotationPlugin);
 
 		if (canvas) {
 			chart = new Chart(canvas, {
@@ -148,6 +191,27 @@
 								size: 10,
 								weight: 'normal'
 							}
+						},
+						annotation: {
+							annotations: breakpointData.reduce((acc, bp, index) => {
+								acc[`breakpoint-${index}`] = {
+									type: 'point',
+									xValue: bp.month - 1, // Chart.js uses 0-based index
+									yValue: bp.balance,
+									backgroundColor: 'rgba(251, 191, 36, 0.9)', // Yellow with opacity
+									borderColor: 'rgba(217, 119, 6, 1)', // Darker yellow border
+									borderWidth: 2,
+									radius: 6,
+									drawTime: 'afterDatasetsDraw',
+									enter(ctx) {
+										ctx.chart.canvas.style.cursor = 'pointer';
+									},
+									leave(ctx) {
+										ctx.chart.canvas.style.cursor = 'default';
+									}
+								};
+								return acc;
+							}, {} as Record<string, any>)
 						}
 					},
 					scales: {
