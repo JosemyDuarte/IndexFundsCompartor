@@ -48,7 +48,6 @@ describe('SimulatorForm', () => {
 		// Should update only once from the input change
 		// With circular reactivity, we might see 2+ updates for a single input change
 		const updatesFromInput = updateCount - baselineCount;
-		console.log(`Updates from input change: ${updatesFromInput}`);
 
 		// Should be exactly 1 update, not multiple due to circular reactivity
 		expect(updatesFromInput).toBe(1);
@@ -79,11 +78,10 @@ describe('SimulatorForm', () => {
 		await new Promise((resolve) => setTimeout(resolve, 50));
 
 		const updatesFromInput = updateCount - baselineCount;
-		console.log(`Currency input updates: ${updatesFromInput}`);
 
 		// With circular reactivity (lines 14-20), we might see multiple updates
 		// Without it, should be exactly 1
-		expect(updatesFromInput).toBeLessThanOrEqual(2);
+		expect(updatesFromInput).toBe(1);
 
 		unsubscribe();
 	});

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
+	import { getContext, onDestroy } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
 	import type { SimulationParams } from '$lib/calculations/simulator';
 	import CurrencyInput from './CurrencyInput.svelte';
@@ -11,13 +11,39 @@
 	const initialInvestment = writable($simulationParams.initialInvestment);
 	const depositAmount = writable($simulationParams.depositAmount);
 
-	// Sync to main store on change (one direction only)
-	initialInvestment.subscribe((value) => {
-		simulationParams.update((p) => ({ ...p, initialInvestment: value }));
-	});
+	// Track if this is the initial subscription trigger
+	let isInitialInvestmentInit = true;
+	let isDepositAmountInit = true;
 
-	depositAmount.subscribe((value) => {
-		simulationParams.update((p) => ({ ...p, depositAmount: value }));
+	// Store unsubscribe functions for cleanup
+	const unsubscribers: (() => void)[] = [];
+
+	// Sync to main store on change (one direction only)
+	unsubscribers.push(
+		initialInvestment.subscribe((value) => {
+			// Skip the initial trigger when subscription is created
+			if (isInitialInvestmentInit) {
+				isInitialInvestmentInit = false;
+				return;
+			}
+			simulationParams.update((p) => ({ ...p, initialInvestment: value }));
+		})
+	);
+
+	unsubscribers.push(
+		depositAmount.subscribe((value) => {
+			// Skip the initial trigger when subscription is created
+			if (isDepositAmountInit) {
+				isDepositAmountInit = false;
+				return;
+			}
+			simulationParams.update((p) => ({ ...p, depositAmount: value }));
+		})
+	);
+
+	// Clean up subscriptions when component is destroyed
+	onDestroy(() => {
+		unsubscribers.forEach((unsubscribe) => unsubscribe());
 	});
 </script>
 
