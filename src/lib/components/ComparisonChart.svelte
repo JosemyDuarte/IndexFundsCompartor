@@ -18,6 +18,14 @@
 			.map(s => s.month);
 	}
 
+	// Update chart when data changes
+	$: if (chart && indexaSnapshots && myInvestorSnapshots) {
+		chart.data.labels = indexaSnapshots.map((s) => s.month);
+		chart.data.datasets[0].data = indexaSnapshots.map((s) => s.balance);
+		chart.data.datasets[1].data = myInvestorSnapshots.map((s) => s.balance);
+		chart.update('none'); // 'none' prevents animation for instant updates
+	}
+
 	onMount(() => {
 		Chart.register(...registerables);
 
