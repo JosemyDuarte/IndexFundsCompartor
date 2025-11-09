@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { formatCurrencyInput, parseCurrencyInput } from '$lib/utils/currencyInput';
 
@@ -6,7 +7,6 @@
 	export let label: string;
 	export let value: Writable<number>;
 	export let min: number = 0;
-	export let step: number = 100;
 
 	let displayValue: string = formatCurrencyInput($value);
 	let isFocused = false;
@@ -76,11 +76,15 @@
 	}
 
 	// Subscribe to store changes
-	value.subscribe((val) => {
+	const unsubscribe = value.subscribe((val) => {
 		if (!isFocused) {
 			displayValue = formatCurrencyInput(val);
 			errorMessage = validateValue(val, val.toString());
 		}
+	});
+
+	onDestroy(() => {
+		unsubscribe();
 	});
 </script>
 
