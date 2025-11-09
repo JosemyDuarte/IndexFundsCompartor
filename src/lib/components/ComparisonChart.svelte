@@ -134,7 +134,7 @@
 		const annotations: Record<string, any> = {};
 
 		breakpointData.forEach((bp, index) => {
-			annotations[`breakpoint-${index}`] = createBreakpointAnnotation(bp.month, bp.balance, bp.feeRate);
+			annotations[`breakpoint-${index}`] = createBreakpointAnnotation(bp.month, bp.balance, bp.feeRate, true);
 		});
 
 		if (chart.options.plugins?.annotation) {
