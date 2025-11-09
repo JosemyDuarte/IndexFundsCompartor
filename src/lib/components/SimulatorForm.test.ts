@@ -73,6 +73,8 @@ describe('SimulatorForm', () => {
 		// Change initial investment input
 		const initialInput = container.querySelector('#initial') as HTMLInputElement;
 		await fireEvent.input(initialInput, { target: { value: '5000' } });
+		// With validation, we need to blur to trigger the store update
+		await fireEvent.blur(initialInput);
 
 		// Wait for any potential circular updates
 		await new Promise((resolve) => setTimeout(resolve, 50));
