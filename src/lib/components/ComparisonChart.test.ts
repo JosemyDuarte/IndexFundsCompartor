@@ -30,7 +30,7 @@ describe('ComparisonChart', () => {
 	});
 
 	it('should update chart data when props change', async () => {
-		const { component, container } = render(ComparisonChart, {
+		const { container, rerender } = render(ComparisonChart, {
 			props: {
 				indexaSnapshots: mockSnapshots,
 				myInvestorSnapshots: mockSnapshots
@@ -43,14 +43,14 @@ describe('ComparisonChart', () => {
 		const canvas = container.querySelector('canvas');
 		expect(canvas).toBeTruthy();
 
-		// Update props
+		// Update props using Svelte 5 rerender
 		const newSnapshots: MonthlySnapshot[] = [
 			{ month: 1, balance: 5000, totalDeposited: 1000, totalFeesPaid: 10, totalReturns: 100, feeRate: 0.5, bracketChanged: false },
 			{ month: 2, balance: 10000, totalDeposited: 2000, totalFeesPaid: 20, totalReturns: 200, feeRate: 0.5, bracketChanged: false },
 			{ month: 3, balance: 15000, totalDeposited: 3000, totalFeesPaid: 30, totalReturns: 300, feeRate: 0.5, bracketChanged: false }
 		];
 
-		await component.$set({
+		await rerender({
 			indexaSnapshots: newSnapshots,
 			myInvestorSnapshots: newSnapshots
 		});
