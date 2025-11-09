@@ -212,7 +212,20 @@
 
 									// Check if this is a bracket change month
 									if (indexaSnapshot.bracketChanged) {
-										return `${winner} ahead by ${formatted}\n⚠️ Fee bracket changed`;
+										const balanceFormatted = new Intl.NumberFormat('es-ES', {
+											style: 'currency',
+											currency: 'EUR',
+											minimumFractionDigits: 0,
+											maximumFractionDigits: 0
+										}).format(indexaSnapshot.balance);
+
+										return [
+											`${winner} ahead by ${formatted}`,
+											'',
+											`⚠️ Fee bracket changed`,
+											`New balance tier: ${balanceFormatted}`,
+											`New fee rate: ${indexaSnapshot.feeRate.toFixed(3)}%`
+										].join('\n');
 									}
 
 									return `${winner} ahead by ${formatted}`;
