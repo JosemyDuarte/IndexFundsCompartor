@@ -48,13 +48,38 @@
 		drawTime: string;
 		enter?: (ctx: any) => void;
 		leave?: (ctx: any) => void;
+		label?: {
+			display: boolean;
+			content: string[];
+			backgroundColor: string;
+			color: string;
+			font: {
+				size: number;
+				weight: string;
+			};
+			padding: number;
+			borderRadius: number;
+			position: string;
+		};
 	}
 
 	function createBreakpointAnnotation(
 		month: number,
 		balance: number,
+		feeRate: number,
 		includeHoverHandlers: boolean = false
 	): BreakpointAnnotation {
+		const balanceFormatted = new Intl.NumberFormat('es-ES', {
+			style: 'currency',
+			currency: 'EUR',
+			minimumFractionDigits: 0,
+			maximumFractionDigits: 0
+		}).format(balance);
+
+		const years = Math.floor(month / 12);
+		const months = month % 12;
+		const timeLabel = months === 0 ? `Year ${years}` : `Year ${years}, Month ${months}`;
+
 		const annotation: BreakpointAnnotation = {
 			type: 'point',
 			xValue: month - 1, // Chart.js uses 0-based index
@@ -63,7 +88,25 @@
 			borderColor: 'rgba(217, 119, 6, 1)', // Darker yellow border
 			borderWidth: 2,
 			radius: 6,
-			drawTime: 'afterDatasetsDraw'
+			drawTime: 'afterDatasetsDraw',
+			label: {
+				display: true,
+				content: [
+					`${timeLabel}`,
+					`Fee Bracket Change`,
+					`Balance: ${balanceFormatted}`,
+					`New Fee: ${feeRate.toFixed(3)}%`
+				],
+				backgroundColor: 'rgba(251, 191, 36, 0.95)',
+				color: '#78350f',
+				font: {
+					size: 11,
+					weight: '500'
+				},
+				padding: 6,
+				borderRadius: 4,
+				position: 'top'
+			}
 		};
 
 		if (includeHoverHandlers) {
@@ -91,7 +134,7 @@
 		const annotations: Record<string, any> = {};
 
 		breakpointData.forEach((bp, index) => {
-			annotations[`breakpoint-${index}`] = createBreakpointAnnotation(bp.month, bp.balance);
+			annotations[`breakpoint-${index}`] = createBreakpointAnnotation(bp.month, bp.balance, bp.feeRate);
 		});
 
 		if (chart.options.plugins?.annotation) {
@@ -239,7 +282,7 @@
 						},
 						annotation: {
 							annotations: breakpointData.reduce((acc, bp, index) => {
-								acc[`breakpoint-${index}`] = createBreakpointAnnotation(bp.month, bp.balance, true);
+								acc[`breakpoint-${index}`] = createBreakpointAnnotation(bp.month, bp.balance, bp.feeRate, true);
 								return acc;
 							}, {} as Record<string, any>)
 						}
