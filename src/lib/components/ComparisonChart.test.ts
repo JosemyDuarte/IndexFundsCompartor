@@ -28,4 +28,35 @@ describe('ComparisonChart', () => {
 
 		expect(component).toBeTruthy();
 	});
+
+	it('should update chart data when props change', async () => {
+		const { component, container } = render(ComparisonChart, {
+			props: {
+				indexaSnapshots: mockSnapshots,
+				myInvestorSnapshots: mockSnapshots
+			}
+		});
+
+		// Wait for chart to initialize
+		await new Promise(resolve => setTimeout(resolve, 100));
+
+		const canvas = container.querySelector('canvas');
+		expect(canvas).toBeTruthy();
+
+		// Update props
+		const newSnapshots: MonthlySnapshot[] = [
+			{ month: 1, balance: 5000, totalDeposited: 1000, totalFeesPaid: 10, totalReturns: 100, feeRate: 0.5, bracketChanged: false },
+			{ month: 2, balance: 10000, totalDeposited: 2000, totalFeesPaid: 20, totalReturns: 200, feeRate: 0.5, bracketChanged: false },
+			{ month: 3, balance: 15000, totalDeposited: 3000, totalFeesPaid: 30, totalReturns: 300, feeRate: 0.5, bracketChanged: false }
+		];
+
+		await component.$set({
+			indexaSnapshots: newSnapshots,
+			myInvestorSnapshots: newSnapshots
+		});
+
+		// Chart should still be present and not recreated
+		const canvasAfter = container.querySelector('canvas');
+		expect(canvasAfter).toBe(canvas);
+	});
 });

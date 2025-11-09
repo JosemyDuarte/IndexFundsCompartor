@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import type { MonthlySnapshot } from '$lib/calculations/compounding';
 	import { Chart, registerables } from 'chart.js';
+	import annotationPlugin from 'chartjs-plugin-annotation';
 
 	export let indexaSnapshots: MonthlySnapshot[];
 	export let myInvestorSnapshots: MonthlySnapshot[];
@@ -18,8 +19,133 @@
 			.map(s => s.month);
 	}
 
+	// Calculate X positions (months) where fee brackets change
+	function getBreakpointMonths(snapshots: MonthlySnapshot[]): Array<{month: number, balance: number, feeRate: number}> {
+		const breakpoints: Array<{month: number, balance: number, feeRate: number}> = [];
+
+		for (let i = 0; i < snapshots.length; i++) {
+			if (snapshots[i].bracketChanged) {
+				breakpoints.push({
+					month: snapshots[i].month,
+					balance: snapshots[i].balance,
+					feeRate: snapshots[i].feeRate
+				});
+			}
+		}
+
+		return breakpoints;
+	}
+
+	// Helper function to create annotation configuration for a breakpoint
+	interface BreakpointAnnotation {
+		type: string;
+		xValue: number;
+		yValue: number;
+		backgroundColor: string;
+		borderColor: string;
+		borderWidth: number;
+		radius: number;
+		drawTime: string;
+		enter?: (ctx: any) => void;
+		leave?: (ctx: any) => void;
+		label?: {
+			display: boolean;
+			content: string[];
+			backgroundColor: string;
+			color: string;
+			font: {
+				size: number;
+				weight: string;
+			};
+			padding: number;
+			borderRadius: number;
+			position: string;
+		};
+	}
+
+	function createBreakpointAnnotation(
+		month: number,
+		balance: number,
+		feeRate: number,
+		includeHoverHandlers: boolean = false
+	): BreakpointAnnotation {
+		const balanceFormatted = new Intl.NumberFormat('es-ES', {
+			style: 'currency',
+			currency: 'EUR',
+			minimumFractionDigits: 0,
+			maximumFractionDigits: 0
+		}).format(balance);
+
+		const years = Math.floor(month / 12);
+		const months = month % 12;
+		const timeLabel = months === 0 ? `Year ${years}` : `Year ${years}, Month ${months}`;
+
+		const annotation: BreakpointAnnotation = {
+			type: 'point',
+			xValue: month - 1, // Chart.js uses 0-based index
+			yValue: balance,
+			backgroundColor: 'rgba(251, 191, 36, 0.9)', // Yellow with opacity
+			borderColor: 'rgba(217, 119, 6, 1)', // Darker yellow border
+			borderWidth: 2,
+			radius: 6,
+			drawTime: 'afterDatasetsDraw',
+			label: {
+				display: true,
+				content: [
+					`${timeLabel}`,
+					`Fee Bracket Change`,
+					`Balance: ${balanceFormatted}`,
+					`New Fee: ${feeRate.toFixed(3)}%`
+				],
+				backgroundColor: 'rgba(251, 191, 36, 0.95)',
+				color: '#78350f',
+				font: {
+					size: 11,
+					weight: '500'
+				},
+				padding: 6,
+				borderRadius: 4,
+				position: 'top'
+			}
+		};
+
+		if (includeHoverHandlers) {
+			annotation.enter = (ctx) => {
+				ctx.chart.canvas.style.cursor = 'pointer';
+			};
+			annotation.leave = (ctx) => {
+				ctx.chart.canvas.style.cursor = 'default';
+			};
+		}
+
+		return annotation;
+	}
+
+	// Reactive breakpoint calculation
+	$: breakpointData = getBreakpointMonths(indexaSnapshots);
+
+	// Update chart when data changes
+	$: if (chart && indexaSnapshots && myInvestorSnapshots) {
+		chart.data.labels = indexaSnapshots.map((s) => s.month);
+		chart.data.datasets[0].data = indexaSnapshots.map((s) => s.balance);
+		chart.data.datasets[1].data = myInvestorSnapshots.map((s) => s.balance);
+
+		// Update annotations for breakpoints using helper function
+		const annotations: Record<string, any> = {};
+
+		breakpointData.forEach((bp, index) => {
+			annotations[`breakpoint-${index}`] = createBreakpointAnnotation(bp.month, bp.balance, bp.feeRate, true);
+		});
+
+		if (chart.options.plugins?.annotation) {
+			chart.options.plugins.annotation.annotations = annotations;
+		}
+
+		chart.update('none'); // 'none' prevents animation for instant updates
+	}
+
 	onMount(() => {
-		Chart.register(...registerables);
+		Chart.register(...registerables, annotationPlugin);
 
 		if (canvas) {
 			chart = new Chart(canvas, {
@@ -129,7 +255,20 @@
 
 									// Check if this is a bracket change month
 									if (indexaSnapshot.bracketChanged) {
-										return `${winner} ahead by ${formatted}\n⚠️ Fee bracket changed`;
+										const balanceFormatted = new Intl.NumberFormat('es-ES', {
+											style: 'currency',
+											currency: 'EUR',
+											minimumFractionDigits: 0,
+											maximumFractionDigits: 0
+										}).format(indexaSnapshot.balance);
+
+										return [
+											`${winner} ahead by ${formatted}`,
+											'',
+											`⚠️ Fee bracket changed`,
+											`New balance tier: ${balanceFormatted}`,
+											`New fee rate: ${indexaSnapshot.feeRate.toFixed(3)}%`
+										].join('\n');
 									}
 
 									return `${winner} ahead by ${formatted}`;
@@ -140,6 +279,12 @@
 								size: 10,
 								weight: 'normal'
 							}
+						},
+						annotation: {
+							annotations: breakpointData.reduce((acc, bp, index) => {
+								acc[`breakpoint-${index}`] = createBreakpointAnnotation(bp.month, bp.balance, bp.feeRate, true);
+								return acc;
+							}, {} as Record<string, any>)
 						}
 					},
 					scales: {

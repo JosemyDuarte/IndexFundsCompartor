@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/svelte';
+import { render, screen, fireEvent } from '@testing-library/svelte';
 import { createSimulationParamsStore } from '$lib/stores/simulationParams';
 import SimulatorFormTestWrapper from './SimulatorFormTestWrapper.svelte';
 
@@ -25,5 +25,64 @@ describe('SimulatorForm', () => {
 
 		expect(initialInput.value).toBe('1.000'); // default 1000
 		expect(depositInput.value).toBe('100'); // default 100
+	});
+
+	it('should update store when input changes without circular updates', async () => {
+		const store = createSimulationParamsStore();
+
+		let updateCount = 0;
+		const unsubscribe = store.subscribe(() => {
+			updateCount++;
+		});
+
+		const { container } = render(SimulatorFormTestWrapper, {
+			props: { simulationParams: store }
+		});
+
+		// Reset counter after initial render
+		const baselineCount = updateCount;
+
+		const input = container.querySelector('#years') as HTMLInputElement;
+		await fireEvent.input(input, { target: { value: '25' } });
+
+		// Should update only once from the input change
+		// With circular reactivity, we might see 2+ updates for a single input change
+		const updatesFromInput = updateCount - baselineCount;
+
+		// Should be exactly 1 update, not multiple due to circular reactivity
+		expect(updatesFromInput).toBe(1);
+
+		unsubscribe();
+	});
+
+	it('should not have circular reactivity for currency inputs', async () => {
+		const store = createSimulationParamsStore();
+
+		let updateCount = 0;
+		const unsubscribe = store.subscribe(() => {
+			updateCount++;
+		});
+
+		const { container } = render(SimulatorFormTestWrapper, {
+			props: { simulationParams: store }
+		});
+
+		// Reset counter after initial render
+		const baselineCount = updateCount;
+
+		// Change initial investment input
+		const initialInput = container.querySelector('#initial') as HTMLInputElement;
+		await fireEvent.input(initialInput, { target: { value: '5000' } });
+
+		// Wait for any potential circular updates
+		await new Promise((resolve) => setTimeout(resolve, 50));
+
+		const updatesFromInput = updateCount - baselineCount;
+
+		// With circular reactivity (lines 14-20), we might see multiple updates
+		// Without it, should be exactly 1
+		expect(updatesFromInput).toBe(1);
+
+		unsubscribe();
 	});
 });
