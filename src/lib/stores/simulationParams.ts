@@ -10,4 +10,9 @@ const defaults: SimulationParams = {
 	myInvestorTER: 0.05
 };
 
-export const simulationParams = writable<SimulationParams>(defaults);
+export function createSimulationParamsStore(initialValues?: Partial<SimulationParams>) {
+	const merged = { ...defaults, ...initialValues };
+	return writable<SimulationParams>(merged);
+}
+
+export const simulationParams = createSimulationParamsStore();

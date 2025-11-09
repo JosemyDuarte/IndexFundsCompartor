@@ -1,19 +1,50 @@
 <script lang="ts">
-	import { simulationParams } from '$lib/stores/simulationParams';
-	import { writable } from 'svelte/store';
+	import { getContext, onDestroy } from 'svelte';
+	import { writable, type Writable } from 'svelte/store';
+	import type { SimulationParams } from '$lib/calculations/simulator';
 	import CurrencyInput from './CurrencyInput.svelte';
 
-	// Create derived writable stores for currency inputs
+	// Get the simulationParams store from context
+	const simulationParams = getContext<Writable<SimulationParams>>('simulationParams');
+
+	// Create local writable stores for currency inputs
 	const initialInvestment = writable($simulationParams.initialInvestment);
 	const depositAmount = writable($simulationParams.depositAmount);
 
-	// Sync back to main store
-	$: simulationParams.update((p) => ({ ...p, initialInvestment: $initialInvestment }));
-	$: simulationParams.update((p) => ({ ...p, depositAmount: $depositAmount }));
+	// Track if this is the initial subscription trigger
+	let isInitialInvestmentInit = true;
+	let isDepositAmountInit = true;
 
-	// Update local stores when main store changes externally
-	$: initialInvestment.set($simulationParams.initialInvestment);
-	$: depositAmount.set($simulationParams.depositAmount);
+	// Store unsubscribe functions for cleanup
+	const unsubscribers: (() => void)[] = [];
+
+	// Sync to main store on change (one direction only)
+	unsubscribers.push(
+		initialInvestment.subscribe((value) => {
+			// Skip the initial trigger when subscription is created
+			if (isInitialInvestmentInit) {
+				isInitialInvestmentInit = false;
+				return;
+			}
+			simulationParams.update((p) => ({ ...p, initialInvestment: value }));
+		})
+	);
+
+	unsubscribers.push(
+		depositAmount.subscribe((value) => {
+			// Skip the initial trigger when subscription is created
+			if (isDepositAmountInit) {
+				isDepositAmountInit = false;
+				return;
+			}
+			simulationParams.update((p) => ({ ...p, depositAmount: value }));
+		})
+	);
+
+	// Clean up subscriptions when component is destroyed
+	onDestroy(() => {
+		unsubscribers.forEach((unsubscribe) => unsubscribe());
+	});
 </script>
 
 <form class="space-y-4">

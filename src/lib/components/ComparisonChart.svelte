@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import type { MonthlySnapshot } from '$lib/calculations/compounding';
 	import { Chart, registerables } from 'chart.js';
+	import annotationPlugin from 'chartjs-plugin-annotation';
 
 	export let indexaSnapshots: MonthlySnapshot[];
 	export let myInvestorSnapshots: MonthlySnapshot[];
@@ -9,14 +10,142 @@
 	let canvas: HTMLCanvasElement;
 	let chart: Chart | null = null;
 	let loading = true;
+	let bracketChangeMonths: number[] = [];
 
 	// Find months where IndexaCapital bracket changed
-	$: bracketChangeMonths = indexaSnapshots
-		.filter(s => s.bracketChanged)
-		.map(s => s.month);
+	$: {
+		bracketChangeMonths = indexaSnapshots
+			.filter(s => s.bracketChanged)
+			.map(s => s.month);
+	}
+
+	// Calculate X positions (months) where fee brackets change
+	function getBreakpointMonths(snapshots: MonthlySnapshot[]): Array<{month: number, balance: number, feeRate: number}> {
+		const breakpoints: Array<{month: number, balance: number, feeRate: number}> = [];
+
+		for (let i = 0; i < snapshots.length; i++) {
+			if (snapshots[i].bracketChanged) {
+				breakpoints.push({
+					month: snapshots[i].month,
+					balance: snapshots[i].balance,
+					feeRate: snapshots[i].feeRate
+				});
+			}
+		}
+
+		return breakpoints;
+	}
+
+	// Helper function to create annotation configuration for a breakpoint
+	interface BreakpointAnnotation {
+		type: string;
+		xValue: number;
+		yValue: number;
+		backgroundColor: string;
+		borderColor: string;
+		borderWidth: number;
+		radius: number;
+		drawTime: string;
+		enter?: (ctx: any) => void;
+		leave?: (ctx: any) => void;
+		label?: {
+			display: boolean;
+			content: string[];
+			backgroundColor: string;
+			color: string;
+			font: {
+				size: number;
+				weight: string;
+			};
+			padding: number;
+			borderRadius: number;
+			position: string;
+		};
+	}
+
+	function createBreakpointAnnotation(
+		month: number,
+		balance: number,
+		feeRate: number,
+		includeHoverHandlers: boolean = false
+	): BreakpointAnnotation {
+		const balanceFormatted = new Intl.NumberFormat('es-ES', {
+			style: 'currency',
+			currency: 'EUR',
+			minimumFractionDigits: 0,
+			maximumFractionDigits: 0
+		}).format(balance);
+
+		const years = Math.floor(month / 12);
+		const months = month % 12;
+		const timeLabel = months === 0 ? `Year ${years}` : `Year ${years}, Month ${months}`;
+
+		const annotation: BreakpointAnnotation = {
+			type: 'point',
+			xValue: month - 1, // Chart.js uses 0-based index
+			yValue: balance,
+			backgroundColor: 'rgba(251, 191, 36, 0.9)', // Yellow with opacity
+			borderColor: 'rgba(217, 119, 6, 1)', // Darker yellow border
+			borderWidth: 2,
+			radius: 6,
+			drawTime: 'afterDatasetsDraw',
+			label: {
+				display: true,
+				content: [
+					`${timeLabel}`,
+					`Fee Bracket Change`,
+					`Balance: ${balanceFormatted}`,
+					`New Fee: ${feeRate.toFixed(3)}%`
+				],
+				backgroundColor: 'rgba(251, 191, 36, 0.95)',
+				color: '#78350f',
+				font: {
+					size: 11,
+					weight: '500'
+				},
+				padding: 6,
+				borderRadius: 4,
+				position: 'top'
+			}
+		};
+
+		if (includeHoverHandlers) {
+			annotation.enter = (ctx) => {
+				ctx.chart.canvas.style.cursor = 'pointer';
+			};
+			annotation.leave = (ctx) => {
+				ctx.chart.canvas.style.cursor = 'default';
+			};
+		}
+
+		return annotation;
+	}
+
+	// Reactive breakpoint calculation
+	$: breakpointData = getBreakpointMonths(indexaSnapshots);
+
+	// Update chart when data changes
+	$: if (chart && indexaSnapshots && myInvestorSnapshots) {
+		chart.data.labels = indexaSnapshots.map((s) => s.month);
+		chart.data.datasets[0].data = indexaSnapshots.map((s) => s.balance);
+		chart.data.datasets[1].data = myInvestorSnapshots.map((s) => s.balance);
+
+		// Update annotations for breakpoints using helper function
+		const annotations: Record<string, any> = {};
+
+		breakpointData.forEach((bp, index) => {
+			annotations[`breakpoint-${index}`] = createBreakpointAnnotation(bp.month, bp.balance, bp.feeRate, true);
+		});
+
+		if (chart.options.plugins?.annotation) {
+			chart.options.plugins.annotation.annotations = annotations;
+		}
+
+		chart.update('none'); // 'none' prevents animation for instant updates
+	}
 
 	onMount(() => {
-		Chart.register(...registerables);
+		Chart.register(...registerables, annotationPlugin);
 
 		if (canvas) {
 			chart = new Chart(canvas, {
@@ -84,6 +213,19 @@
 							padding: 10,
 							displayColors: true,
 							callbacks: {
+								title: function(tooltipItems) {
+									if (tooltipItems.length === 0) return '';
+									const monthIndex = tooltipItems[0].dataIndex;
+									const snapshot = indexaSnapshots[monthIndex];
+									const month = snapshot.month;
+									const years = Math.floor(month / 12);
+									const remainingMonths = month % 12;
+
+									if (remainingMonths === 0) {
+										return `Year ${years}`;
+									}
+									return `Year ${years}, Month ${remainingMonths}`;
+								},
 								label: function (context) {
 									const label = context.dataset.label || '';
 									const value = new Intl.NumberFormat('es-ES', {
@@ -113,7 +255,20 @@
 
 									// Check if this is a bracket change month
 									if (indexaSnapshot.bracketChanged) {
-										return `${winner} ahead by ${formatted}\n⚠️ Fee bracket changed`;
+										const balanceFormatted = new Intl.NumberFormat('es-ES', {
+											style: 'currency',
+											currency: 'EUR',
+											minimumFractionDigits: 0,
+											maximumFractionDigits: 0
+										}).format(indexaSnapshot.balance);
+
+										return [
+											`${winner} ahead by ${formatted}`,
+											'',
+											`⚠️ Fee bracket changed`,
+											`New balance tier: ${balanceFormatted}`,
+											`New fee rate: ${indexaSnapshot.feeRate.toFixed(3)}%`
+										].join('\n');
 									}
 
 									return `${winner} ahead by ${formatted}`;
@@ -124,13 +279,19 @@
 								size: 10,
 								weight: 'normal'
 							}
+						},
+						annotation: {
+							annotations: breakpointData.reduce((acc, bp, index) => {
+								acc[`breakpoint-${index}`] = createBreakpointAnnotation(bp.month, bp.balance, bp.feeRate, true);
+								return acc;
+							}, {} as Record<string, any>)
 						}
 					},
 					scales: {
 						x: {
 							title: {
 								display: true,
-								text: 'Month',
+								text: 'Years',
 								color: '#718096',
 								font: {
 									size: 12,
@@ -142,13 +303,13 @@
 									// Highlight bracket change months
 									const month = context.index + 1;
 									if (bracketChangeMonths.includes(month)) {
-										return 'rgba(157, 127, 199, 0.4)'; // Purple for bracket changes
+										return 'rgba(157, 127, 199, 1.0)'; // Fully opaque purple
 									}
 									return 'rgba(163, 177, 198, 0.15)';
 								},
 								lineWidth: function(context) {
 									const month = context.index + 1;
-									return bracketChangeMonths.includes(month) ? 2 : 1;
+									return bracketChangeMonths.includes(month) ? 4 : 1; // Even thicker
 								},
 								drawBorder: false
 							},
@@ -157,7 +318,18 @@
 								font: {
 									size: 11
 								},
-								maxTicksLimit: 10
+								maxTicksLimit: 10,
+								callback: function(value, index, ticks) {
+									// value is the month number
+									const month = value;
+									const year = month / 12;
+
+									// Only show labels at year boundaries
+									if (month % 12 === 0) {
+										return Math.floor(year).toString();
+									}
+									return '';
+								}
 							}
 						},
 						y: {

@@ -1,26 +1,39 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, setContext } from 'svelte';
+	import { derived } from 'svelte/store';
 	import { browser } from '$app/environment';
-	import { simulationParams } from '$lib/stores/simulationParams';
-	import { simulationResults } from '$lib/stores/simulationResults';
-	import { paramsToUrl, urlToParams } from '$lib/utils/urlSync';
+	import { createSimulationParamsStore } from '$lib/stores/simulationParams';
+	import { calculateProviderComparison } from '$lib/calculations/simulator';
+	import { paramsToUrl } from '$lib/utils/urlSync';
 	import SimulatorForm from '$lib/components/SimulatorForm.svelte';
 	import ComparisonChart from '$lib/components/ComparisonChart.svelte';
 	import BreakdownTable from '$lib/components/BreakdownTable.svelte';
 	import SummaryMetrics from '$lib/components/SummaryMetrics.svelte';
+	import type { PageData } from './$types';
 
-	// Load params from URL on mount
-	onMount(() => {
-		if (browser) {
-			const urlParams = urlToParams(window.location.search.substring(1));
-			if (Object.keys(urlParams).length > 0) {
-				simulationParams.update((current) => ({ ...current, ...urlParams }));
-			}
-		}
+	export let data: PageData;
+
+	// Initialize store with URL params from load function
+	const simulationParams = createSimulationParamsStore(data.urlParams);
+
+	// Provide store to child components via context
+	setContext('simulationParams', simulationParams);
+
+	// Create derived store for simulation results using the page-level store
+	const simulationResults = derived(simulationParams, ($params) => {
+		return calculateProviderComparison($params);
 	});
 
-	// Sync params to URL on change
-	$: if (browser && $simulationParams) {
+	// Flag to prevent URL sync until after initial load
+	let isInitialLoad = true;
+
+	onMount(() => {
+		// Allow URL syncing after component mounts
+		isInitialLoad = false;
+	});
+
+	// Sync params to URL on change (but not during initial load)
+	$: if (browser && !isInitialLoad && $simulationParams) {
 		const url = paramsToUrl($simulationParams);
 		const newUrl = `${window.location.pathname}?${url}`;
 		window.history.replaceState({}, '', newUrl);
@@ -35,7 +48,7 @@
 	/>
 </svelte:head>
 
-<div class="min-h-screen">
+<div class="min-h-screen flex flex-col">
 	<!-- Header -->
 	<header class="bg-neu-base sticky top-0 z-10 shadow-neu-raised-sm">
 		<div class="container mx-auto px-4 py-4">
@@ -102,6 +115,16 @@
 							indexaSnapshots={$simulationResults.indexaCapital.monthlySnapshots}
 							myInvestorSnapshots={$simulationResults.myInvestor.monthlySnapshots}
 						/>
+						<div class="mt-3 flex items-start gap-2 text-xs text-neu-text-light">
+							<svg class="w-4 h-4 mt-0.5 text-neu-purple flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+							</svg>
+							<p>
+								Purple vertical lines indicate when IndexaCapital's fee bracket changes.
+								<strong class="text-yellow-600">Yellow markers</strong> show exact breakpoint positions.
+								Hover over the chart or markers to see detailed fee information.
+							</p>
+						</div>
 					</div>
 
 					<!-- Breakdown Card -->
@@ -124,7 +147,7 @@
 	</div>
 
 	<!-- Footer -->
-	<footer class="mt-12 bg-neu-base shadow-neu-raised-sm">
+	<footer class="mt-auto bg-neu-base shadow-neu-raised-sm border-t border-neu-dark/10">
 		<div class="container mx-auto px-4 py-6">
 			<div class="text-center text-xs text-neu-text-light">
 				<p>Built with SvelteKit, TypeScript, and Tailwind CSS</p>
