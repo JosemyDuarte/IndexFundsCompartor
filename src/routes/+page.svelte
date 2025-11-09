@@ -121,7 +121,8 @@
 							</svg>
 							<p>
 								Purple vertical lines indicate when IndexaCapital's fee bracket changes.
-								Hover over the chart to see fee rates and bracket change notifications.
+								<strong class="text-yellow-600">Yellow markers</strong> show exact breakpoint positions.
+								Hover over the chart or markers to see detailed fee information.
 							</p>
 						</div>
 					</div>
