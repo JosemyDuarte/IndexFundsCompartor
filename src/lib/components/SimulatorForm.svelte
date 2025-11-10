@@ -3,6 +3,7 @@
 	import { writable, type Writable } from 'svelte/store';
 	import type { SimulationParams } from '$lib/calculations/simulator';
 	import CurrencyInput from './CurrencyInput.svelte';
+	import NumericInput from './NumericInput.svelte';
 
 	// Get the simulationParams store from context
 	const simulationParams = getContext<Writable<SimulationParams>>('simulationParams');
@@ -45,6 +46,24 @@
 	onDestroy(() => {
 		unsubscribers.forEach((unsubscribe) => unsubscribe());
 	});
+
+	// Local state for numeric inputs with validation
+	let timePeriodYears = $state($simulationParams.timePeriodYears);
+	let expectedReturn = $state($simulationParams.expectedReturn);
+	let myInvestorTER = $state($simulationParams.myInvestorTER);
+
+	// Update params when local state changes
+	function updateTimePeriod(val: number) {
+		simulationParams.update((p) => ({ ...p, timePeriodYears: val }));
+	}
+
+	function updateExpectedReturn(val: number) {
+		simulationParams.update((p) => ({ ...p, expectedReturn: val }));
+	}
+
+	function updateTER(val: number) {
+		simulationParams.update((p) => ({ ...p, myInvestorTER: val }));
+	}
 </script>
 
 <form class="space-y-4">
@@ -92,62 +111,35 @@
 	</div>
 
 	<!-- Time Period -->
-	<div>
-		<label for="years" class="block text-xs font-medium text-neu-text-dark mb-1.5">
-			Investment Period (years)
-		</label>
-		<input
-			id="years"
-			type="number"
-			bind:value={$simulationParams.timePeriodYears}
-			class="w-full px-3 py-2.5 bg-neu-base shadow-neu-inset rounded-lg text-sm
-				text-neu-text placeholder-neu-text-light
-				focus:outline-none focus:shadow-neu-inset-sm
-				transition-all duration-200"
-			min="1"
-			step="1"
-		/>
-	</div>
+	<NumericInput
+		id="years"
+		label="Investment Period (years)"
+		bind:value={timePeriodYears}
+		min={1}
+		step={1}
+		onchange={updateTimePeriod}
+	/>
 
 	<!-- Expected Return -->
-	<div>
-		<label for="return" class="block text-xs font-medium text-neu-text-dark mb-1.5">
-			Expected Return (% per year)
-		</label>
-		<div class="relative">
-			<input
-				id="return"
-				type="number"
-				bind:value={$simulationParams.expectedReturn}
-				class="w-full pr-8 px-3 py-2.5 bg-neu-base shadow-neu-inset rounded-lg text-sm
-					text-neu-text placeholder-neu-text-light
-					focus:outline-none focus:shadow-neu-inset-sm
-					transition-all duration-200"
-				step="0.1"
-			/>
-			<span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-neu-text-light">%</span>
-		</div>
-	</div>
+	<NumericInput
+		id="return"
+		label="Expected Return (% per year)"
+		bind:value={expectedReturn}
+		min={0}
+		step={0.1}
+		suffix="%"
+		onchange={updateExpectedReturn}
+	/>
 
 	<!-- MyInvestor TER -->
-	<div>
-		<label for="ter" class="block text-xs font-medium text-neu-text-dark mb-1.5">
-			MyInvestor TER (%)
-		</label>
-		<div class="relative">
-			<input
-				id="ter"
-				type="number"
-				bind:value={$simulationParams.myInvestorTER}
-				class="w-full pr-8 px-3 py-2.5 bg-neu-base shadow-neu-inset rounded-lg text-sm
-					text-neu-text placeholder-neu-text-light
-					focus:outline-none focus:shadow-neu-inset-sm
-					transition-all duration-200"
-				min="0.05"
-				max="0.59"
-				step="0.01"
-			/>
-			<span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-neu-text-light">%</span>
-		</div>
-	</div>
+	<NumericInput
+		id="ter"
+		label="MyInvestor TER (%)"
+		bind:value={myInvestorTER}
+		min={0.05}
+		max={0.59}
+		step={0.01}
+		suffix="%"
+		onchange={updateTER}
+	/>
 </form>
