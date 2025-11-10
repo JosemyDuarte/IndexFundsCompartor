@@ -360,3 +360,121 @@ describe('NumericInput', () => {
 		expect(screen.getByText(/minimum value is 2 years/i)).toBeInTheDocument();
 	});
 });
+
+describe('NumericInput accessibility', () => {
+	it('should have aria-invalid when validation fails', async () => {
+		const user = userEvent.setup();
+
+		render(NumericInput, {
+			props: {
+				id: 'test',
+				label: 'Test Input',
+				value: 10,
+				min: 5
+			}
+		});
+
+		const input = screen.getByLabelText('Test Input');
+
+		await user.clear(input);
+		await user.type(input, '2');
+		await user.tab();
+
+		expect(input).toHaveAttribute('aria-invalid', 'true');
+		expect(input).toHaveAttribute('aria-describedby');
+	});
+
+	it('should remove aria-invalid when validation passes', async () => {
+		const user = userEvent.setup();
+
+		render(NumericInput, {
+			props: {
+				id: 'test',
+				label: 'Test Input',
+				value: 2,
+				min: 5
+			}
+		});
+
+		const input = screen.getByLabelText('Test Input');
+
+		// Start with error
+		await user.clear(input);
+		await user.type(input, '2');
+		await user.tab();
+		expect(input).toHaveAttribute('aria-invalid', 'true');
+
+		// Fix error
+		await user.clear(input);
+		await user.type(input, '10');
+		await user.tab();
+		expect(input).toHaveAttribute('aria-invalid', 'false');
+	});
+
+	it('should have error message with role="alert"', async () => {
+		const user = userEvent.setup();
+
+		render(NumericInput, {
+			props: {
+				id: 'test',
+				label: 'Test Input',
+				value: 10,
+				min: 5
+			}
+		});
+
+		const input = screen.getByLabelText('Test Input');
+
+		await user.clear(input);
+		await user.type(input, '2');
+		await user.tab();
+
+		const errorMessage = screen.getByText(/minimum value/i);
+		expect(errorMessage.closest('p')).toHaveAttribute('role', 'alert');
+	});
+
+	it('should link error message to input via aria-describedby', async () => {
+		const user = userEvent.setup();
+
+		render(NumericInput, {
+			props: {
+				id: 'test',
+				label: 'Test Input',
+				value: 10,
+				min: 5
+			}
+		});
+
+		const input = screen.getByLabelText('Test Input');
+
+		await user.clear(input);
+		await user.type(input, '2');
+		await user.tab();
+
+		const describedBy = input.getAttribute('aria-describedby');
+		expect(describedBy).toBe('test-error');
+		expect(document.getElementById('test-error')).toBeInTheDocument();
+	});
+
+	it('should have aria-hidden on decorative icon', async () => {
+		const user = userEvent.setup();
+
+		render(NumericInput, {
+			props: {
+				id: 'test',
+				label: 'Test Input',
+				value: 10,
+				min: 5
+			}
+		});
+
+		const input = screen.getByLabelText('Test Input');
+
+		await user.clear(input);
+		await user.type(input, '2');
+		await user.tab();
+
+		const icon = screen.getByText('⚠').closest('span');
+		expect(icon).toHaveAttribute('aria-hidden', 'true');
+	});
+});

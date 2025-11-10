@@ -25,6 +25,7 @@
 	let errorMessage = $state('');
 	let isFocused = $state(false);
 	let hasError = $derived(errorMessage !== '');
+	let errorId = $derived(hasError ? `${id}-error` : undefined);
 
 	// Sync with external value changes
 	$effect(() => {
@@ -93,6 +94,8 @@
 			oninput={handleInput}
 			onfocus={handleFocus}
 			onblur={handleBlur}
+			aria-invalid={hasError}
+			aria-describedby={errorId}
 			class="w-full px-3 py-2.5 bg-neu-base rounded-lg text-sm text-neu-text
              placeholder-neu-text-light focus:outline-none transition-all duration-200
              {suffix ? 'pr-10' : ''}
@@ -109,8 +112,8 @@
 	</div>
 
 	{#if hasError}
-		<p class="mt-1 text-xs text-red-600 flex items-center gap-1">
-			<span class="inline-block w-3 h-3">⚠</span>
+		<p id="{id}-error" class="mt-1 text-xs text-red-600 flex items-center gap-1" role="alert">
+			<span class="inline-block w-3 h-3" aria-hidden="true">⚠</span>
 			{errorMessage}
 		</p>
 	{/if}
