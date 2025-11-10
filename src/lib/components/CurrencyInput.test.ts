@@ -145,3 +145,210 @@ describe('CurrencyInput validation', () => {
 		expect(input).not.toHaveClass('border-red-500');
 	});
 });
+
+describe('CurrencyInput edge cases', () => {
+	it('should reset invalid input display after validation fails', async () => {
+		const value = writable(1000);
+		const user = userEvent.setup();
+
+		render(CurrencyInput, {
+			props: {
+				id: 'test-input',
+				label: 'Test Input',
+				value,
+				min: 1000,
+				step: 100
+			}
+		});
+
+		const input = screen.getByLabelText('Test Input') as HTMLInputElement;
+
+		// Enter invalid value
+		await user.clear(input);
+		await user.type(input, '500');
+		await user.tab();
+
+		// Input resets to formatted original value due to subscription
+		expect(input.value).toBe('1.000');
+		// Store should not be updated
+		expect(get(value)).toBe(1000);
+		// Error should be shown
+		expect(screen.getByText(/minimum value/i)).toBeInTheDocument();
+	});
+
+	it('should handle very large numbers', async () => {
+		const value = writable(1000);
+		const user = userEvent.setup();
+
+		render(CurrencyInput, {
+			props: {
+				id: 'test-input',
+				label: 'Test Input',
+				value,
+				min: 0,
+				step: 100
+			}
+		});
+
+		const input = screen.getByLabelText('Test Input');
+
+		await user.clear(input);
+		await user.type(input, '999999999');
+		await user.tab();
+
+		expect(screen.queryByText(/please enter a valid number/i)).not.toBeInTheDocument();
+	});
+
+	it('should handle pasted content with only letters (invalid)', async () => {
+		const value = writable(1000);
+		const user = userEvent.setup();
+
+		render(CurrencyInput, {
+			props: {
+				id: 'test-input',
+				label: 'Test Input',
+				value,
+				min: 0,
+				step: 100
+			}
+		});
+
+		const input = screen.getByLabelText('Test Input');
+
+		await user.click(input);
+		// Content with only invalid characters should trigger error
+		await user.clear(input);
+		await user.type(input, 'abcdef');
+		await user.tab();
+
+		// Should show error and not update value
+		expect(screen.getByText(/please enter a valid number/i)).toBeInTheDocument();
+		expect(get(value)).toBe(1000);
+	});
+
+	it('should clear error when user starts typing after validation failure', async () => {
+		const value = writable(1000);
+		const user = userEvent.setup();
+
+		render(CurrencyInput, {
+			props: {
+				id: 'test-input',
+				label: 'Test Input',
+				value,
+				min: 1000,
+				step: 100
+			}
+		});
+
+		const input = screen.getByLabelText('Test Input');
+
+		// Trigger validation error
+		await user.clear(input);
+		await user.type(input, '500');
+		await user.tab();
+		expect(screen.getByText(/minimum value/i)).toBeInTheDocument();
+
+		// Start typing - error should clear while focused
+		await user.click(input);
+		await user.type(input, '2');
+		expect(screen.queryByText(/minimum value/i)).not.toBeInTheDocument();
+	});
+
+	it('should handle negative numbers', async () => {
+		const value = writable(1000);
+		const user = userEvent.setup();
+
+		render(CurrencyInput, {
+			props: {
+				id: 'test-input',
+				label: 'Test Input',
+				value,
+				min: 0,
+				step: 100
+			}
+		});
+
+		const input = screen.getByLabelText('Test Input');
+
+		await user.clear(input);
+		await user.type(input, '-500');
+		await user.tab();
+
+		expect(screen.getByText(/minimum value is €0/i)).toBeInTheDocument();
+	});
+
+	it('should handle inputs with dots (thousand separators)', async () => {
+		const value = writable(1000);
+		const user = userEvent.setup();
+
+		render(CurrencyInput, {
+			props: {
+				id: 'test-input',
+				label: 'Test Input',
+				value,
+				min: 0,
+				step: 100
+			}
+		});
+
+		const input = screen.getByLabelText('Test Input');
+
+		await user.clear(input);
+		// parseCurrencyInput removes all dots, so "1.500" becomes 1500
+		await user.type(input, '1.500');
+		await user.tab();
+
+		expect(screen.queryByText(/please enter a valid number/i)).not.toBeInTheDocument();
+		expect(get(value)).toBe(1500);
+	});
+
+	it('should handle empty input and show minimum validation error', async () => {
+		const value = writable(1000);
+		const user = userEvent.setup();
+
+		render(CurrencyInput, {
+			props: {
+				id: 'test-input',
+				label: 'Test Input',
+				value,
+				min: 1,
+				step: 100
+			}
+		});
+
+		const input = screen.getByLabelText('Test Input');
+
+		await user.clear(input);
+		await user.tab();
+
+		// Empty string parses to 0, which triggers minimum validation
+		expect(screen.getByText(/minimum value is €1/i)).toBeInTheDocument();
+	});
+
+	it('should not call onchange callback when validation fails', async () => {
+		const value = writable(1000);
+		const user = userEvent.setup();
+
+		render(CurrencyInput, {
+			props: {
+				id: 'test-input',
+				label: 'Test Input',
+				value,
+				min: 1000,
+				step: 100
+			}
+		});
+
+		const input = screen.getByLabelText('Test Input');
+
+		const initialValue = get(value);
+
+		// Enter invalid value
+		await user.clear(input);
+		await user.type(input, '500');
+		await user.tab();
+
+		// Store should not have been updated
+		expect(get(value)).toBe(initialValue);
+	});
+});
