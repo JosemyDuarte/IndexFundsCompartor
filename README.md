@@ -20,6 +20,35 @@ A static web application that simulates and compares investment returns between 
 - **Smooth Animations**: Staggered card reveals for polished UX
 - **Enhanced Tooltips**: Hover over chart to see detailed comparisons and differences
 
+## Form Validation
+
+All input fields include real-time validation with visual feedback:
+
+### Currency Inputs (Initial Investment, Regular Deposit)
+- Must be valid numbers
+- Minimum: €0
+- Shows error for letters or special characters
+
+### Investment Period
+- Minimum: 1 year
+- Must be whole number
+
+### Expected Return
+- Minimum: 0%
+- Accepts decimals
+
+### MyInvestor TER
+- Minimum: 0.05%
+- Maximum: 0.59%
+- Step: 0.01%
+
+### Error Display
+- Invalid fields show red border
+- Error message appears below field
+- Warning icon for visibility
+- Error clears when user starts typing
+- ARIA attributes for screen readers
+
 ## Tech Stack
 
 - **Framework:** SvelteKit
