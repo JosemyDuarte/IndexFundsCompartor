@@ -47,6 +47,24 @@
 						>{formatCurrency(indexaCapital.totalFeesPaid)}</span
 					>
 				</div>
+				<!-- Fee Composition Breakdown -->
+				{#if indexaCapital.feeComposition && 'managementFee' in indexaCapital.feeComposition}
+					<div class="ml-2 space-y-1 bg-neu-dark/5 p-2 rounded">
+						<div class="text-xs font-medium text-neu-text-light mb-1">Fee Breakdown</div>
+						<div class="flex justify-between items-center">
+							<span class="text-xs text-neu-text-light">Management:</span>
+							<span class="text-xs text-neu-text">{indexaCapital.feeComposition.managementFee.toFixed(3)}%</span>
+						</div>
+						<div class="flex justify-between items-center">
+							<span class="text-xs text-neu-text-light">Custody:</span>
+							<span class="text-xs text-neu-text">{indexaCapital.feeComposition.custodyFee.toFixed(3)}%</span>
+						</div>
+						<div class="flex justify-between items-center">
+							<span class="text-xs text-neu-text-light">Underlying:</span>
+							<span class="text-xs text-neu-text">{indexaCapital.feeComposition.underlyingFee.toFixed(3)}%</span>
+						</div>
+					</div>
+				{/if}
 				<div class="flex justify-between items-center">
 					<span class="text-xs text-neu-text-light">Average Fee Rate</span>
 					<span class="text-xs font-medium text-neu-text"
@@ -104,6 +122,20 @@
 						>{formatCurrency(myInvestor.totalFeesPaid)}</span
 					>
 				</div>
+				<!-- Fee Composition Breakdown -->
+				{#if myInvestor.feeComposition && 'ter' in myInvestor.feeComposition}
+					<div class="ml-2 space-y-1 bg-neu-dark/5 p-2 rounded">
+						<div class="text-xs font-medium text-neu-text-light mb-1">Fee Breakdown</div>
+						<div class="flex justify-between items-center">
+							<span class="text-xs text-neu-text-light">Management:</span>
+							<span class="text-xs text-neu-text">{myInvestor.feeComposition.managementFee.toFixed(3)}%</span>
+						</div>
+						<div class="flex justify-between items-center">
+							<span class="text-xs text-neu-text-light">TER:</span>
+							<span class="text-xs text-neu-text">{myInvestor.feeComposition.ter.toFixed(3)}%</span>
+						</div>
+					</div>
+				{/if}
 				<div class="flex justify-between items-center">
 					<span class="text-xs text-neu-text-light">Fee Rate</span>
 					<span class="text-xs font-medium text-neu-text"

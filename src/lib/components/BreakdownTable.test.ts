@@ -88,4 +88,57 @@ describe('BreakdownTable', () => {
 		expect(feeRateLabels.length).toBe(1); // Only MyInvestor should have this exact label
 		expect(screen.getByText('0.35%')).toBeTruthy();
 	});
+
+	it('displays IndexaCapital fee composition breakdown', () => {
+		const indexaWithComposition = {
+			...indexaCapital,
+			feeComposition: {
+				managementFee: 0.385,
+				custodyFee: 0.103,
+				underlyingFee: 0.098,
+				totalFee: 0.586
+			}
+		};
+
+		render(BreakdownTable, {
+			props: {
+				indexaCapital: indexaWithComposition,
+				myInvestor
+			}
+		});
+
+		// Check that fee composition is displayed
+		expect(screen.getByText('Fee Breakdown')).toBeTruthy();
+		expect(screen.getByText('Management:')).toBeTruthy();
+		expect(screen.getByText('0.385%')).toBeTruthy();
+		expect(screen.getByText('Custody:')).toBeTruthy();
+		expect(screen.getByText('0.103%')).toBeTruthy();
+		expect(screen.getByText('Underlying:')).toBeTruthy();
+		expect(screen.getByText('0.098%')).toBeTruthy();
+	});
+
+	it('displays MyInvestor fee composition breakdown', () => {
+		const myInvestorWithComposition = {
+			...myInvestor,
+			feeComposition: {
+				managementFee: 0.3,
+				ter: 0.25,
+				totalFee: 0.55
+			}
+		};
+
+		render(BreakdownTable, {
+			props: {
+				indexaCapital,
+				myInvestor: myInvestorWithComposition
+			}
+		});
+
+		// Check that fee composition is displayed
+		const feeBreakdownElements = screen.getAllByText('Fee Breakdown');
+		expect(feeBreakdownElements.length).toBe(1); // MyInvestor only
+		expect(screen.getByText('0.300%')).toBeTruthy();
+		expect(screen.getByText('TER:')).toBeTruthy();
+		expect(screen.getByText('0.250%')).toBeTruthy();
+	});
 });
