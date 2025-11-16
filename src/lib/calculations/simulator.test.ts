@@ -163,4 +163,51 @@ describe('calculateProviderComparison', () => {
 		// With one month, average should equal current
 		expect(results.indexaCapital.averageFeeRate).toBe(results.indexaCapital.currentFeeRate);
 	});
+
+	it('should include IndexaCapital fee composition in results', () => {
+		const params = {
+			initialInvestment: 10000,
+			depositAmount: 0,
+			depositFrequency: 'monthly' as const,
+			timePeriodYears: 1,
+			expectedReturn: 5,
+			myInvestorTER: 0.05
+		};
+
+		const results = calculateProviderComparison(params);
+
+		// IndexaCapital should have fee composition
+		expect(results.indexaCapital.feeComposition).toBeDefined();
+		expect(results.indexaCapital.feeComposition.managementFee).toBeDefined();
+		expect(results.indexaCapital.feeComposition.totalFee).toBeDefined();
+
+		// Type guard for IndexaCapital composition
+		if ('custodyFee' in results.indexaCapital.feeComposition) {
+			expect(results.indexaCapital.feeComposition.custodyFee).toBeDefined();
+			expect(results.indexaCapital.feeComposition.underlyingFee).toBeDefined();
+		}
+	});
+
+	it('should include MyInvestor fee composition in results', () => {
+		const params = {
+			initialInvestment: 10000,
+			depositAmount: 0,
+			depositFrequency: 'monthly' as const,
+			timePeriodYears: 1,
+			expectedReturn: 5,
+			myInvestorTER: 0.25
+		};
+
+		const results = calculateProviderComparison(params);
+
+		// MyInvestor should have fee composition
+		expect(results.myInvestor.feeComposition).toBeDefined();
+		expect(results.myInvestor.feeComposition.managementFee).toBe(0.3);
+		expect(results.myInvestor.feeComposition.totalFee).toBe(0.55);
+
+		// Type guard for MyInvestor composition
+		if ('ter' in results.myInvestor.feeComposition) {
+			expect(results.myInvestor.feeComposition.ter).toBe(0.25);
+		}
+	});
 });

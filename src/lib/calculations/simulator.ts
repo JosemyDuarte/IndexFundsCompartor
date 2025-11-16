@@ -1,6 +1,13 @@
 import type { DepositFrequency, MonthlySnapshot } from './compounding';
 import { calculateMonthlyGrowth } from './compounding';
-import { getIndexaCapitalFee, getMyInvestorFee } from './fees';
+import {
+	getIndexaCapitalFee,
+	getMyInvestorFee,
+	getIndexaCapitalFeeComposition,
+	getMyInvestorFeeComposition,
+	type IndexaCapitalFeeComposition,
+	type MyInvestorFeeComposition
+} from './fees';
 
 export interface SimulationParams {
 	initialInvestment: number;
@@ -19,6 +26,7 @@ export interface ProviderResult {
 	monthlySnapshots: MonthlySnapshot[];
 	averageFeeRate: number; // Weighted average annual fee rate
 	currentFeeRate: number; // Current annual fee rate (last month)
+	feeComposition: IndexaCapitalFeeComposition | MyInvestorFeeComposition;
 }
 
 export interface SimulationResults {
@@ -43,9 +51,14 @@ export function calculateProviderComparison(params: SimulationParams): Simulatio
 		totalMonths
 	});
 
+	// Get fee compositions based on final balance
+	const indexaFinalBalance = indexaSnapshots[indexaSnapshots.length - 1].balance;
+	const indexaFeeComposition = getIndexaCapitalFeeComposition(indexaFinalBalance);
+	const myInvestorFeeComposition = getMyInvestorFeeComposition(params.myInvestorTER);
+
 	return {
-		indexaCapital: buildProviderResult(indexaSnapshots),
-		myInvestor: buildProviderResult(myInvestorSnapshots)
+		indexaCapital: buildProviderResult(indexaSnapshots, indexaFeeComposition),
+		myInvestor: buildProviderResult(myInvestorSnapshots, myInvestorFeeComposition)
 	};
 }
 
@@ -106,7 +119,10 @@ function simulateWithDynamicFees(
 	return snapshots;
 }
 
-function buildProviderResult(snapshots: MonthlySnapshot[]): ProviderResult {
+function buildProviderResult(
+	snapshots: MonthlySnapshot[],
+	feeComposition: IndexaCapitalFeeComposition | MyInvestorFeeComposition
+): ProviderResult {
 	const lastSnapshot = snapshots[snapshots.length - 1];
 
 	// Calculate weighted average fee rate
@@ -128,6 +144,7 @@ function buildProviderResult(snapshots: MonthlySnapshot[]): ProviderResult {
 		finalBalance: lastSnapshot.balance,
 		monthlySnapshots: snapshots,
 		averageFeeRate: Math.round(averageFeeRate * 1000) / 1000, // Round to 3 decimals
-		currentFeeRate: lastSnapshot.feeRate
+		currentFeeRate: lastSnapshot.feeRate,
+		feeComposition
 	};
 }
