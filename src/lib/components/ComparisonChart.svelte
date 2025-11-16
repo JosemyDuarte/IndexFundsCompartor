@@ -3,6 +3,7 @@
 	import type { MonthlySnapshot } from '$lib/calculations/compounding';
 	import { Chart, registerables } from 'chart.js';
 	import annotationPlugin from 'chartjs-plugin-annotation';
+	import { getIndexaCapitalFeeComposition } from '$lib/calculations/fees';
 
 	export let indexaSnapshots: MonthlySnapshot[];
 	export let myInvestorSnapshots: MonthlySnapshot[];
@@ -238,6 +239,30 @@
 									const snapshot = snapshots[context.dataIndex];
 
 									return `${label}: ${value} (Fee: ${snapshot.feeRate.toFixed(3)}%)`;
+								},
+								afterLabel: function (context) {
+									const snapshots = context.datasetIndex === 0 ? indexaSnapshots : myInvestorSnapshots;
+									const snapshot = snapshots[context.dataIndex];
+
+									// Get fee composition for this balance
+									if (context.datasetIndex === 0) {
+										// IndexaCapital
+										const composition = getIndexaCapitalFeeComposition(snapshot.balance);
+										return [
+											`  Management: ${composition.managementFee.toFixed(3)}%`,
+											`  Custody: ${composition.custodyFee.toFixed(3)}%`,
+											`  Underlying: ${composition.underlyingFee.toFixed(3)}%`
+										];
+									} else {
+										// MyInvestor - get TER from params (we need to pass this)
+										// For now, calculate from total fee rate
+										const managementFee = 0.3;
+										const ter = Math.round((snapshot.feeRate - managementFee) * 100) / 100;
+										return [
+											`  Management: ${managementFee.toFixed(3)}%`,
+											`  TER: ${ter.toFixed(3)}%`
+										];
+									}
 								},
 								footer: function (tooltipItems) {
 									if (tooltipItems.length === 0) return '';
