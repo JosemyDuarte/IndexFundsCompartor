@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getIndexaCapitalFee, getMyInvestorFee } from './fees';
+import { getIndexaCapitalFee, getMyInvestorFee, getIndexaCapitalFeeComposition, getMyInvestorFeeComposition } from './fees';
 
 describe('getIndexaCapitalFee', () => {
 	// Updated for tiered custody fees (0.048%-0.109%) + 0.098% underlying fee
@@ -132,5 +132,62 @@ describe('getMyInvestorFee', () => {
 
 	it('should return correct fee for custom TER', () => {
 		expect(getMyInvestorFee(0.25)).toBe(0.55);
+	});
+});
+
+describe('getIndexaCapitalFeeComposition', () => {
+	it('should return fee breakdown for balance under €10,000', () => {
+		const composition = getIndexaCapitalFeeComposition(5000);
+		expect(composition.managementFee).toBe(0.405);
+		expect(composition.custodyFee).toBe(0.109);
+		expect(composition.underlyingFee).toBe(0.098);
+		expect(composition.totalFee).toBe(0.612);
+	});
+
+	it('should return fee breakdown for balance €10,000 to €100,000', () => {
+		const composition = getIndexaCapitalFeeComposition(50000);
+		expect(composition.managementFee).toBe(0.385);
+		expect(composition.custodyFee).toBe(0.103);
+		expect(composition.underlyingFee).toBe(0.098);
+		expect(composition.totalFee).toBe(0.586);
+	});
+
+	it('should return fee breakdown for balance €500,000 to €1M', () => {
+		const composition = getIndexaCapitalFeeComposition(750000);
+		expect(composition.managementFee).toBe(0.3);
+		expect(composition.custodyFee).toBe(0.091);
+		expect(composition.underlyingFee).toBe(0.098);
+		expect(composition.totalFee).toBe(0.489);
+	});
+
+	it('should return fee breakdown for balance > €1M', () => {
+		const composition = getIndexaCapitalFeeComposition(2000000);
+		expect(composition.managementFee).toBe(0.25);
+		expect(composition.custodyFee).toBe(0.048);
+		expect(composition.underlyingFee).toBe(0.098);
+		expect(composition.totalFee).toBe(0.396);
+	});
+});
+
+describe('getMyInvestorFeeComposition', () => {
+	it('should return fee breakdown for default TER (0.05%)', () => {
+		const composition = getMyInvestorFeeComposition(0.05);
+		expect(composition.managementFee).toBe(0.3);
+		expect(composition.ter).toBe(0.05);
+		expect(composition.totalFee).toBe(0.35);
+	});
+
+	it('should return fee breakdown for maximum TER (0.59%)', () => {
+		const composition = getMyInvestorFeeComposition(0.59);
+		expect(composition.managementFee).toBe(0.3);
+		expect(composition.ter).toBe(0.59);
+		expect(composition.totalFee).toBe(0.89);
+	});
+
+	it('should return fee breakdown for custom TER', () => {
+		const composition = getMyInvestorFeeComposition(0.25);
+		expect(composition.managementFee).toBe(0.3);
+		expect(composition.ter).toBe(0.25);
+		expect(composition.totalFee).toBe(0.55);
 	});
 });
