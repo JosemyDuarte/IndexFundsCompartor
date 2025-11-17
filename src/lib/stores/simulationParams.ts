@@ -7,7 +7,7 @@ const defaults: SimulationParams = {
 	depositFrequency: 'monthly',
 	timePeriodYears: 20,
 	expectedReturn: 7,
-	myInvestorTER: 0.05
+	myInvestorTER: 0.098
 };
 
 export function createSimulationParamsStore(initialValues?: Partial<SimulationParams>) {

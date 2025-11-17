@@ -140,7 +140,7 @@ describe('getIndexaCapitalFeeComposition', () => {
 		const composition = getIndexaCapitalFeeComposition(5000);
 		expect(composition.managementFee).toBe(0.405);
 		expect(composition.custodyFee).toBe(0.109);
-		expect(composition.underlyingFee).toBe(0.098);
+		expect(composition.ter).toBe(0.098);
 		expect(composition.totalFee).toBe(0.612);
 	});
 
@@ -148,7 +148,7 @@ describe('getIndexaCapitalFeeComposition', () => {
 		const composition = getIndexaCapitalFeeComposition(50000);
 		expect(composition.managementFee).toBe(0.385);
 		expect(composition.custodyFee).toBe(0.103);
-		expect(composition.underlyingFee).toBe(0.098);
+		expect(composition.ter).toBe(0.098);
 		expect(composition.totalFee).toBe(0.586);
 	});
 
@@ -156,7 +156,7 @@ describe('getIndexaCapitalFeeComposition', () => {
 		const composition = getIndexaCapitalFeeComposition(750000);
 		expect(composition.managementFee).toBe(0.3);
 		expect(composition.custodyFee).toBe(0.091);
-		expect(composition.underlyingFee).toBe(0.098);
+		expect(composition.ter).toBe(0.098);
 		expect(composition.totalFee).toBe(0.489);
 	});
 
@@ -164,7 +164,7 @@ describe('getIndexaCapitalFeeComposition', () => {
 		const composition = getIndexaCapitalFeeComposition(2000000);
 		expect(composition.managementFee).toBe(0.25);
 		expect(composition.custodyFee).toBe(0.048);
-		expect(composition.underlyingFee).toBe(0.098);
+		expect(composition.ter).toBe(0.098);
 		expect(composition.totalFee).toBe(0.396);
 	});
 });

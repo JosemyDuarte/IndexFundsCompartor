@@ -184,7 +184,7 @@ describe('calculateProviderComparison', () => {
 		// Type guard for IndexaCapital composition
 		if ('custodyFee' in results.indexaCapital.feeComposition) {
 			expect(results.indexaCapital.feeComposition.custodyFee).toBeDefined();
-			expect(results.indexaCapital.feeComposition.underlyingFee).toBeDefined();
+			expect(results.indexaCapital.feeComposition.ter).toBeDefined();
 		}
 	});
 

@@ -34,7 +34,7 @@ describe('simulationParams store', () => {
 			depositFrequency: 'monthly',
 			timePeriodYears: 10,
 			expectedReturn: 7,
-			myInvestorTER: 0.05
+			myInvestorTER: 0.098
 		});
 	});
 
@@ -48,7 +48,7 @@ describe('simulationParams store', () => {
 			depositFrequency: 'monthly',
 			timePeriodYears: 20,
 			expectedReturn: 7,
-			myInvestorTER: 0.05
+			myInvestorTER: 0.098
 		});
 	});
 });

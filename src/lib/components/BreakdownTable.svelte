@@ -60,8 +60,8 @@
 							<span class="text-xs text-neu-text">{indexaCapital.feeComposition.custodyFee.toFixed(3)}%</span>
 						</div>
 						<div class="flex justify-between items-center">
-							<span class="text-xs text-neu-text-light">Underlying:</span>
-							<span class="text-xs text-neu-text">{indexaCapital.feeComposition.underlyingFee.toFixed(3)}%</span>
+							<span class="text-xs text-neu-text-light">TER:</span>
+							<span class="text-xs text-neu-text">{indexaCapital.feeComposition.ter.toFixed(3)}%</span>
 						</div>
 					</div>
 				{/if}

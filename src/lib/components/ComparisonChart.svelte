@@ -251,7 +251,7 @@
 										return [
 											`  Management: ${composition.managementFee.toFixed(3)}%`,
 											`  Custody: ${composition.custodyFee.toFixed(3)}%`,
-											`  Underlying: ${composition.underlyingFee.toFixed(3)}%`
+											`  TER: ${composition.ter.toFixed(3)}%`
 										];
 									} else {
 										// MyInvestor - get TER from params (we need to pass this)

@@ -95,7 +95,7 @@ describe('BreakdownTable', () => {
 			feeComposition: {
 				managementFee: 0.385,
 				custodyFee: 0.103,
-				underlyingFee: 0.098,
+				ter: 0.098,
 				totalFee: 0.586
 			}
 		};
@@ -113,7 +113,7 @@ describe('BreakdownTable', () => {
 		expect(screen.getByText('0.385%')).toBeTruthy();
 		expect(screen.getByText('Custody:')).toBeTruthy();
 		expect(screen.getByText('0.103%')).toBeTruthy();
-		expect(screen.getByText('Underlying:')).toBeTruthy();
+		expect(screen.getByText('TER:')).toBeTruthy();
 		expect(screen.getByText('0.098%')).toBeTruthy();
 	});
 

@@ -13,7 +13,7 @@ function getCustodyFee(balance: number): number {
 export interface IndexaCapitalFeeComposition {
 	managementFee: number;
 	custodyFee: number;
-	underlyingFee: number;
+	ter: number;
 	totalFee: number;
 }
 
@@ -49,10 +49,10 @@ export function getIndexaCapitalFee(balance: number): number {
 
 	// Get tiered custody fee based on balance
 	const custodyFee = getCustodyFee(balance);
-	const underlyingFee = 0.098;
+	const ter = 0.098;
 
 	// Round to 3 decimal places to avoid floating point precision issues
-	return Math.round((managementFee + custodyFee + underlyingFee) * 1000) / 1000;
+	return Math.round((managementFee + custodyFee + ter) * 1000) / 1000;
 }
 
 export function getMyInvestorFee(ter: number): number {
@@ -87,13 +87,13 @@ export function getIndexaCapitalFeeComposition(balance: number): IndexaCapitalFe
 
 	// Get tiered custody fee based on balance
 	const custodyFee = getCustodyFee(balance);
-	const underlyingFee = 0.098;
-	const totalFee = Math.round((managementFee + custodyFee + underlyingFee) * 1000) / 1000;
+	const ter = 0.098;
+	const totalFee = Math.round((managementFee + custodyFee + ter) * 1000) / 1000;
 
 	return {
 		managementFee,
 		custodyFee,
-		underlyingFee,
+		ter,
 		totalFee
 	};
 }

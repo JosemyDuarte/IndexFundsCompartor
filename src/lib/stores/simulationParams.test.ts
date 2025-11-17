@@ -11,7 +11,7 @@ describe('simulationParams store', () => {
 		expect(params.depositFrequency).toBe('monthly');
 		expect(params.timePeriodYears).toBe(20);
 		expect(params.expectedReturn).toBe(7);
-		expect(params.myInvestorTER).toBe(0.05);
+		expect(params.myInvestorTER).toBe(0.098);
 	});
 
 	it('should allow updating parameters', () => {
