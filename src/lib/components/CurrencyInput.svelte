@@ -28,18 +28,18 @@
 		if (val === 0 && rawInput.trim() !== '' && rawInput.trim() !== '0') {
 			const hasOnlyInvalidChars = /^[^\d]+$/.test(rawInput.replace(/\./g, ''));
 			if (hasOnlyInvalidChars) {
-				return 'Please enter a valid number';
+				return 'Por favor, introduce un número válido';
 			}
 		}
 
 		// Check if parsed value is invalid (NaN, Infinity, etc)
 		if (!Number.isFinite(val)) {
-			return 'Please enter a valid number';
+			return 'Por favor, introduce un número válido';
 		}
 
 		// Check minimum constraint
 		if (val < min) {
-			return `Minimum value is €${formatCurrencyInput(min)}`;
+			return `El valor mínimo es €${formatCurrencyInput(min)}`;
 		}
 
 		return '';
@@ -96,9 +96,7 @@
 	</label>
 
 	<div class="relative">
-		<span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-neu-text-light">
-			€
-		</span>
+		<span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-neu-text-light"> € </span>
 
 		<input
 			{id}
@@ -113,8 +111,8 @@
 			class="w-full pl-8 pr-3 py-2.5 bg-neu-base rounded-lg text-sm text-neu-text
 			       placeholder-neu-text-light focus:outline-none transition-all duration-200
 			       {hasError
-					? 'border-2 border-red-500 shadow-red-100'
-					: 'shadow-neu-inset focus:shadow-neu-inset-sm'}"
+				? 'border-2 border-red-500 shadow-red-100'
+				: 'shadow-neu-inset focus:shadow-neu-inset-sm'}"
 			placeholder="0"
 		/>
 	</div>

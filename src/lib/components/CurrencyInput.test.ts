@@ -63,7 +63,7 @@ describe('CurrencyInput validation', () => {
 		await user.tab(); // Trigger blur
 
 		// Should show error message
-		expect(screen.getByText(/minimum value is €1\.000/i)).toBeInTheDocument();
+		expect(screen.getByText(/el valor mínimo es €1\.000/i)).toBeInTheDocument();
 	});
 
 	it('should show error for invalid input (letters)', async () => {
@@ -86,7 +86,7 @@ describe('CurrencyInput validation', () => {
 		await user.type(input, 'abc');
 		await user.tab();
 
-		expect(screen.getByText(/please enter a valid number/i)).toBeInTheDocument();
+		expect(screen.getByText(/por favor, introduce un número válido/i)).toBeInTheDocument();
 	});
 
 	it('should apply error styling when validation fails', async () => {
@@ -134,14 +134,14 @@ describe('CurrencyInput validation', () => {
 		await user.type(input, '500');
 		await user.tab();
 
-		expect(screen.getByText(/minimum value/i)).toBeInTheDocument();
+		expect(screen.getByText(/el valor mínimo/i)).toBeInTheDocument();
 
 		// Fix with valid value
 		await user.clear(input);
 		await user.type(input, '2000');
 		await user.tab();
 
-		expect(screen.queryByText(/minimum value/i)).not.toBeInTheDocument();
+		expect(screen.queryByText(/el valor mínimo/i)).not.toBeInTheDocument();
 		expect(input).not.toHaveClass('border-red-500');
 	});
 });
@@ -173,7 +173,7 @@ describe('CurrencyInput edge cases', () => {
 		// Store should not be updated
 		expect(get(value)).toBe(1000);
 		// Error should be shown
-		expect(screen.getByText(/minimum value/i)).toBeInTheDocument();
+		expect(screen.getByText(/el valor mínimo/i)).toBeInTheDocument();
 	});
 
 	it('should handle very large numbers', async () => {
@@ -196,7 +196,7 @@ describe('CurrencyInput edge cases', () => {
 		await user.type(input, '999999999');
 		await user.tab();
 
-		expect(screen.queryByText(/please enter a valid number/i)).not.toBeInTheDocument();
+		expect(screen.queryByText(/por favor, introduce un número válido/i)).not.toBeInTheDocument();
 	});
 
 	it('should handle pasted content with only letters (invalid)', async () => {
@@ -222,7 +222,7 @@ describe('CurrencyInput edge cases', () => {
 		await user.tab();
 
 		// Should show error and not update value
-		expect(screen.getByText(/please enter a valid number/i)).toBeInTheDocument();
+		expect(screen.getByText(/por favor, introduce un número válido/i)).toBeInTheDocument();
 		expect(get(value)).toBe(1000);
 	});
 
@@ -246,12 +246,12 @@ describe('CurrencyInput edge cases', () => {
 		await user.clear(input);
 		await user.type(input, '500');
 		await user.tab();
-		expect(screen.getByText(/minimum value/i)).toBeInTheDocument();
+		expect(screen.getByText(/el valor mínimo/i)).toBeInTheDocument();
 
 		// Start typing - error should clear while focused
 		await user.click(input);
 		await user.type(input, '2');
-		expect(screen.queryByText(/minimum value/i)).not.toBeInTheDocument();
+		expect(screen.queryByText(/el valor mínimo/i)).not.toBeInTheDocument();
 	});
 
 	it('should handle negative numbers', async () => {
@@ -274,7 +274,7 @@ describe('CurrencyInput edge cases', () => {
 		await user.type(input, '-500');
 		await user.tab();
 
-		expect(screen.getByText(/minimum value is €0/i)).toBeInTheDocument();
+		expect(screen.getByText(/el valor mínimo es €0/i)).toBeInTheDocument();
 	});
 
 	it('should handle inputs with dots (thousand separators)', async () => {
@@ -298,7 +298,7 @@ describe('CurrencyInput edge cases', () => {
 		await user.type(input, '1.500');
 		await user.tab();
 
-		expect(screen.queryByText(/please enter a valid number/i)).not.toBeInTheDocument();
+		expect(screen.queryByText(/por favor, introduce un número válido/i)).not.toBeInTheDocument();
 		expect(get(value)).toBe(1500);
 	});
 
@@ -322,7 +322,7 @@ describe('CurrencyInput edge cases', () => {
 		await user.tab();
 
 		// Empty string parses to 0, which triggers minimum validation
-		expect(screen.getByText(/minimum value is €1/i)).toBeInTheDocument();
+		expect(screen.getByText(/el valor mínimo es €1/i)).toBeInTheDocument();
 	});
 
 	it('should not call onchange callback when validation fails', async () => {
@@ -424,7 +424,7 @@ describe('CurrencyInput accessibility', () => {
 		await user.type(input, '500');
 		await user.tab();
 
-		const errorMessage = screen.getByText(/minimum value/i);
+		const errorMessage = screen.getByText(/el valor mínimo/i);
 		expect(errorMessage.closest('p')).toHaveAttribute('role', 'alert');
 	});
 

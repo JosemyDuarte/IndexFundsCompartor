@@ -130,7 +130,7 @@ function buildProviderResult(
 	let totalWeightedFee = 0;
 	let totalWeight = 0;
 
-	snapshots.forEach(snapshot => {
+	snapshots.forEach((snapshot) => {
 		totalWeightedFee += snapshot.feeRate * snapshot.balance;
 		totalWeight += snapshot.balance;
 	});

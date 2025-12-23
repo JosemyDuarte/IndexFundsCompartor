@@ -9,11 +9,11 @@ describe('SimulatorForm', () => {
 		const store = createSimulationParamsStore();
 		render(SimulatorFormTestWrapper, { props: { simulationParams: store } });
 
-		expect(screen.getByLabelText('Initial Investment')).toBeTruthy();
-		expect(screen.getByLabelText('Regular Deposit')).toBeTruthy();
-		expect(screen.getByLabelText('Deposit Frequency')).toBeTruthy();
-		expect(screen.getByLabelText('Investment Period (years)')).toBeTruthy();
-		expect(screen.getByLabelText('Expected Return (% per year)')).toBeTruthy();
+		expect(screen.getByLabelText('Inversión Inicial')).toBeTruthy();
+		expect(screen.getByLabelText('Aportación Periódica')).toBeTruthy();
+		expect(screen.getByLabelText('Frecuencia de Aportación')).toBeTruthy();
+		expect(screen.getByLabelText('Periodo de Inversión (años)')).toBeTruthy();
+		expect(screen.getByLabelText('Rentabilidad Esperada (% anual)')).toBeTruthy();
 		expect(screen.getByLabelText('MyInvestor TER (%)')).toBeTruthy();
 	});
 
@@ -21,8 +21,8 @@ describe('SimulatorForm', () => {
 		const store = createSimulationParamsStore();
 		render(SimulatorFormTestWrapper, { props: { simulationParams: store } });
 
-		const initialInput = screen.getByLabelText('Initial Investment') as HTMLInputElement;
-		const depositInput = screen.getByLabelText('Regular Deposit') as HTMLInputElement;
+		const initialInput = screen.getByLabelText('Inversión Inicial') as HTMLInputElement;
+		const depositInput = screen.getByLabelText('Aportación Periódica') as HTMLInputElement;
 
 		expect(initialInput.value).toBe('1.000'); // default 1000
 		expect(depositInput.value).toBe('100'); // default 100
@@ -99,13 +99,13 @@ describe('SimulatorForm numeric input validation', () => {
 
 		render(SimulatorFormTestWrapper, { props: { simulationParams: store } });
 
-		const yearsInput = screen.getByLabelText(/investment period/i);
+		const yearsInput = screen.getByLabelText(/periodo de inversión/i);
 
 		await user.clear(yearsInput);
 		await user.type(yearsInput, '0');
 		await user.tab();
 
-		expect(screen.getByText(/minimum value is 1 year/i)).toBeInTheDocument();
+		expect(screen.getByText(/el valor mínimo es 1 año/i)).toBeInTheDocument();
 		expect(yearsInput).toHaveClass('border-red-500');
 	});
 
@@ -121,7 +121,7 @@ describe('SimulatorForm numeric input validation', () => {
 		await user.type(terInput, '0.01');
 		await user.tab();
 
-		expect(screen.getByText(/minimum value is 0\.05%/i)).toBeInTheDocument();
+		expect(screen.getByText(/el valor mínimo es 0\.05%/i)).toBeInTheDocument();
 	});
 
 	it('should show error when TER is above maximum (0.59)', async () => {
@@ -136,7 +136,7 @@ describe('SimulatorForm numeric input validation', () => {
 		await user.type(terInput, '0.80');
 		await user.tab();
 
-		expect(screen.getByText(/maximum value is 0\.59%/i)).toBeInTheDocument();
+		expect(screen.getByText(/el valor máximo es 0\.59%/i)).toBeInTheDocument();
 	});
 
 	it('should show error when expected return is not a valid number', async () => {
@@ -145,12 +145,12 @@ describe('SimulatorForm numeric input validation', () => {
 
 		render(SimulatorFormTestWrapper, { props: { simulationParams: store } });
 
-		const returnInput = screen.getByLabelText(/expected return/i);
+		const returnInput = screen.getByLabelText(/rentabilidad esperada/i);
 
 		await user.clear(returnInput);
 		await user.type(returnInput, 'abc');
 		await user.tab();
 
-		expect(screen.getByText(/please enter a valid number/i)).toBeInTheDocument();
+		expect(screen.getByText(/por favor, introduce un número válido/i)).toBeInTheDocument();
 	});
 });

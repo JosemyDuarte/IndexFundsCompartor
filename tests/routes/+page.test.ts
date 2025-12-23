@@ -5,7 +5,9 @@ import type { PageLoadEvent } from '../../src/routes/$types';
 describe('+page load function', () => {
 	it('should extract URL params from page URL', () => {
 		const mockEvent = {
-			url: new globalThis.URL('http://localhost/?initial=3000&deposit=150&freq=quarterly&years=10&return=8&ter=0.2')
+			url: new globalThis.URL(
+				'http://localhost/?initial=3000&deposit=150&freq=quarterly&years=10&return=8&ter=0.2'
+			)
 		} as PageLoadEvent;
 
 		const result = load(mockEvent);

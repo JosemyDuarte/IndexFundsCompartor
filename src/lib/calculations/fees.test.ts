@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { getIndexaCapitalFee, getMyInvestorFee, getIndexaCapitalFeeComposition, getMyInvestorFeeComposition } from './fees';
+import {
+	getIndexaCapitalFee,
+	getMyInvestorFee,
+	getIndexaCapitalFeeComposition,
+	getMyInvestorFeeComposition
+} from './fees';
 
 describe('getIndexaCapitalFee', () => {
 	// Updated for tiered custody fees (0.048%-0.109%) + 0.098% underlying fee

@@ -70,19 +70,25 @@
 	<!-- Initial Investment -->
 	<CurrencyInput
 		id="initial"
-		label="Initial Investment"
+		label="Inversión Inicial"
 		value={initialInvestment}
 		min={0}
 		step={100}
 	/>
 
 	<!-- Deposit Amount -->
-	<CurrencyInput id="deposit" label="Regular Deposit" value={depositAmount} min={0} step={10} />
+	<CurrencyInput
+		id="deposit"
+		label="Aportación Periódica"
+		value={depositAmount}
+		min={0}
+		step={10}
+	/>
 
 	<!-- Deposit Frequency -->
 	<div>
 		<label for="frequency" class="block text-xs font-medium text-neu-text-dark mb-1.5">
-			Deposit Frequency
+			Frecuencia de Aportación
 		</label>
 		<div class="relative">
 			<select
@@ -93,12 +99,17 @@
 					focus:outline-none focus:shadow-neu-inset-sm
 					transition-all duration-200"
 			>
-				<option value="monthly" class="bg-neu-base">Monthly</option>
-				<option value="quarterly" class="bg-neu-base">Quarterly</option>
-				<option value="annual" class="bg-neu-base">Annual</option>
+				<option value="monthly" class="bg-neu-base">Mensual</option>
+				<option value="quarterly" class="bg-neu-base">Trimestral</option>
+				<option value="annual" class="bg-neu-base">Anual</option>
 			</select>
 			<div class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">
-				<svg class="w-3.5 h-3.5 text-neu-text-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<svg
+					class="w-3.5 h-3.5 text-neu-text-light"
+					fill="none"
+					stroke="currentColor"
+					viewBox="0 0 24 24"
+				>
 					<path
 						stroke-linecap="round"
 						stroke-linejoin="round"
@@ -113,7 +124,7 @@
 	<!-- Time Period -->
 	<NumericInput
 		id="years"
-		label="Investment Period (years)"
+		label="Periodo de Inversión (años)"
 		bind:value={timePeriodYears}
 		min={1}
 		step={1}
@@ -123,7 +134,7 @@
 	<!-- Expected Return -->
 	<NumericInput
 		id="return"
-		label="Expected Return (% per year)"
+		label="Rentabilidad Esperada (% anual)"
 		bind:value={expectedReturn}
 		min={0}
 		step={0.1}

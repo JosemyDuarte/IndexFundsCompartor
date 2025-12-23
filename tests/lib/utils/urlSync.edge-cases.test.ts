@@ -129,7 +129,7 @@ describe('URL Sync Edge Cases', () => {
 
 		it('should handle decimal values', () => {
 			const result = urlToParams('initial=5000.50&deposit=250.75&return=7.5&ter=0.15');
-			expect(result.initialInvestment).toBe(5000.50);
+			expect(result.initialInvestment).toBe(5000.5);
 			expect(result.depositAmount).toBe(250.75);
 			expect(result.expectedReturn).toBe(7.5);
 			expect(result.myInvestorTER).toBe(0.15);
@@ -157,7 +157,9 @@ describe('URL Sync Edge Cases', () => {
 	describe('Backward compatibility', () => {
 		it('should handle old URL format with all params', () => {
 			// This test ensures we don't break existing shared URLs
-			const result = urlToParams('initial=1000&deposit=100&freq=monthly&years=20&return=7&ter=0.05');
+			const result = urlToParams(
+				'initial=1000&deposit=100&freq=monthly&years=20&return=7&ter=0.05'
+			);
 			expect(result).toEqual({
 				initialInvestment: 1000,
 				depositAmount: 100,

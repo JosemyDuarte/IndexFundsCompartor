@@ -42,10 +42,10 @@
 </script>
 
 <svelte:head>
-	<title>IndexFunds Comparison - MyInvestor vs IndexaCapital</title>
+	<title>Comparador de Fondos Indexados - MyInvestor vs IndexaCapital</title>
 	<meta
 		name="description"
-		content="Compare investment returns between MyInvestor and IndexaCapital with real-time calculations"
+		content="Compara la rentabilidad de las inversiones entre MyInvestor e IndexaCapital con cálculos en tiempo real"
 	/>
 </svelte:head>
 
@@ -67,7 +67,7 @@
 					</svg>
 				</div>
 				<div>
-					<h1 class="text-xl font-bold text-neu-text-dark">IndexFunds Comparison</h1>
+					<h1 class="text-xl font-bold text-neu-text-dark">Comparador de Fondos Indexados</h1>
 					<p class="text-xs text-neu-text-light">MyInvestor vs IndexaCapital</p>
 				</div>
 			</div>
@@ -82,8 +82,12 @@
 				<div class="sticky top-20">
 					<div class="p-5 bg-neu-base rounded-2xl shadow-neu-raised">
 						<div class="mb-5">
-							<h2 class="text-base font-semibold text-neu-text-dark mb-1">Simulation Parameters</h2>
-							<p class="text-xs text-neu-text-light">Adjust values to compare returns</p>
+							<h2 class="text-base font-semibold text-neu-text-dark mb-1">
+								Parámetros de Simulación
+							</h2>
+							<p class="text-xs text-neu-text-light">
+								Ajusta los valores para comparar rentabilidades
+							</p>
 						</div>
 						<SimulatorForm />
 					</div>
@@ -109,10 +113,10 @@
 					>
 						<div class="mb-4">
 							<h2 class="text-base font-semibold text-neu-text-dark mb-1">
-								Portfolio Growth Over Time
+								Crecimiento de la Cartera
 							</h2>
 							<p class="text-xs text-neu-text-light">
-								Compare projected returns over investment period
+								Compara la rentabilidad proyectada durante el periodo de inversión
 							</p>
 						</div>
 						<ComparisonChart
@@ -134,9 +138,9 @@
 								/>
 							</svg>
 							<p>
-								Purple vertical lines indicate when IndexaCapital's fee bracket changes.
-								<strong class="text-yellow-600">Yellow markers</strong> show exact breakpoint positions.
-								Hover over the chart or markers to see detailed fee information.
+								Los <strong class="text-yellow-600">marcadores amarillos</strong> muestran la posición
+								exacta del cambio de tramo de comisión de IndexaCapital. Pasa el cursor sobre el gráfico
+								o los marcadores para ver información detallada de las comisiones.
 							</p>
 						</div>
 					</div>
@@ -147,8 +151,10 @@
 						style="animation-delay: 0.2s;"
 					>
 						<div class="mb-4">
-							<h2 class="text-base font-semibold text-neu-text-dark mb-1">Financial Breakdown</h2>
-							<p class="text-xs text-neu-text-light">Detailed comparison of costs and returns</p>
+							<h2 class="text-base font-semibold text-neu-text-dark mb-1">Desglose Financiero</h2>
+							<p class="text-xs text-neu-text-light">
+								Comparación detallada de costes y rentabilidades
+							</p>
 						</div>
 						<BreakdownTable
 							indexaCapital={$simulationResults.indexaCapital}
@@ -164,8 +170,8 @@
 	<footer class="mt-auto bg-neu-base shadow-neu-raised-sm border-t border-neu-dark/10">
 		<div class="container mx-auto px-4 py-6">
 			<div class="text-center text-xs text-neu-text-light">
-				<p>Built with SvelteKit, TypeScript, and Tailwind CSS</p>
-				<p class="mt-1">Investment calculations are for comparison purposes only</p>
+				<p>Creado con SvelteKit, TypeScript y Tailwind CSS</p>
+				<p class="mt-1">Los cálculos de inversión son solo para fines comparativos</p>
 			</div>
 		</div>
 	</footer>

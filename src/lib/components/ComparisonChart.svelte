@@ -15,14 +15,14 @@
 
 	// Find months where IndexaCapital bracket changed
 	$: {
-		bracketChangeMonths = indexaSnapshots
-			.filter(s => s.bracketChanged)
-			.map(s => s.month);
+		bracketChangeMonths = indexaSnapshots.filter((s) => s.bracketChanged).map((s) => s.month);
 	}
 
 	// Calculate X positions (months) where fee brackets change
-	function getBreakpointMonths(snapshots: MonthlySnapshot[]): Array<{month: number, balance: number, feeRate: number}> {
-		const breakpoints: Array<{month: number, balance: number, feeRate: number}> = [];
+	function getBreakpointMonths(
+		snapshots: MonthlySnapshot[]
+	): Array<{ month: number; balance: number; feeRate: number }> {
+		const breakpoints: Array<{ month: number; balance: number; feeRate: number }> = [];
 
 		for (let i = 0; i < snapshots.length; i++) {
 			if (snapshots[i].bracketChanged) {
@@ -79,7 +79,7 @@
 
 		const years = Math.floor(month / 12);
 		const months = month % 12;
-		const timeLabel = months === 0 ? `Year ${years}` : `Year ${years}, Month ${months}`;
+		const timeLabel = months === 0 ? `Año ${years}` : `Año ${years}, Mes ${months}`;
 
 		const annotation: BreakpointAnnotation = {
 			type: 'point',
@@ -94,9 +94,9 @@
 				display: true,
 				content: [
 					`${timeLabel}`,
-					`Fee Bracket Change`,
-					`Balance: ${balanceFormatted}`,
-					`New Fee: ${feeRate.toFixed(3)}%`
+					`Cambio de Tramo de Comisión`,
+					`Saldo: ${balanceFormatted}`,
+					`Nueva Comisión: ${feeRate.toFixed(3)}%`
 				],
 				backgroundColor: 'rgba(251, 191, 36, 0.95)',
 				color: '#78350f',
@@ -135,7 +135,12 @@
 		const annotations: Record<string, any> = {};
 
 		breakpointData.forEach((bp, index) => {
-			annotations[`breakpoint-${index}`] = createBreakpointAnnotation(bp.month, bp.balance, bp.feeRate, true);
+			annotations[`breakpoint-${index}`] = createBreakpointAnnotation(
+				bp.month,
+				bp.balance,
+				bp.feeRate,
+				true
+			);
 		});
 
 		if (chart.options.plugins?.annotation) {
@@ -214,7 +219,7 @@
 							padding: 10,
 							displayColors: true,
 							callbacks: {
-								title: function(tooltipItems) {
+								title: function (tooltipItems) {
 									if (tooltipItems.length === 0) return '';
 									const monthIndex = tooltipItems[0].dataIndex;
 									const snapshot = indexaSnapshots[monthIndex];
@@ -223,9 +228,9 @@
 									const remainingMonths = month % 12;
 
 									if (remainingMonths === 0) {
-										return `Year ${years}`;
+										return `Año ${years}`;
 									}
-									return `Year ${years}, Month ${remainingMonths}`;
+									return `Año ${years}, Mes ${remainingMonths}`;
 								},
 								label: function (context) {
 									const label = context.dataset.label || '';
@@ -235,13 +240,15 @@
 									}).format(context.parsed.y);
 
 									// Get snapshot for this month
-									const snapshots = context.datasetIndex === 0 ? indexaSnapshots : myInvestorSnapshots;
+									const snapshots =
+										context.datasetIndex === 0 ? indexaSnapshots : myInvestorSnapshots;
 									const snapshot = snapshots[context.dataIndex];
 
-									return `${label}: ${value} (Fee: ${snapshot.feeRate.toFixed(3)}%)`;
+									return `${label}: ${value} (Comisión: ${snapshot.feeRate.toFixed(3)}%)`;
 								},
 								afterLabel: function (context) {
-									const snapshots = context.datasetIndex === 0 ? indexaSnapshots : myInvestorSnapshots;
+									const snapshots =
+										context.datasetIndex === 0 ? indexaSnapshots : myInvestorSnapshots;
 									const snapshot = snapshots[context.dataIndex];
 
 									// Get fee composition for this balance
@@ -249,8 +256,8 @@
 										// IndexaCapital
 										const composition = getIndexaCapitalFeeComposition(snapshot.balance);
 										return [
-											`  Management: ${composition.managementFee.toFixed(3)}%`,
-											`  Custody: ${composition.custodyFee.toFixed(3)}%`,
+											`  Gestión: ${composition.managementFee.toFixed(3)}%`,
+											`  Custodia: ${composition.custodyFee.toFixed(3)}%`,
 											`  TER: ${composition.ter.toFixed(3)}%`
 										];
 									} else {
@@ -258,10 +265,7 @@
 										// For now, calculate from total fee rate
 										const managementFee = 0.3;
 										const ter = Math.round((snapshot.feeRate - managementFee) * 100) / 100;
-										return [
-											`  Management: ${managementFee.toFixed(3)}%`,
-											`  TER: ${ter.toFixed(3)}%`
-										];
+										return [`  Gestión: ${managementFee.toFixed(3)}%`, `  TER: ${ter.toFixed(3)}%`];
 									}
 								},
 								footer: function (tooltipItems) {
@@ -272,7 +276,10 @@
 									const myInvestorSnapshot = myInvestorSnapshots[tooltipItems[0].dataIndex];
 
 									const diff = Math.abs(indexaSnapshot.balance - myInvestorSnapshot.balance);
-									const winner = indexaSnapshot.balance > myInvestorSnapshot.balance ? 'IndexaCapital' : 'MyInvestor';
+									const winner =
+										indexaSnapshot.balance > myInvestorSnapshot.balance
+											? 'IndexaCapital'
+											: 'MyInvestor';
 									const formatted = new Intl.NumberFormat('es-ES', {
 										style: 'currency',
 										currency: 'EUR'
@@ -288,15 +295,15 @@
 										}).format(indexaSnapshot.balance);
 
 										return [
-											`${winner} ahead by ${formatted}`,
+											`${winner} por delante por ${formatted}`,
 											'',
-											`⚠️ Fee bracket changed`,
-											`New balance tier: ${balanceFormatted}`,
-											`New fee rate: ${indexaSnapshot.feeRate.toFixed(3)}%`
+											`⚠️ El tramo de comisión ha cambiado`,
+											`Nuevo tramo de saldo: ${balanceFormatted}`,
+											`Nueva tasa de comisión: ${indexaSnapshot.feeRate.toFixed(3)}%`
 										].join('\n');
 									}
 
-									return `${winner} ahead by ${formatted}`;
+									return `${winner} por delante por ${formatted}`;
 								}
 							},
 							footerColor: '#718096',
@@ -306,17 +313,25 @@
 							}
 						},
 						annotation: {
-							annotations: breakpointData.reduce((acc, bp, index) => {
-								acc[`breakpoint-${index}`] = createBreakpointAnnotation(bp.month, bp.balance, bp.feeRate, true);
-								return acc;
-							}, {} as Record<string, any>)
+							annotations: breakpointData.reduce(
+								(acc, bp, index) => {
+									acc[`breakpoint-${index}`] = createBreakpointAnnotation(
+										bp.month,
+										bp.balance,
+										bp.feeRate,
+										true
+									);
+									return acc;
+								},
+								{} as Record<string, any>
+							)
 						}
 					},
 					scales: {
 						x: {
 							title: {
 								display: true,
-								text: 'Years',
+								text: 'Años',
 								color: '#718096',
 								font: {
 									size: 12,
@@ -324,7 +339,7 @@
 								}
 							},
 							grid: {
-								color: function(context) {
+								color: function (context) {
 									// Highlight bracket change months
 									const month = context.index + 1;
 									if (bracketChangeMonths.includes(month)) {
@@ -332,7 +347,7 @@
 									}
 									return 'rgba(163, 177, 198, 0.15)';
 								},
-								lineWidth: function(context) {
+								lineWidth: function (context) {
 									const month = context.index + 1;
 									return bracketChangeMonths.includes(month) ? 4 : 1; // Even thicker
 								},
@@ -344,7 +359,7 @@
 									size: 11
 								},
 								maxTicksLimit: 10,
-								callback: function(value, index, ticks) {
+								callback: function (value, index, ticks) {
 									// value is the month number
 									const month = value;
 									const year = month / 12;
@@ -360,7 +375,7 @@
 						y: {
 							title: {
 								display: true,
-								text: 'Portfolio Value',
+								text: 'Valor de la Cartera',
 								color: '#718096',
 								font: {
 									size: 12,
@@ -403,8 +418,10 @@
 
 <div class="relative h-[280px] md:h-[320px] lg:h-[360px] w-full">
 	{#if loading}
-		<div class="absolute inset-0 flex items-center justify-center bg-neu-base/50 rounded-xl animate-pulse">
-			<div class="text-neu-text-light">Loading chart...</div>
+		<div
+			class="absolute inset-0 flex items-center justify-center bg-neu-base/50 rounded-xl animate-pulse"
+		>
+			<div class="text-neu-text-light">Cargando gráfico...</div>
 		</div>
 	{/if}
 	<canvas bind:this={canvas} class:opacity-0={loading}></canvas>

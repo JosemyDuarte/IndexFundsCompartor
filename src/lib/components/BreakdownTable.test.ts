@@ -34,7 +34,7 @@ describe('BreakdownTable', () => {
 		const { container } = render(BreakdownTable, { props: { indexaCapital, myInvestor } });
 
 		// MyInvestor should win (29600 > 29500)
-		const winnerBadge = screen.getByText('Winner');
+		const winnerBadge = screen.getByText('Ganador');
 		expect(winnerBadge).toBeTruthy();
 
 		// Find the MyInvestor card (second card in the grid)
@@ -49,10 +49,10 @@ describe('BreakdownTable', () => {
 		render(BreakdownTable, { props: { indexaCapital, myInvestor } });
 
 		// Check that all metrics are shown
-		expect(screen.getAllByText('Total Invested').length).toBe(2);
-		expect(screen.getAllByText('Total Returns').length).toBe(2);
-		expect(screen.getAllByText('Total Fees').length).toBe(2);
-		expect(screen.getAllByText('Final Balance').length).toBe(2);
+		expect(screen.getAllByText('Total Invertido').length).toBe(2);
+		expect(screen.getAllByText('Rentabilidad Total').length).toBe(2);
+		expect(screen.getAllByText('Comisiones Totales').length).toBe(2);
+		expect(screen.getAllByText('Capital Final').length).toBe(2);
 	});
 
 	it('displays fee information for both providers', () => {
@@ -76,16 +76,15 @@ describe('BreakdownTable', () => {
 		});
 
 		// Check IndexaCapital shows average fee
-		expect(screen.getByText('Average Fee Rate')).toBeTruthy();
+		expect(screen.getByText('Comisión Media')).toBeTruthy();
 		expect(screen.getByText('0.405%')).toBeTruthy();
 
-		// Check IndexaCapital shows current fee
-		expect(screen.getByText('Current Fee Rate')).toBeTruthy();
+		// Check IndexaCapital and MyInvestor show current fee
+		expect(screen.getAllByText('Comisión Actual').length).toBe(2);
 		expect(screen.getByText('0.385%')).toBeTruthy();
 
-		// Check MyInvestor shows fee rate (exact match to avoid matching IndexaCapital's labels)
-		const feeRateLabels = screen.getAllByText(/^Fee Rate$/);
-		expect(feeRateLabels.length).toBe(1); // Only MyInvestor should have this exact label
+		const feeRateLabels = screen.getAllByText(/^Comisión Actual$/);
+		expect(feeRateLabels.length).toBe(2);
 		expect(screen.getByText('0.35%')).toBeTruthy();
 	});
 
@@ -108,10 +107,10 @@ describe('BreakdownTable', () => {
 		});
 
 		// Check that fee composition is displayed
-		expect(screen.getByText('Fee Breakdown')).toBeTruthy();
-		expect(screen.getByText('Management:')).toBeTruthy();
+		expect(screen.getByText('Desglose de Comisiones')).toBeTruthy();
+		expect(screen.getByText('Gestión:')).toBeTruthy();
 		expect(screen.getByText('0.385%')).toBeTruthy();
-		expect(screen.getByText('Custody:')).toBeTruthy();
+		expect(screen.getByText('Custodia:')).toBeTruthy();
 		expect(screen.getByText('0.103%')).toBeTruthy();
 		expect(screen.getByText('TER:')).toBeTruthy();
 		expect(screen.getByText('0.098%')).toBeTruthy();
@@ -135,7 +134,7 @@ describe('BreakdownTable', () => {
 		});
 
 		// Check that fee composition is displayed
-		const feeBreakdownElements = screen.getAllByText('Fee Breakdown');
+		const feeBreakdownElements = screen.getAllByText('Desglose de Comisiones');
 		expect(feeBreakdownElements.length).toBe(1); // MyInvestor only
 		expect(screen.getByText('0.300%')).toBeTruthy();
 		expect(screen.getByText('TER:')).toBeTruthy();

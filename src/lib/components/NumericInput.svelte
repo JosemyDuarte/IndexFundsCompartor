@@ -10,16 +10,7 @@
 		onchange?: (value: number) => void;
 	}
 
-	let {
-		id,
-		label,
-		value = $bindable(),
-		min,
-		max,
-		step = 1,
-		suffix,
-		onchange
-	}: Props = $props();
+	let { id, label, value = $bindable(), min, max, step = 1, suffix, onchange }: Props = $props();
 
 	let inputValue = $state(value.toString());
 	let errorMessage = $state('');
@@ -36,16 +27,16 @@
 
 	function validateValue(val: number): string {
 		if (!Number.isFinite(val) || isNaN(val)) {
-			return 'Please enter a valid number';
+			return 'Por favor, introduce un número válido';
 		}
 
 		if (min !== undefined && val < min) {
-			const unit = suffix ? '' : ' year' + (min === 1 ? '' : 's');
-			return `Minimum value is ${min}${suffix || unit}`;
+			const unit = suffix ? '' : ' año' + (min === 1 ? '' : 's');
+			return `El valor mínimo es ${min}${suffix || unit}`;
 		}
 
 		if (max !== undefined && val > max) {
-			return `Maximum value is ${max}${suffix || ''}`;
+			return `El valor máximo es ${max}${suffix || ''}`;
 		}
 
 		return '';

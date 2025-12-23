@@ -58,9 +58,9 @@ describe('SummaryMetrics', () => {
 			props: { indexaCapital, myInvestor }
 		});
 
-		expect(screen.getByText('Best Final Balance')).toBeInTheDocument();
+		expect(screen.getByText('Mejor Capital Final')).toBeInTheDocument();
 		expect(screen.getByText('11.900,00 €')).toBeInTheDocument();
-		expect(screen.getByText('Total portfolio value')).toBeInTheDocument();
+		expect(screen.getByText('Valor total de la cartera')).toBeInTheDocument();
 	});
 
 	it('renders total returns card with percentage', () => {
@@ -88,9 +88,9 @@ describe('SummaryMetrics', () => {
 			props: { indexaCapital, myInvestor }
 		});
 
-		expect(screen.getByText("Winner's Returns")).toBeInTheDocument();
+		expect(screen.getByText('Rentabilidad del Ganador')).toBeInTheDocument();
 		expect(screen.getByText('2000,00 €')).toBeInTheDocument();
-		expect(screen.getByText('+20.00% gain')).toBeInTheDocument();
+		expect(screen.getByText('+20.00% de rentabilidad')).toBeInTheDocument();
 	});
 
 	it('shows MyInvestor as winner when it has higher balance', () => {
@@ -121,7 +121,7 @@ describe('SummaryMetrics', () => {
 		expect(screen.getByText(/MyInvestor/i)).toBeInTheDocument();
 		expect(screen.getByText(/250/)).toBeInTheDocument();
 		expect(screen.getByText('2000,00 €')).toBeInTheDocument(); // MyInvestor's returns
-		expect(screen.getByText('+20.00% gain')).toBeInTheDocument();
+		expect(screen.getByText('+20.00% de rentabilidad')).toBeInTheDocument();
 	});
 
 	it('handles equal balances edge case', () => {
@@ -151,9 +151,9 @@ describe('SummaryMetrics', () => {
 
 		// When equal, MyInvestor is shown as winner
 		expect(screen.getByText(/MyInvestor/i)).toBeInTheDocument();
-		expect(screen.getByText(/Ahead by 0,00 €/)).toBeInTheDocument(); // difference is 0
+		expect(screen.getByText(/Por delante por 0,00 €/)).toBeInTheDocument(); // difference is 0
 		expect(screen.getByText('12.000,00 €')).toBeInTheDocument(); // best final balance
-		expect(screen.getByText('+20.00% gain')).toBeInTheDocument();
+		expect(screen.getByText('+20.00% de rentabilidad')).toBeInTheDocument();
 	});
 
 	it('handles zero investment edge case', () => {
@@ -183,8 +183,8 @@ describe('SummaryMetrics', () => {
 
 		// Should render without errors
 		expect(screen.getByText(/MyInvestor/i)).toBeInTheDocument();
-		expect(screen.getByText(/Ahead by 0,00 €/)).toBeInTheDocument();
-		expect(screen.getByText('+0.00% gain')).toBeInTheDocument(); // No division by zero
+		expect(screen.getByText(/Por delante por 0,00 €/)).toBeInTheDocument();
+		expect(screen.getByText('+0.00% de rentabilidad')).toBeInTheDocument(); // No division by zero
 	});
 
 	it('calculates percentage accurately for different investment amounts', () => {
@@ -215,6 +215,6 @@ describe('SummaryMetrics', () => {
 		// IndexaCapital wins with 1500/5000 = 30%
 		expect(screen.getByText(/IndexaCapital/i)).toBeInTheDocument();
 		expect(screen.getByText('1500,00 €')).toBeInTheDocument();
-		expect(screen.getByText('+30.00% gain')).toBeInTheDocument();
+		expect(screen.getByText('+30.00% de rentabilidad')).toBeInTheDocument();
 	});
 });
