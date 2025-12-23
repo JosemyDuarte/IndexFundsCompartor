@@ -9,6 +9,7 @@
 	import ComparisonChart from '$lib/components/ComparisonChart.svelte';
 	import BreakdownTable from '$lib/components/BreakdownTable.svelte';
 	import SummaryMetrics from '$lib/components/SummaryMetrics.svelte';
+	import ReferralCard from '$lib/components/ReferralCard.svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -86,6 +87,7 @@
 						</div>
 						<SimulatorForm />
 					</div>
+					<ReferralCard />
 				</div>
 			</aside>
 
@@ -93,9 +95,7 @@
 			<main class="lg:col-span-8">
 				<div class="space-y-5">
 					<!-- Summary Metrics Card -->
-					<div
-						class="p-5 bg-neu-base rounded-2xl shadow-neu-raised animate-slide-up"
-					>
+					<div class="p-5 bg-neu-base rounded-2xl shadow-neu-raised animate-slide-up">
 						<SummaryMetrics
 							indexaCapital={$simulationResults.indexaCapital}
 							myInvestor={$simulationResults.myInvestor}
@@ -108,16 +108,30 @@
 						style="animation-delay: 0.1s;"
 					>
 						<div class="mb-4">
-							<h2 class="text-base font-semibold text-neu-text-dark mb-1">Portfolio Growth Over Time</h2>
-							<p class="text-xs text-neu-text-light">Compare projected returns over investment period</p>
+							<h2 class="text-base font-semibold text-neu-text-dark mb-1">
+								Portfolio Growth Over Time
+							</h2>
+							<p class="text-xs text-neu-text-light">
+								Compare projected returns over investment period
+							</p>
 						</div>
 						<ComparisonChart
 							indexaSnapshots={$simulationResults.indexaCapital.monthlySnapshots}
 							myInvestorSnapshots={$simulationResults.myInvestor.monthlySnapshots}
 						/>
 						<div class="mt-3 flex items-start gap-2 text-xs text-neu-text-light">
-							<svg class="w-4 h-4 mt-0.5 text-neu-purple flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+							<svg
+								class="w-4 h-4 mt-0.5 text-neu-purple flex-shrink-0"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+								/>
 							</svg>
 							<p>
 								Purple vertical lines indicate when IndexaCapital's fee bracket changes.
