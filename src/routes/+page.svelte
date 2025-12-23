@@ -170,7 +170,7 @@
 	<footer class="mt-auto bg-neu-base shadow-neu-raised-sm border-t border-neu-dark/10">
 		<div class="container mx-auto px-4 py-6">
 			<div class="text-center text-xs text-neu-text-light">
-				<p>Creado con SvelteKit, TypeScript y Tailwind CSS</p>
+				<p>Made with ❤️ by <a href="https://dute.dev" target="_blank">Dute</a></p>
 				<p class="mt-1">Los cálculos de inversión son solo para fines comparativos</p>
 			</div>
 		</div>
